@@ -22,15 +22,39 @@ class User {
   // in the users table. Returns the newly created user, using
   // the constructor to hide the passwordHash.
   static async create(username, password) {
-    // hash the plain-text password using bcrypt before storing it in the database
-    const passwordHash = await bcrypt.hash(password, SALT_ROUNDS);
+    if (username.length < 6) {
+      return {
+        success: false,
+        message: "Username must be at least 6 characters long. ",
+      };
+    }
 
-    const query = `INSERT INTO users (username, password_hash)
+    try {
+      // hash the plain-text password using bcrypt before storing it in the database
+      const passwordHash = await bcrypt.hash(password, SALT_ROUNDS);
+
+      const query = `INSERT INTO users (username, password_hash)
       VALUES (?, ?) RETURNING *`;
-    const result = await knex.raw(query, [username, passwordHash]);
+      const result = await knex.raw(query, [username, passwordHash]);
 
-    const rawUserData = result.rows[0];
-    return new User(rawUserData);
+      const rawUserData = result.rows[0];
+      return new User(rawUserData);
+    } catch (error) {
+      // unique constrain violation
+      if (error.code === "23505") {
+        return {
+          success: false,
+          message: "Username already exists. Please choose another one",
+        };
+      }
+
+      // Other DB or system errors
+      return {
+        success: false,
+        message: "An unexpected error occurred.",
+        detail: error.message,
+      };
+    }
   }
 
   // Fetches ALL users from the users table, uses the constructor

@@ -3,7 +3,7 @@
  * @returns { Promise<void> }
  */
 exports.seed = async function (knex) {
-  // Optional: If you want to clear medium challenges separately, or append.
+  // Optional: If you want to clear medium challenges separately
 
   await knex("challengesTracker").insert([
     {

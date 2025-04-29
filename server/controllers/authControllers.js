@@ -15,9 +15,21 @@ exports.registerUser = async (req, res) => {
   // User.create will handle hashing the password and storing in the database
   const user = await User.create(username, password);
 
+  if (!user || user.success === false) {
+    return res.status(400).send({
+      message: user.message || "Registration failed.",
+      ...(user.detail && { detail: user.detail }),
+    });
+  }
   // Add the user id to the cookie and send the user data back
   req.session.userId = user.id;
   res.send(user);
+
+  req.session.userId = user.id;
+  res.status(201).send({
+    id: user.id,
+    username: user.username,
+  });
 };
 
 exports.loginUser = async (req, res) => {
