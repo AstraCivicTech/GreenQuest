@@ -5,13 +5,15 @@
 exports.up = (knex) => {
   return knex.schema.createTable("users", (table) => {
     table.increments("id").primary();
+    table.string("email").notNullable().unique();
     table.string("username").notNullable().unique();
     table.string("password_hash").notNullable();
     table.string("zipcode").notNullable();
-    table.integer("exp").notNullable();
-    table.integer("level").notNullable();
-    table.integer("streak").notNullable();
+    table.integer("exp").nullable().defaultTo(0);
+    table.integer("level").nullable().defaultTo(0);
+    table.integer("streak").nullable().defaultTo(0);
     table.timestamp("lastChallengeCompletedAt").nullable().defaultTo(null);
+    table.timestamp("accountCreatedAt").defaultTo(knex.fn.now());
   });
 };
 

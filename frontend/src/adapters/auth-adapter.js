@@ -6,10 +6,10 @@ import {
 
 const baseUrl = "/api/auth";
 
-export const registerUser = async ({ username, password }) => {
+export const registerUser = async ({ email, username, password, zipcode }) => {
   return await fetchHandler(
     `${baseUrl}/register`,
-    getPostOptions({ username, password })
+    getPostOptions({ email, username, password, zipcode })
   );
 };
 

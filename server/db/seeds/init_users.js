@@ -16,6 +16,7 @@ exports.seed = async (knex) => {
   const saltRounds = 10;
   await knex("users").insert([
     {
+      email: "coolcat123@gmail.com",
       username: "cool_cat",
       password_hash: await bcrypt.hash("1234", saltRounds),
       zipcode: "12345",
@@ -24,6 +25,7 @@ exports.seed = async (knex) => {
       streak: 2,
     },
     {
+      email: "l33tguy@gmail.com",
       username: "l33t-guy",
       password_hash: await bcrypt.hash("1234", saltRounds),
       zipcode: "54321",
@@ -32,6 +34,7 @@ exports.seed = async (knex) => {
       streak: 1,
     },
     {
+      email: "wowow123@gmail.com",
       username: "wowow",
       password_hash: await bcrypt.hash("1234", saltRounds),
       zipcode: "11223",

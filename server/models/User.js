@@ -21,7 +21,14 @@ class User {
   // Hashes the given password and then creates a new user
   // in the users table. Returns the newly created user, using
   // the constructor to hide the passwordHash.
-  static async create(username, password) {
+  static async create(email, username, password, zipcode) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return {
+        success: false,
+        message: "Email must be valid email",
+      };
+    }
     if (username.length < 6) {
       return {
         success: false,
@@ -33,9 +40,9 @@ class User {
       // hash the plain-text password using bcrypt before storing it in the database
       const passwordHash = await bcrypt.hash(password, SALT_ROUNDS);
 
-      const query = `INSERT INTO users (username, password_hash)
-      VALUES (?, ?) RETURNING *`;
-      const result = await knex.raw(query, [username, passwordHash]);
+      const query = `INSERT INTO users (email, username, password_hash, zipcode)
+      VALUES (?, ?, ?, ?) RETURNING *`;
+      const result = await knex.raw(query, [email, username, passwordHash, zipcode]);
 
       const rawUserData = result.rows[0];
       return new User(rawUserData);

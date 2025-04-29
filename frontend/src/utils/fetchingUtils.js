@@ -24,11 +24,7 @@ export const getPatchOptions = (body) => ({
 
 export const fetchHandler = async (url, options = {}) => {
   try {
-    const response = await fetch(url, {
-      ...options,
-      credentials: "include", // include cookies (sessions)
-    });
-
+    const response = await fetch(url, options);
     const { ok, status, headers } = response;
     if (!ok)
       throw new Error(`Fetch failed with status - ${status}`, {
@@ -39,7 +35,7 @@ export const fetchHandler = async (url, options = {}) => {
       "application/json"
     );
     const responseData = await (isJson ? response.json() : response.text());
-    console.log("success");
+
     return [responseData, null];
   } catch (error) {
     console.warn(error);
