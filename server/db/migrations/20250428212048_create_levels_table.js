@@ -4,8 +4,8 @@
  */
 exports.up = function (knex) {
   return knex.schema.createTable("levels", (table) => {
+    table.increments("levelId").primary();
     table.string("title").notNullable();
-    table.integer("level").unsigned().notNullable();
     table.integer("experienceNeeded").unsigned().notNullable();
   });
 };

@@ -11,6 +11,7 @@ exports.up = (knex) => {
     table.integer("exp").notNullable();
     table.integer("level").notNullable();
     table.integer("streak").notNullable();
+    table.timestamp("lastChallengeCompletedAt").nullable().defaultTo(null);
   });
 };
 

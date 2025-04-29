@@ -21,6 +21,7 @@ exports.seed = async (knex) => {
       zipcode: "12345",
       exp: 0,
       level: 1,
+      streak: 2,
     },
     {
       username: "l33t-guy",
@@ -28,6 +29,7 @@ exports.seed = async (knex) => {
       zipcode: "54321",
       exp: 0,
       level: 1,
+      streak: 1,
     },
     {
       username: "wowow",
@@ -35,6 +37,7 @@ exports.seed = async (knex) => {
       zipcode: "11223",
       exp: 0,
       level: 1,
+      streak: 3,
     },
   ]);
 };
