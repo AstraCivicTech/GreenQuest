@@ -42,7 +42,12 @@ class User {
 
       const query = `INSERT INTO users (email, username, password_hash, zipcode)
       VALUES (?, ?, ?, ?) RETURNING *`;
-      const result = await knex.raw(query, [email, username, passwordHash, zipcode]);
+      const result = await knex.raw(query, [
+        email,
+        username,
+        passwordHash,
+        zipcode,
+      ]);
 
       const rawUserData = result.rows[0];
       return new User(rawUserData);
@@ -76,9 +81,10 @@ class User {
   // the given user id. If it finds a user, uses the constructor
   // to format the user and returns or returns null if not.
   static async find(id) {
-    const query = `SELECT * FROM users WHERE id = ?`;
+    const query = `SELECT username, level, exp FROM users WHERE id = ?`;
     const result = await knex.raw(query, [id]);
     const rawUserData = result.rows[0];
+    console.log(rawUserData);
     return rawUserData ? new User(rawUserData) : null;
   }
 

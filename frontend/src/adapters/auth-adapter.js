@@ -2,6 +2,7 @@ import {
   fetchHandler,
   getPostOptions,
   deleteOptions,
+  basicFetchOptions,
 } from "../utils/fetchingUtils";
 
 const baseUrl = "/api/auth";
