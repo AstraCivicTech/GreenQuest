@@ -6,7 +6,16 @@ import {
 
 const baseUrl = "/api/auth";
 
-export const registerUser = async ({ email, username, password, zipcode }) => {
+export const registerUser = async ({
+  email,
+  username,
+  password,
+  confirmPassword,
+  zipcode,
+}) => {
+  if (password !== confirmPassword) {
+    return [null, { message: "Passwords do not match" }];
+  }
   return await fetchHandler(
     `${baseUrl}/register`,
     getPostOptions({ email, username, password, zipcode })

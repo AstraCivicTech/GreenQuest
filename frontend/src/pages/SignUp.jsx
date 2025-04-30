@@ -11,6 +11,7 @@ export default function SignUpPage() {
   const [errorText, setErrorText] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [email, setEmail] = useState("");
   const [zipcode, setZipcode] = useState("");
 
@@ -22,7 +23,7 @@ export default function SignUpPage() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setErrorText("");
-    if (!username || !password || !email || !zipcode)
+    if (!username || !password || !confirmPassword || !email || !zipcode)
       return setErrorText("Missing field");
 
     const [user, error] = await registerUser({
@@ -30,6 +31,7 @@ export default function SignUpPage() {
       password,
       email,
       zipcode,
+      confirmPassword,
     });
     if (error) return setErrorText(error.message);
 
@@ -42,6 +44,7 @@ export default function SignUpPage() {
     if (name === "email") setEmail(value);
     if (name === "username") setUsername(value);
     if (name === "password") setPassword(value);
+    if (name === "confirmPassword") setConfirmPassword(value);
     if (name === "zipcode") setZipcode(value);
   };
 
@@ -81,6 +84,15 @@ export default function SignUpPage() {
           name="password"
           onChange={handleChange}
           value={password}
+        />
+        <label htmlFor="confirmPassword">Confirm Password</label>
+        <input
+          autoComplete="off"
+          type="password"
+          id="confirmPassword"
+          name="confirmPassword"
+          onChange={handleChange}
+          value={confirmPassword}
         />
         <label htmlFor="zipcode">ZIP Code</label>
         <input
