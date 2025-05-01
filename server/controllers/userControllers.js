@@ -50,3 +50,14 @@ exports.updateUser = async (req, res) => {
 
   res.send(updatedUser);
 };
+
+exports.getLevelInfo = async (req, res) => {
+  // grab the id from the end of the url
+  const { id } = req.params;
+
+  try {
+    const user = await knex("users").where({ id }).first();
+    if (!user)
+
+  }
+}

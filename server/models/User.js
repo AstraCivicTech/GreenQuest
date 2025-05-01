@@ -3,14 +3,25 @@ const bcrypt = require("bcrypt");
 const SALT_ROUNDS = 12;
 
 class User {
-  #passwordHash = null; // a private property
+  #passwordHash = null;
+  #exp = 0;
+  #level = 0;
 
-  // Create a User instance with the password hidden
-  // Instances of User can be sent to clients without exposing the password
-  constructor({ id, username, password_hash }) {
+  constructor({ id, username, password_hash, exp = 0, level = 0 }) {
     this.id = id;
     this.username = username;
     this.#passwordHash = password_hash;
+    this.#exp = exp ?? 0;
+    this.#level = level ?? 0;
+  }
+
+  // Getters to expose exp and level safely
+  getExp() {
+    return this.#exp;
+  }
+
+  getLevel() {
+    return this.#level;
   }
 
   // Controllers can use this instance method to validate passwords prior to sending responses
@@ -67,6 +78,18 @@ class User {
         detail: error.message,
       };
     }
+  }
+
+  static async getLevelInfo(id) {
+    // SQL query to join users and levels where user's id matches level.
+    const query = `SELECT users.id, users.username, users.exp, 
+      users.level, levels.title, levels.experienceNeeded
+      FROM users
+      JOIN levels ON users.level = levels.levelId
+      WHERE users.id = ?;`;
+
+    const result = await knex.raw(query, [id]);
+    return result.rows[0] || null;
   }
 
   // Fetches ALL users from the users table, uses the constructor

@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import CurrentUserContext from "../contexts/current-user-context";
-import { getUser } from "../adapters/user-adapter";
+import { getUser, getUserLevelInfo } from "../adapters/user-adapter";
 import { logUserOut } from "../adapters/auth-adapter";
 import UpdateUsernameForm from "../components/UpdateUsernameForm";
 
@@ -9,15 +9,21 @@ export default function UserPage() {
   const navigate = useNavigate();
   const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
   const [userProfile, setUserProfile] = useState(null);
+  const [levelInfo, setLevelInfo] = useState(null);
   const [error, setError] = useState(null);
   const { id } = useParams();
   const isCurrentUserProfile = currentUser && currentUser.id === Number(id);
 
   useEffect(() => {
     const loadUser = async () => {
+      // fetch user info
       const [user, error] = await getUser(id);
       if (error) return setError(error);
       setUserProfile(user);
+
+      // fetch level info
+      const [levelData] = await getUserLevelInfo(id);
+      setLevelInfo(levelData);
     };
 
     loadUser();
@@ -53,6 +59,14 @@ export default function UserPage() {
             setCurrentUser={setCurrentUser}
           />
           <button onClick={handleLogout}>Log Out</button>
+          {levelInfo && (
+            <LevelBar
+              level={levelInfo.level}
+              exp={levelInfo.exp}
+              levelTitle={levelInfo.levelTitle}
+              nextLevelExp={levelInfo.nextLevelExp}
+            />
+          )}
         </>
       ) : (
         ""
