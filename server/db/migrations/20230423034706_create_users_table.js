@@ -13,7 +13,6 @@ exports.up = (knex) => {
     table.integer("level").nullable().defaultTo(0);
     table.integer("streak").nullable().defaultTo(0);
     table.timestamp("lastChallengeCompletedAt").nullable().defaultTo(null);
-    table.timestamp("accountCreatedAt").defaultTo(knex.fn.now());
   });
 };
 
