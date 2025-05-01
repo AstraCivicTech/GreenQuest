@@ -1,4 +1,5 @@
 const User = require("../models/User");
+const knex = require("../db/knex");
 
 /* 
 GET /api/users
@@ -57,7 +58,25 @@ exports.getLevelInfo = async (req, res) => {
 
   try {
     const user = await knex("users").where({ id }).first();
-    if (!user)
+    if (!user) {
+      return res.status(404).json({ message: "User not found." });
+    }
 
+    const currentLevel = await knex("levels")
+      .where({ levelId: user.level })
+      .first();
+    const nextLevel = await knex("levels")
+      .where({ levelId: user.level + 1 })
+      .first();
+
+    res.json({
+      level: user.level,
+      exp: user.exp,
+      levelTitle: currentLevel ? currentLevel.title : "unranked",
+      nextLevelExp: nextLevel ? nextLevel.experienceNeeded : user.exp,
+    });
+  } catch (error) {
+    console.error("Error fetching level info:", error);
+    res.status(500).json({ message: "something went wrong." });
   }
-}
+};
