@@ -1,6 +1,6 @@
 const User = require("../models/User");
 const knex = require("../db/knex");
-
+asew2;
 /* 
 GET /api/users
 Returns an array of all users in the database
