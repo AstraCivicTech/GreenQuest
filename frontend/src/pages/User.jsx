@@ -7,7 +7,7 @@ import UpdateUsernameForm from "../components/UpdateUsernameForm";
 import LevelBar from "../components/LevelBar";
 
 export default function UserPage() {
-  const navigate = useNavigate();
+  const navigate = useNavigate(); //
   const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
   const [userProfile, setUserProfile] = useState(null);
   const [levelInfo, setLevelInfo] = useState(null);

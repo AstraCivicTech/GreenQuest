@@ -42,6 +42,7 @@ app.get("/api/users", checkAuthentication, userControllers.listUsers);
 app.get("/api/users/:id", checkAuthentication, userControllers.showUser);
 app.patch("/api/users/:id", checkAuthentication, userControllers.updateUser);
 app.get("/api/users/:id/level", userControllers.getLevelInfo);
+app.get("/api/users/:id/dailyChallenges");
 
 ///////////////////////////////
 // Fallback Routes

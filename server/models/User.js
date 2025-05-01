@@ -92,6 +92,8 @@ class User {
     return result.rows[0] || null;
   }
 
+  static async getDailyChallenges() {}
+
   // Fetches ALL users from the users table, uses the constructor
   // to format each user (and hide their password hash), and returns.
   static async list() {

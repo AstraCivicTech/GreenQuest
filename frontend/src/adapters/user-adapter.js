@@ -20,6 +20,10 @@ export const getUserLevelInfo = async (id) => {
   return await fetchHandler(`${baseUrl}/${id}/level`);
 };
 
+export const getDailyChallenges = async (id) => {
+  return await fetchHandler(`${baseUrl}/${id}/dailyChallenges`);
+};
+
 export const updateUsername = async ({ id, username }) => {
   return fetchHandler(`${baseUrl}/${id}`, getPatchOptions({ id, username }));
 };
