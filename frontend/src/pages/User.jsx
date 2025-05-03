@@ -5,9 +5,10 @@ import { getUser, getUserLevelInfo } from "../adapters/user-adapter";
 import { logUserOut } from "../adapters/auth-adapter";
 import UpdateUsernameForm from "../components/UpdateUsernameForm";
 import LevelBar from "../components/LevelBar";
+import ChallengesIcon from "../components/ChallengesIcon";
 
 export default function UserPage() {
-  const navigate = useNavigate(); //
+  const navigate = useNavigate();
   const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
   const [userProfile, setUserProfile] = useState(null);
   const [levelInfo, setLevelInfo] = useState(null);
@@ -68,6 +69,7 @@ export default function UserPage() {
               nextLevelExp={levelInfo.nextLevelExp}
             />
           )}
+          <ChallengesIcon />
         </>
       ) : (
         ""
