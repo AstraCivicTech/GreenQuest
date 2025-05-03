@@ -15,15 +15,6 @@ class User {
     this.#level = level ?? 0;
   }
 
-  // Getters to expose exp and level safely
-  getExp() {
-    return this.#exp;
-  }
-
-  getLevel() {
-    return this.#level;
-  }
-
   // Controllers can use this instance method to validate passwords prior to sending responses
   isValidPassword = async (password) => {
     return await bcrypt.compare(password, this.#passwordHash);
@@ -52,7 +43,7 @@ class User {
       const passwordHash = await bcrypt.hash(password, SALT_ROUNDS);
 
       const query = `INSERT INTO users (email, username, password_hash, zipcode)
-      VALUES (?, ?, ?, ?) RETURNING *`;
+      VALUES (?, ?, ?, ?) RETURNING *;`;
       const result = await knex.raw(query, [
         email,
         username,
@@ -92,7 +83,46 @@ class User {
     return result.rows[0] || null;
   }
 
-  static async getDailyChallenges() {}
+  // helper to find the next level’s required exp
+  static async getNextLevelExp(currentLevelId) {
+    const result = await knex("levels")
+      .where("levelId", ">", currentLevelId)
+      .orderBy("levelId", "asc")
+      .limit(1);
+
+    return result[0] ? result[0].experienceNeeded : null; // null if max level
+  }
+
+  static async updateLevelInfo(id, currentExp) {
+    // update the user's experience
+    await knex("users").where({ id }).update({ exp: currentExp });
+
+    // find the highest level the user qualifies for
+    const query = `SELECT levelId, title, experienceNeeded
+      FROM levels
+      WHERE experienceNeeded <= ?
+      ORDER BY experienceNeeded DESC
+      LIMIT 1;`;
+
+    const levelResult = await knex.raw(query, [currentExp]);
+    const levelData = levelResult.rows[0];
+
+    if (!levelData) {
+      throw new Error("No matching level found for given experience");
+    }
+
+    // update the user's level
+    await knex("users").where({ id }).update({ level: levelData.levelId });
+
+    // return the updated level info
+    return {
+      userId: id,
+      exp: currentExp,
+      level: levelData.levelId,
+      levelTitle: levelData.title,
+      nextLevelExp: await this.getNextLevelExp(levelData.levelId),
+    };
+  }
 
   // Fetches ALL users from the users table, uses the constructor
   // to format each user (and hide their password hash), and returns.
@@ -106,7 +136,7 @@ class User {
   // the given user id. If it finds a user, uses the constructor
   // to format the user and returns or returns null if not.
   static async find(id) {
-    const query = `SELECT username, level, exp FROM users WHERE id = ?`;
+    const query = `SELECT username, level, exp FROM users WHERE id = ?;`;
     const result = await knex.raw(query, [id]);
     const rawUserData = result.rows[0];
     console.log(rawUserData);
@@ -115,7 +145,7 @@ class User {
 
   // Same as above but uses the username to find the user
   static async findByUsername(username) {
-    const query = `SELECT * FROM users WHERE username = ?`;
+    const query = `SELECT * FROM users WHERE username = ?;`;
     const result = await knex.raw(query, [username]);
     const rawUserData = result.rows[0];
     return rawUserData ? new User(rawUserData) : null;

@@ -80,3 +80,8 @@ exports.getLevelInfo = async (req, res) => {
     res.status(500).json({ message: "something went wrong." });
   }
 };
+
+exports.updateLevelInfo = async (req, res) => {
+  const { id } = req.params;
+  const { currentExp } = req.body;
+};

@@ -1,6 +1,10 @@
 // These functions all take in a body and return an options object
 // with the provided body and the remaining options
-import { fetchHandler, getPatchOptions } from "../utils/fetchingUtils";
+import {
+  fetchHandler,
+  getPatchOptions,
+  getPostOptions,
+} from "../utils/fetchingUtils";
 
 const baseUrl = "/api/users";
 
@@ -18,6 +22,13 @@ export const getUser = async (id) => {
 
 export const getUserLevelInfo = async (id) => {
   return await fetchHandler(`${baseUrl}/${id}/level`);
+};
+
+export const UpdateUserLevelInfo = async (id) => {
+  return await fetchHandler(
+    `${baseUrl}/${id}/level`,
+    getPatchOptions({ level, exp })
+  );
 };
 
 export const getDailyChallenges = async (id) => {
