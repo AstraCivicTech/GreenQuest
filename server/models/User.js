@@ -94,30 +94,32 @@ class User {
   }
 
   static async updateLevelInfo(id, currentExp) {
-    // update the user's experience
-    await knex("users").where({ id }).update({ exp: currentExp });
+    const parsedExp = parseInt(currentExp, 10);
 
-    // find the highest level the user qualifies for
-    const query = `SELECT levelId, title, experienceNeeded
+    if (Number.isNaN(parsedExp)) {
+      throw new Error("Invalid experience value");
+    }
+
+    await knex("users").where({ id }).update({ exp: parsedExp });
+
+    const query = `SELECT "levelId", title, "experienceNeeded"
       FROM levels
-      WHERE experienceNeeded <= ?
-      ORDER BY experienceNeeded DESC
+      WHERE "experienceNeeded" <= ?
+      ORDER BY "experienceNeeded" DESC
       LIMIT 1;`;
 
-    const levelResult = await knex.raw(query, [currentExp]);
+    const levelResult = await knex.raw(query, [parsedExp]);
     const levelData = levelResult.rows[0];
 
     if (!levelData) {
       throw new Error("No matching level found for given experience");
     }
 
-    // update the user's level
     await knex("users").where({ id }).update({ level: levelData.levelId });
 
-    // return the updated level info
     return {
       userId: id,
-      exp: currentExp,
+      exp: parsedExp,
       level: levelData.levelId,
       levelTitle: levelData.title,
       nextLevelExp: await this.getNextLevelExp(levelData.levelId),

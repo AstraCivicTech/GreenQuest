@@ -24,15 +24,12 @@ export const getUserLevelInfo = async (id) => {
   return await fetchHandler(`${baseUrl}/${id}/level`);
 };
 
-export const UpdateUserLevelInfo = async (id) => {
-  return await fetchHandler(
-    `${baseUrl}/${id}/level`,
-    getPatchOptions({ level, exp })
-  );
-};
-
-export const getDailyChallenges = async (id) => {
-  return await fetchHandler(`${baseUrl}/${id}/dailyChallenges`);
+export const updateUserLevelInfo = async (id, currentExp) => {
+  return await fetchHandler(`/api/users/${id}/level`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ currentExp }),
+  });
 };
 
 export const updateUsername = async ({ id, username }) => {

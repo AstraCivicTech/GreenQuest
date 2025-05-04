@@ -1,51 +1,54 @@
 import { useState } from "react";
 import "../styles/ChallengesModal.css";
-
+import DailyChallenges from "./DailyChallenges"; // Component for daily challenge content
+import LevelBar from "./LevelBar";
 export default function ChallengesModal({ isOpen, onClose }) {
-  const [activeTab, setActiveTab] = useState("daily"); //  define state locally
-  const [dailyChallenges, setDailyChallenges] = useState("");
+  // Local state to track which tab is active ("daily" or "community")
+  const [activeTab, setActiveTab] = useState("daily");
 
+  // If the modal is not open, render nothing
   if (!isOpen) return null;
 
-  // Mounter to render daily challenges every time the daily challenges value changes
-  // useEffect(() => {
-  //   const doFetch = async () => {};
-  // }, [dailyChallenges]);
-
   return (
-    <div className="modal-overlay">
-      <div className="modal-content">
-        <div className="modal-tabs">
-          <button
-            className={activeTab === "daily" ? "tab active" : "tab"}
-            onClick={() => setActiveTab("daily")}
-          >
-            Daily Challenges
-          </button>
-          <button
-            className={activeTab === "community" ? "tab active" : "tab"}
-            onClick={() => setActiveTab("community")}
-          >
-            Community Challenges
+    <>
+      <div className="modal-overlay">
+        <div className="modal-content">
+          {/* ---------- Tab Buttons for Daily & Community ---------- */}
+          <div className="modal-tabs">
+            <button
+              className={activeTab === "daily" ? "tab active" : "tab"}
+              onClick={() => setActiveTab("daily")}
+            >
+              Daily Challenges
+            </button>
+            <button
+              className={activeTab === "community" ? "tab active" : "tab"}
+              onClick={() => setActiveTab("community")}
+            >
+              Community Challenges
+            </button>
+          </div>
+
+          {/* ---------- Dynamic Content Area Based on Active Tab ---------- */}
+          <div className="modal-body">
+            {activeTab === "daily" ? (
+              <div>
+                <DailyChallenges />
+              </div>
+            ) : (
+              <div>
+                {/* Replace with CommunityChallenges component later if needed */}
+                <p>[ Community challenge content goes here ]</p>
+              </div>
+            )}
+          </div>
+
+          {/* ---------- Close Modal Button ---------- */}
+          <button className="close-button" onClick={onClose}>
+            Close
           </button>
         </div>
-
-        <div className="modal-body">
-          {activeTab === "daily" ? (
-            <div>
-              <p>[ Daily challenge content goes here ]</p>
-            </div>
-          ) : (
-            <div>
-              <p>[ Community challenge content goes here ]</p>
-            </div>
-          )}
-        </div>
-
-        <button className="close-button" onClick={onClose}>
-          Close
-        </button>
       </div>
-    </div>
+    </>
   );
 }

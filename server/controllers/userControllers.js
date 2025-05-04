@@ -84,4 +84,24 @@ exports.getLevelInfo = async (req, res) => {
 exports.updateLevelInfo = async (req, res) => {
   const { id } = req.params;
   const { currentExp } = req.body;
+
+  console.log("EXP from frontend:", currentExp); //
+
+  const parsedExp = Number(currentExp);
+  if (Number.isNaN(parsedExp)) {
+    return res
+      .status(400)
+      .json({ message: "Valid numeric experience required." });
+  }
+
+  try {
+    const updatedLevelInfo = await User.updateLevelInfo(id, currentExp);
+    res.status(200).json(updatedLevelInfo);
+  } catch (error) {
+    console.error("Level update failed:", error);
+    res.status(500).json({
+      message: "An error occurred while updating user level.",
+      detail: error.message,
+    });
+  }
 };

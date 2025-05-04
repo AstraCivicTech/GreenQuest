@@ -1,6 +1,10 @@
-import { useState, useEffect, usePa } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getUserLevelInfo } from "../adapters/user-adapter";
+import {
+  getUserLevelInfo,
+  updateUserLevelInfo,
+} from "../adapters/user-adapter";
+import CurrentUserContext from "../contexts/current-user-context";
 
 const challenges = [
   { id: 1, description: "Take a walk", exp: 50 },
@@ -9,19 +13,46 @@ const challenges = [
 ];
 
 export default function DailyChallenges() {
-  const [userLevel, setUserLevel] = useState(null);
   const { id } = useParams();
+  const { levelInfo, setLevelInfo } = useContext(CurrentUserContext);
+  const [completedChallenges, setCompletedChallenges] = useState([]);
 
   useEffect(() => {
     const fetchUserLevel = async () => {
-      // fetch level info
-      const [levelData] = await getUserLevelInfo(id);
-      set(levelData);
+      const [data, error] = await getUserLevelInfo(id);
+      if (!error) setLevelInfo(data);
     };
-  }, [userLevel]);
+    fetchUserLevel();
+  }, [id, setLevelInfo]);
 
-  const handleChallengeComplete = (expGained) => {
-    setUserLevel((prevExp) => prevExp + expGained);
-    // update user level and exp in DB
+  const handleChallengeComplete = async (challenge) => {
+    const newExp = levelInfo.exp + challenge.exp;
+    const [updatedInfo, error] = await updateUserLevelInfo(id, newExp);
+    if (!error) {
+      setLevelInfo(updatedInfo);
+      setCompletedChallenges([...completedChallenges, challenge.id]);
+    }
   };
+
+  if (!levelInfo) return <p>Loading...</p>;
+
+  return (
+    <div className="daily-challenges-container">
+      <h3>Today's Challenges</h3>
+      <ul>
+        {challenges.map((challenge) => (
+          <li key={challenge.id} style={{ marginBottom: "1em" }}>
+            <label>
+              <input
+                type="checkbox"
+                disabled={completedChallenges.includes(challenge.id)}
+                onChange={() => handleChallengeComplete(challenge)}
+              />
+              {challenge.description} ({challenge.exp} XP)
+            </label>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
 }
