@@ -1,4 +1,5 @@
 const User = require("../models/User");
+const knex = require("../db/knex");
 
 /* 
 GET /api/users
@@ -49,4 +50,58 @@ exports.updateUser = async (req, res) => {
   }
 
   res.send(updatedUser);
+};
+
+exports.getLevelInfo = async (req, res) => {
+  // grab the id from the end of the url
+  const { id } = req.params;
+
+  try {
+    const user = await knex("users").where({ id }).first();
+    if (!user) {
+      return res.status(404).json({ message: "User not found." });
+    }
+
+    const currentLevel = await knex("levels")
+      .where({ levelId: user.level })
+      .first();
+    const nextLevel = await knex("levels")
+      .where({ levelId: user.level + 1 })
+      .first();
+
+    res.json({
+      level: user.level,
+      exp: user.exp,
+      levelTitle: currentLevel ? currentLevel.title : "unranked",
+      nextLevelExp: nextLevel ? nextLevel.experienceNeeded : user.exp,
+    });
+  } catch (error) {
+    console.error("Error fetching level info:", error);
+    res.status(500).json({ message: "something went wrong." });
+  }
+};
+
+exports.updateLevelInfo = async (req, res) => {
+  const { id } = req.params;
+  const { currentExp } = req.body;
+
+  console.log("EXP from frontend:", currentExp); //
+
+  const parsedExp = Number(currentExp);
+  if (Number.isNaN(parsedExp)) {
+    return res
+      .status(400)
+      .json({ message: "Valid numeric experience required." });
+  }
+
+  try {
+    const updatedLevelInfo = await User.updateLevelInfo(id, currentExp);
+    res.status(200).json(updatedLevelInfo);
+  } catch (error) {
+    console.error("Level update failed:", error);
+    res.status(500).json({
+      message: "An error occurred while updating user level.",
+      detail: error.message,
+    });
+  }
 };

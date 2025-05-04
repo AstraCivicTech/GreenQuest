@@ -1,9 +1,11 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import CurrentUserContext from "../contexts/current-user-context";
-import { getUser } from "../adapters/user-adapter";
+import { getUser, getUserLevelInfo } from "../adapters/user-adapter";
 import { logUserOut } from "../adapters/auth-adapter";
 import UpdateUsernameForm from "../components/UpdateUsernameForm";
+import LevelBar from "../components/LevelBar";
+import ChallengesIcon from "../components/ChallengesIcon";
 
 export default function UserPage() {
   const navigate = useNavigate();
@@ -15,6 +17,7 @@ export default function UserPage() {
 
   useEffect(() => {
     const loadUser = async () => {
+      // fetch user info
       const [user, error] = await getUser(id);
       if (error) return setError(error);
       setUserProfile(user);
@@ -53,6 +56,8 @@ export default function UserPage() {
             setCurrentUser={setCurrentUser}
           />
           <button onClick={handleLogout}>Log Out</button>
+          <LevelBar />
+          <ChallengesIcon />
         </>
       ) : (
         ""
