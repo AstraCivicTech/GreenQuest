@@ -1,8 +1,11 @@
 require("dotenv").config();
+console.log("Database:", process.env.PG_DB);
+console.log("User:", process.env.PG_USER);
+console.log("Password:", process.env.PG_PASS);
 const path = require("path");
 
 const migrationsDirectory = path.join(__dirname, "db/migrations");
-const seedsDirectory = path.join(__dirname, "/db/seeds");
+const seedsDirectory = path.join(__dirname, "db/seeds");
 
 /* 
 We'll use environment variables to set the Postgres username and password

@@ -9,3 +9,21 @@ const getAllUsers = async () => {
   // .rows is an array containing the query data
   return result.rows;
 };
+
+// module.exports = {
+//   development: {
+//     client: "pg",
+//     connection: {
+//       database: "react_auth_example",
+//       user: "postgres",
+//       password: "123",
+//     },
+//     migrations: {
+//       directory: "./db/migrations",
+//     },
+//     seeds: {
+//       directory: "./db/seeds",
+//     },
+//   },
+//   // other environments...
+// };
