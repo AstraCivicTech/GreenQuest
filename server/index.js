@@ -49,6 +49,16 @@ app.post("/api/ai/validate", aiControllers.ai); // revisit
 app.get("/api/users", checkAuthentication, userControllers.listUsers);
 app.get("/api/users/:id", checkAuthentication, userControllers.showUser);
 app.patch("/api/users/:id", checkAuthentication, userControllers.updateUser);
+app.get(
+  "/api/users/:id/level",
+  checkAuthentication,
+  userControllers.getLevelInfo
+);
+app.patch(
+  "/api/users/:id/level",
+  checkAuthentication,
+  userControllers.updateLevelInfo
+);
 
 ///////////////////////////////
 // Fallback Routes
@@ -67,7 +77,7 @@ app.use(logErrors);
 // Start Listening
 ///////////////////////////////
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3003;
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}/`);
 });

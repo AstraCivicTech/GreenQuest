@@ -1,0 +1,53 @@
+/* src/components/LevelBar.css */
+
+.level-bar-container {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  width: 280px;
+  padding: 0.8rem 1rem;
+  background: linear-gradient(to bottom right, #fefefe, #e6e6e6);
+  border-radius: 12px;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+  border: 1px solid #dcdcdc;
+  z-index: 9999;
+  font-family: "Segoe UI", sans-serif;
+}
+
+.level-bar-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+}
+
+.level-bar {
+  background: #d5d8dc;
+  border-radius: 10px;
+  height: 16px;
+  overflow: hidden;
+  position: relative;
+}
+
+.level-bar-fill {
+  background: linear-gradient(145deg, #2ecc71, #27ae60);
+  height: 100%;
+  width: 0%; /* dynamically set inline */
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 8px;
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: bold;
+  border-radius: 10px;
+  transition: width 0.4s ease-in-out;
+  box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.25),
+    0 1px 1px rgba(255, 255, 255, 0.3);
+}
+
+.percent-label {
+  text-shadow: 0 0 3px rgba(0, 0, 0, 0.4);
+}

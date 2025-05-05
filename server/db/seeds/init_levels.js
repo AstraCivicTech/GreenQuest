@@ -1,0 +1,61 @@
+/**
+ * @param { import("knex").Knex } knex
+ * @returns { Promise<void> }
+ */
+exports.seed = async (knex) => {
+  // Deletes ALL existing entries
+  await knex("levels").del();
+
+  await knex("levels").insert([
+    { title: "Seed Planter", experienceNeeded: 0 },
+    { title: "Earth Friend", experienceNeeded: 1000 },
+    { title: "Budding Gardener", experienceNeeded: 2500 },
+    { title: "Eco Learner", experienceNeeded: 4000 },
+    { title: "Sprout Starter", experienceNeeded: 6000 },
+    { title: "Forest Explorer", experienceNeeded: 8500 },
+    { title: "Eco Enthusiast", experienceNeeded: 11500 },
+    { title: "Nature Apprentice", experienceNeeded: 15000 },
+    { title: "Green Guardian", experienceNeeded: 19000 },
+    { title: "Tree Hugger Hero", experienceNeeded: 23500 },
+    { title: "Sustainability Scout", experienceNeeded: 28500 },
+    { title: "Eco-Ranger", experienceNeeded: 34000 },
+    { title: "Planet Protector", experienceNeeded: 40000 },
+    { title: "Climate Advocate", experienceNeeded: 46500 },
+    { title: "Wildlife Ally", experienceNeeded: 53500 },
+    { title: "Clean Energy Seeker", experienceNeeded: 61000 },
+    { title: "Recycling Wizard", experienceNeeded: 69000 },
+    { title: "Green Innovator", experienceNeeded: 77500 },
+    { title: "Eco Builder", experienceNeeded: 86500 },
+    { title: "Sustainability Engineer", experienceNeeded: 96000 },
+    { title: "Environmental Defender", experienceNeeded: 106000 },
+    { title: "Eco Tactician", experienceNeeded: 116500 },
+    { title: "Carbon Buster", experienceNeeded: 127500 },
+    { title: "Ocean Saver", experienceNeeded: 139000 },
+    { title: "Planet Diplomat", experienceNeeded: 151000 },
+    { title: "Eco Strategist", experienceNeeded: 163500 },
+    { title: "Green Visionary", experienceNeeded: 176500 },
+    { title: "Global Tree Ambassador", experienceNeeded: 190000 },
+    { title: "Wildlife Warrior", experienceNeeded: 204000 },
+    { title: "Climate Rescuer", experienceNeeded: 218500 },
+    { title: "Planetary Sage", experienceNeeded: 233500 },
+    { title: "Eco Titan", experienceNeeded: 249000 },
+    { title: "Forest Whisperer", experienceNeeded: 265000 },
+    { title: "Earth Alchemist", experienceNeeded: 281500 },
+    { title: "Ocean Dreamer", experienceNeeded: 298500 },
+    { title: "Star Seeder", experienceNeeded: 316000 },
+    { title: "Eco Shaman", experienceNeeded: 334000 },
+    { title: "Climate Architect", experienceNeeded: 352500 },
+    { title: "World Healer", experienceNeeded: 371500 },
+    { title: "Green Quest Champion", experienceNeeded: 391000 },
+    { title: "Nature Commander", experienceNeeded: 411000 },
+    { title: "Eco Mastermind", experienceNeeded: 431500 },
+    { title: "Planet's Hope", experienceNeeded: 452500 },
+    { title: "Earth Legend", experienceNeeded: 474000 },
+    { title: "Celestial Gardener", experienceNeeded: 496000 },
+    { title: "Galactic Eco Knight", experienceNeeded: 518500 },
+    { title: "Starborn Earthkeeper", experienceNeeded: 541500 },
+    { title: "Cosmic Planet Protector", experienceNeeded: 565000 },
+    { title: "Legendary Nature Guardian", experienceNeeded: 589000 },
+    { title: "Savior of Green Quest 🌎👑", experienceNeeded: 613500 },
+  ]);
+};
