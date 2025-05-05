@@ -15,6 +15,7 @@ const logErrors = require("./middleware/logErrors");
 // controller imports
 const authControllers = require("./controllers/authControllers");
 const userControllers = require("./controllers/userControllers");
+const aiControllers = require("./controllers/aiControllers");
 const app = express();
 
 // middleware
@@ -31,6 +32,13 @@ app.post("/api/auth/register", authControllers.registerUser);
 app.post("/api/auth/login", authControllers.loginUser);
 app.get("/api/auth/me", authControllers.showMe);
 app.delete("/api/auth/logout", authControllers.logoutUser);
+
+///////////////////////////////
+// AI Routes
+///////////////////////////////
+
+app.post("/api/ai/generate", aiControllers.ai);
+app.post("/api/ai/validate", aiControllers.ai); // revisit
 
 ///////////////////////////////
 // User Routes
