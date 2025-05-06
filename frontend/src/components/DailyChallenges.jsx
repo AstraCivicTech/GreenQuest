@@ -4,54 +4,89 @@ import {
   getUserLevelInfo,
   updateUserLevelInfo,
 } from "../adapters/user-adapter";
+import {
+  getChallenges,
+  getCompletedChallenges,
+  completeChallenge,
+} from "../adapters/challenge-adapter";
 import CurrentUserContext from "../contexts/current-user-context";
+import "../styles/DailyChallenges.css";
 
-const challenges = [
-  { id: 1, description: "Take a walk", exp: 50 },
-  { id: 2, description: "Recycle your trash", exp: 100 },
-  { id: 3, description: "Plant a seed", exp: 150 },
-];
+export default function DailyChallenges({ activeTab }) {
+  const { id } = useParams(); // user ID from route
+  const {
+    levelInfo,
+    setLevelInfo,
+    completedChallenges,
+    setCompletedChallenges,
+  } = useContext(CurrentUserContext);
 
-export default function DailyChallenges() {
-  const { id } = useParams();
-  const { levelInfo, setLevelInfo } = useContext(CurrentUserContext);
-  const [completedChallenges, setCompletedChallenges] = useState([]);
+  const [challenges, setChallenges] = useState([]);
 
   useEffect(() => {
-    const fetchUserLevel = async () => {
-      const [data, error] = await getUserLevelInfo(id);
-      if (!error) setLevelInfo(data);
+    const fetchAllData = async () => {
+      const [levelData, levelError] = await getUserLevelInfo(id);
+      if (!levelError) setLevelInfo(levelData);
+
+      const [challengeData, challengeError] = await getChallenges(activeTab);
+      if (!challengeError) setChallenges(challengeData);
+
+      const [completed, completedError] = await getCompletedChallenges(id);
+      if (!completedError) {
+        // When app gets a list of completed challenge IDs from the server, it might return them as strings, that's why Number helps avoid this behavior by parsing strs into nums
+        setCompletedChallenges(completed.map(Number));
+      }
     };
-    fetchUserLevel();
-  }, [id, setLevelInfo]);
+
+    fetchAllData();
+  }, [id, activeTab, setLevelInfo]);
 
   const handleChallengeComplete = async (challenge) => {
-    const newExp = levelInfo.exp + challenge.exp;
-    const [updatedInfo, error] = await updateUserLevelInfo(id, newExp);
-    if (!error) {
+    if (!id || !challenge?.id) {
+      console.error("Missing userId or challengeId", { id, challenge });
+      return;
+    }
+
+    const [_, error] = await completeChallenge(id, challenge.id);
+    if (error) return console.error("Challenge completion error:", error);
+
+    const newExp = levelInfo.exp + challenge.experienceReward;
+    const [updatedInfo, levelError] = await updateUserLevelInfo(id, newExp);
+
+    if (!levelError) {
       setLevelInfo(updatedInfo);
-      setCompletedChallenges([...completedChallenges, challenge.id]);
+      setCompletedChallenges((prev) => [...prev, Number(challenge.id)]);
     }
   };
 
-  if (!levelInfo) return <p>Loading...</p>;
+  if (!levelInfo || challenges.length === 0) return <p>Loading...</p>;
 
   return (
     <div className="daily-challenges-container">
       <h3>Today's Challenges</h3>
       <ul>
-        {challenges.map((challenge) => (
-          <li key={challenge.id} style={{ marginBottom: "1em" }}>
-            <label>
-              <input
-                type="checkbox"
-                disabled={completedChallenges.includes(challenge.id)}
-                onChange={() => handleChallengeComplete(challenge)}
-              />
-              {challenge.description} ({challenge.exp} XP)
-            </label>
-          </li>
-        ))}
+        {challenges.map((challenge) => {
+          const isCompleted = completedChallenges.includes(
+            Number(challenge.id)
+          );
+
+          return (
+            <li
+              key={challenge.id}
+              className={`challenge-item ${isCompleted ? "completed" : ""}`}
+            >
+              <label>
+                <input
+                  type="checkbox"
+                  checked={isCompleted}
+                  disabled={isCompleted}
+                  onChange={() => handleChallengeComplete(challenge)}
+                />
+                {challenge.description} ({challenge.experienceReward} XP)
+              </label>
+            </li>
+          );
+        })}
       </ul>
     </div>
   );

@@ -15,6 +15,7 @@ const logErrors = require("./middleware/logErrors");
 // controller imports
 const authControllers = require("./controllers/authControllers");
 const userControllers = require("./controllers/userControllers");
+const challengesControllers = require("./controllers/challengesControllers");
 const app = express();
 
 // middleware
@@ -41,6 +42,7 @@ app.delete("/api/auth/logout", authControllers.logoutUser);
 app.get("/api/users", checkAuthentication, userControllers.listUsers);
 app.get("/api/users/:id", checkAuthentication, userControllers.showUser);
 app.patch("/api/users/:id", checkAuthentication, userControllers.updateUser);
+// routes for managing level info
 app.get(
   "/api/users/:id/level",
   checkAuthentication,
@@ -51,7 +53,23 @@ app.patch(
   checkAuthentication,
   userControllers.updateLevelInfo
 );
-
+// routes for managing challenges
+app.get(
+  "/api/challenges",
+  checkAuthentication,
+  challengesControllers.getChallenges
+);
+app.get(
+  "/api/users/:id/completed-challenges",
+  checkAuthentication,
+  challengesControllers.getCompletedChallenges
+);
+app.post(
+  "/api/challenges/complete",
+  checkAuthentication,
+  challengesControllers.completeChallenge
+);
+app.post("/api/challenges/create");
 ///////////////////////////////
 // Fallback Routes
 ///////////////////////////////

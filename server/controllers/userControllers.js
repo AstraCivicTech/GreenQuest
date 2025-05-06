@@ -51,9 +51,7 @@ exports.updateUser = async (req, res) => {
 
   res.send(updatedUser);
 };
-
 exports.getLevelInfo = async (req, res) => {
-  // grab the id from the end of the url
   const { id } = req.params;
 
   try {
@@ -65,6 +63,7 @@ exports.getLevelInfo = async (req, res) => {
     const currentLevel = await knex("levels")
       .where({ levelId: user.level })
       .first();
+
     const nextLevel = await knex("levels")
       .where({ levelId: user.level + 1 })
       .first();
@@ -72,12 +71,13 @@ exports.getLevelInfo = async (req, res) => {
     res.json({
       level: user.level,
       exp: user.exp,
-      levelTitle: currentLevel ? currentLevel.title : "unranked",
-      nextLevelExp: nextLevel ? nextLevel.experienceNeeded : user.exp,
+      levelTitle: currentLevel ? currentLevel.title : "Unranked",
+      currentLevelExp: currentLevel ? currentLevel.experienceNeeded : 0,
+      nextLevelExp: nextLevel ? nextLevel.experienceNeeded : user.exp, // fallback to prevent division by 0
     });
   } catch (error) {
     console.error("Error fetching level info:", error);
-    res.status(500).json({ message: "something went wrong." });
+    res.status(500).json({ message: "Something went wrong." });
   }
 };
 
