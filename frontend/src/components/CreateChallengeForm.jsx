@@ -1,17 +1,20 @@
 import { useState } from "react";
-import { getAiOptions, fetchHandler } from "../utils/fetchingUtils";
+import { validateChallenge } from "../adapters/ai-adapters";
 
-export const AIPromptForm = () => {
+// This component is for user created challenges
+export const CreateChallengeForm = () => {
   const [prompt, setPrompt] = useState("");
   const [result, setResult] = useState("");
 
   const handleClick = async () => {
-    const [data, error] = await fetchHandler("/api/ai", getAiOptions(prompt));
+    const [data, error] = await validateChallenge(prompt);
 
     if (error) {
-      alert("Failed to fetch AI result.");
+      alert("Failed to fetch AI result." + error.message);
       return;
     }
+
+    console.log("AI response:", data);
 
     setResult(data.result);
   };

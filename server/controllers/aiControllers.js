@@ -13,7 +13,7 @@ exports.ai = async (req, res) => {
 
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" }); // Use correct method name & version
     const result = await model.generateContent(prompt);
-    const response = await result.response.text();
+    const response = await result.response.text(); // text()
 
     res.status(200).send({ result: response }); // Fixed typo: resultL → result
   } catch (error) {
