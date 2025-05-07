@@ -15,16 +15,16 @@ import {
 import CurrentUserContext from "../contexts/current-user-context";
 import "../styles/DailyChallenges.css";
 
-export default function DailyChallenges({ activeTab }) {
-  const { id } = useParams(); // user ID from route
-  const {
-    levelInfo,
-    setLevelInfo,
-    completedChallenges,
-    setCompletedChallenges,
-  } = useContext(CurrentUserContext);
+// export default function DailyChallenges({ activeTab }) {
+//   const { id } = useParams(); // user ID from route
+//   const {
+//     levelInfo,
+//     setLevelInfo,
+//     completedChallenges,
+//     setCompletedChallenges,
+//   } = useContext(CurrentUserContext);
 
-export const DailyChallenges = () => {
+export const DailyChallenges = ({ activeTab }) => {
   const { id } = useParams();
   const { levelInfo, setLevelInfo } = useContext(CurrentUserContext);
   // checks if a challenge has been completed via it's id
@@ -33,7 +33,6 @@ export const DailyChallenges = () => {
   const [dailyChallenges, setDailyChallenges] = useState([]);
   const [error, setError] = useState(null);
   const [challenges, setChallenges] = useState([]);
-
 
   useEffect(() => {
     const fetchAllData = async () => {
@@ -74,7 +73,7 @@ export const DailyChallenges = () => {
   // This is the function that will be called when the button is clicked to generate daily challenges
   const handleClick = async () => {
     const [data, error] = await getDailyChallenges();
-  if (!levelInfo || challenges.length === 0) return <p>Loading...</p>;
+    //if (!levelInfo || challenges.length === 0) return <p>Loading...</p>;
 
     if (error) {
       setError("Failed to fetch daily challenges.");
@@ -104,7 +103,7 @@ export const DailyChallenges = () => {
 
     // Calculate the time difference in milliseconds
     // change to the commented value for the demo and or testing
-    let timeUntilMidnight = midnight.getTime() - now.getTime(); // 10000;
+    let timeUntilMidnight = 15000; // midnight.getTime() - now.getTime();
 
     // If it's already past midnight, schedule for the next day
     if (timeUntilMidnight < 0) {
@@ -167,3 +166,7 @@ export const DailyChallenges = () => {
             )
           )
         )}
+      </ul>
+    </div>
+  );
+};

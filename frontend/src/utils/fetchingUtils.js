@@ -16,7 +16,7 @@ export const getPostOptions = (body) => ({
 });
 
 // Reusable POST option builder
-const buildPostOptions = (prompt) => ({
+export const buildPostOptions = (prompt) => ({
   method: "POST",
   credentials: "include",
   headers: {

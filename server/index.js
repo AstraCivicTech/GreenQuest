@@ -1,7 +1,7 @@
 ///////////////////////////////
 // Imports
 ///////////////////////////////
-
+const cors = require("cors");
 require("dotenv").config();
 const path = require("path");
 const express = require("express");
@@ -20,6 +20,12 @@ const challengesControllers = require("./controllers/challengesControllers");
 const app = express();
 
 // middleware
+app.use(
+  cors({
+    origin: "http://localhost:5173", // ✅ must match your frontend origin
+    credentials: true, // ✅ allow cookies/auth headers
+  })
+);
 app.use(handleCookieSessions); // adds a session property to each request representing the cookie
 app.use(logRoutes); // print information about each incoming request
 app.use(express.json()); // parse incoming request bodies as JSON
