@@ -33,7 +33,8 @@ export default function ChallengesModal({ isOpen, onClose }) {
           <div className="modal-body">
             {activeTab === "daily" ? (
               <div>
-                <DailyChallenges />
+                <DailyChallenges activeTab={activeTab} />{" "}
+                {/* Prop determines if we fetch daily or community challenges */}
               </div>
             ) : (
               <div>

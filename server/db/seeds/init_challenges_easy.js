@@ -15,7 +15,7 @@ exports.seed = async function (knex) {
       challengeType: "cleanup",
       category: "daily",
       description: "Pick up 5 pieces of litter during a walk",
-      experienceReward: 40,
+      experienceReward: 1000,
       createdAt: knex.fn.now(),
     },
     {
@@ -24,7 +24,7 @@ exports.seed = async function (knex) {
       challengeType: "savewater",
       category: "daily",
       description: "Take a 5-minute shower",
-      experienceReward: 35,
+      experienceReward: 100,
       createdAt: knex.fn.now(),
     },
     {
@@ -33,7 +33,7 @@ exports.seed = async function (knex) {
       challengeType: "reuse",
       category: "daily",
       description: "Use a reusable water bottle all day",
-      experienceReward: 25,
+      experienceReward: 3000,
       createdAt: knex.fn.now(),
     },
   ]);

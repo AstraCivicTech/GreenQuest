@@ -5,6 +5,7 @@ import { getUserLevelInfo } from "../adapters/user-adapter";
 export default function CurrentUserContextProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null);
   const [levelInfo, setLevelInfo] = useState(null);
+  const [completedChallenges, setCompletedChallenges] = useState([]);
 
   useEffect(() => {
     const fetchLevelInfo = async () => {
@@ -16,7 +17,14 @@ export default function CurrentUserContextProvider({ children }) {
     fetchLevelInfo();
   }, [currentUser]);
 
-  const context = { currentUser, setCurrentUser, levelInfo, setLevelInfo };
+  const context = {
+    currentUser,
+    setCurrentUser,
+    levelInfo,
+    setLevelInfo,
+    completedChallenges,
+    setCompletedChallenges,
+  };
 
   return (
     <CurrentUserContext.Provider value={context}>

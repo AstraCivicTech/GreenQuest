@@ -2,51 +2,79 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.4);
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.75); /* No blur, just dark transparent layer */
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-bottom: 100%;
+  z-index: 1000;
 }
 
 .modal-content {
-  background: #ffffff;
+  background: #0a0f0d;
+  border: 2px solid #00ff9c;
+  border-radius: 18px;
   padding: 2rem;
-  border-radius: 10px;
-  width: 400px;
+  width: 440px;
   max-width: 90%;
+  color: #e0ffe4;
+  font-family: "Montserrat", sans-serif;
+  box-shadow: 0 0 25px rgba(0, 255, 153, 0.25);
+  position: relative;
+  transition: all 0.3s ease;
 }
 
 .modal-tabs {
   display: flex;
-  justify-content: space-around;
-  margin-bottom: 1rem;
+  justify-content: space-evenly;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid #00ff9c33;
 }
 
 .tab {
-  background: none;
+  background: transparent;
   border: none;
-  font-weight: bold;
+  font-weight: 600;
+  font-size: 1rem;
+  color: #99ffe0;
+  padding: 0.6rem 1.2rem;
   cursor: pointer;
-  padding: 0.5rem 1rem;
-  border-bottom: 2px solid transparent;
-  transition: border-bottom 0.3s;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.tab:hover {
+  color: #00ff9c;
 }
 
 .tab.active {
-  border-bottom: 2px solid #28a745; /* Green highlight */
-  color: #28a745;
+  border-bottom: 2px solid #00ff9c;
+  color: #00ff9c;
 }
 
 .modal-body {
-  margin-bottom: 1.5rem;
+  margin-top: 1.2rem;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #ccffe3;
 }
 
 .close-button {
-  background-color: #ccc;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 5px;
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: transparent;
+  color: #00ff9c;
+  border: 1px solid #00ff9c;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  font-weight: bold;
   cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.close-button:hover {
+  background: #00ff9c;
+  color: #0a0f0d;
 }

@@ -6,13 +6,23 @@ import {
   getUserLevelInfo,
   updateUserLevelInfo,
 } from "../adapters/user-adapter";
+import {
+  getChallenges,
+  getCompletedChallenges,
+  completeChallenge,
+  addChallengeToDB,
+} from "../adapters/challenge-adapter";
 import CurrentUserContext from "../contexts/current-user-context";
+import "../styles/DailyChallenges.css";
 
-const challenges = [
-  { id: 1, description: "Take a walk", exp: 50 },
-  { id: 2, description: "Recycle your trash", exp: 100 },
-  { id: 3, description: "Plant a seed", exp: 150 },
-];
+export default function DailyChallenges({ activeTab }) {
+  const { id } = useParams(); // user ID from route
+  const {
+    levelInfo,
+    setLevelInfo,
+    completedChallenges,
+    setCompletedChallenges,
+  } = useContext(CurrentUserContext);
 
 export const DailyChallenges = () => {
   const { id } = useParams();
@@ -22,27 +32,49 @@ export const DailyChallenges = () => {
   // AI info
   const [dailyChallenges, setDailyChallenges] = useState([]);
   const [error, setError] = useState(null);
+  const [challenges, setChallenges] = useState([]);
+
 
   useEffect(() => {
-    const fetchUserLevel = async () => {
-      const [data, error] = await getUserLevelInfo(id);
-      if (!error) setLevelInfo(data);
+    const fetchAllData = async () => {
+      const [levelData, levelError] = await getUserLevelInfo(id);
+      if (!levelError) setLevelInfo(levelData);
+
+      const [challengeData, challengeError] = await getChallenges(activeTab);
+      if (!challengeError) setChallenges(challengeData);
+
+      const [completed, completedError] = await getCompletedChallenges(id);
+      if (!completedError) {
+        // When app gets a list of completed challenge IDs from the server, it might return them as strings, that's why Number helps avoid this behavior by parsing strs into nums
+        setCompletedChallenges(completed.map(Number));
+      }
     };
-    fetchUserLevel();
-  }, [id, setLevelInfo]);
+
+    fetchAllData();
+  }, [id, activeTab, setLevelInfo]);
 
   const handleChallengeComplete = async (challenge) => {
-    const newExp = levelInfo.exp + challenge.exp;
-    const [updatedInfo, error] = await updateUserLevelInfo(id, newExp);
-    if (!error) {
+    if (!id || !challenge?.id) {
+      console.error("Missing userId or challengeId", { id, challenge });
+      return;
+    }
+
+    const [_, error] = await completeChallenge(id, challenge.id);
+    if (error) return console.error("Challenge completion error:", error);
+
+    const newExp = levelInfo.exp + challenge.experienceReward;
+    const [updatedInfo, levelError] = await updateUserLevelInfo(id, newExp);
+
+    if (!levelError) {
       setLevelInfo(updatedInfo);
-      setCompletedChallenges([...completedChallenges, challenge.id]);
+      setCompletedChallenges((prev) => [...prev, Number(challenge.id)]);
     }
   };
 
   // This is the function that will be called when the button is clicked to generate daily challenges
   const handleClick = async () => {
     const [data, error] = await getDailyChallenges();
+  if (!levelInfo || challenges.length === 0) return <p>Loading...</p>;
 
     if (error) {
       setError("Failed to fetch daily challenges.");
@@ -135,7 +167,3 @@ export const DailyChallenges = () => {
             )
           )
         )}
-      </ul>
-    </div>
-  );
-};
