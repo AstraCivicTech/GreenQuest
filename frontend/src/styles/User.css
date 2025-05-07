@@ -28,8 +28,18 @@
   gap: 1.5rem; /* Prevent overlap */
 }
 
+.profile-image {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 1rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+}
+
 .username {
-  font-size: 2rem;
+  font-size: 1.5rem;
+  margin-right: 90%;
   color: #6ee7b7;
   margin-bottom: 0;
 }
@@ -37,6 +47,7 @@
 .bio {
   color: #a7f3d0;
   margin: 0;
+  margin-right: 80%;
   font-size: 1rem;
 }
 
@@ -50,6 +61,7 @@
   cursor: pointer;
   transition: background 0.3s ease;
   align-self: center;
+  margin-right: 85%;
 }
 
 .logout-button:hover {

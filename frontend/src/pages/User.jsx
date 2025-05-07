@@ -48,16 +48,24 @@ export default function UserPage() {
   return (
     <div className="user-page">
       <div className="user-card">
+        {currentUser?.username === "cool_cat" && (
+          <img
+            src="https://www.perfocal.com/blog/content/images/2021/01/Perfocal_17-11-2019_TYWFAQ_100_standard-3.jpg"
+            alt="cool_cat"
+            className="profile-image"
+          />
+        )}
         <h1 className="username">{profileUsername}</h1>
-        <p className="bio">If the user had any data, here it would be.</p>
-        <p className="bio">Fake Bio or something</p>
+        <p className="bio">
+          Nature enthusiast trying to change the world one challenge at a time
+        </p>
 
         {isCurrentUserProfile && (
           <>
-            <UpdateUsernameForm
+            {/*<UpdateUsernameForm
               currentUser={currentUser}
               setCurrentUser={setCurrentUser}
-            />
+            /> */}
             <button className="logout-button" onClick={handleLogout}>
               Log Out
             </button>
