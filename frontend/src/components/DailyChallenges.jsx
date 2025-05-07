@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { generateUniqueId } from "../utils/generateId";
 import { getDailyChallenges } from "../adapters/ai-adapters";
 import {
   getUserLevelInfo,
@@ -13,9 +14,10 @@ const challenges = [
   { id: 3, description: "Plant a seed", exp: 150 },
 ];
 
-export default function DailyChallenges() {
+export const DailyChallenges = () => {
   const { id } = useParams();
   const { levelInfo, setLevelInfo } = useContext(CurrentUserContext);
+  // checks if a challenge has been completed via it's id
   const [completedChallenges, setCompletedChallenges] = useState([]);
   // AI info
   const [dailyChallenges, setDailyChallenges] = useState([]);
@@ -51,49 +53,89 @@ export default function DailyChallenges() {
     const challengesArray = JSON.parse(data.result);
     console.log("Challenges Array: JSON.parse: ", challengesArray);
 
+    challengesArray.forEach((challenge) => {
+      // Add a unique ID to each challenge
+      challenge.id = generateUniqueId();
+    });
+
     setDailyChallenges(challengesArray);
   };
 
-  if (!levelInfo) return <p>Loading...</p>;
+  const generateDaily = () => {
+    // Get the current date and time
+    const now = new Date();
+    console.log("Current Date and Time: ", now);
 
-  // Need to use the dailyChallenges state to display the challenges instead of the static challenges array
-  // First I need to send the data to the backend database to get the id
+    // Create a new date object for the next midnight
+    const midnight = new Date(now);
+    midnight.setHours(24, 0, 0, 0); // Set to the next midnight
 
-  // return (
-  //   <div>
-  //     <h2>Daily Challenge</h2>
-  //     <p>Complete the daily challenge to earn rewards!</p>
-  //     <button onClick={handleClick}>Generate Challenges</button>
-  //     {error && <p style={{ color: "red" }}>{error}</p>}
-  //     {/* <p>{dailyChallenges}</p> */}
-  //     <ul>
-  //       {dailyChallenges &&
-  //         dailyChallenges.map((challenge, index) => (
-  //           <li key={index}>
-  //             <strong>{challenge.type}</strong>: {challenge.description} (EXP:
-  //             {challenge.exp})
-  //           </li>
-  //         ))}
-  //     </ul>
-  //   </div>
-  // );
+    // Calculate the time difference in milliseconds
+    // change to the commented value for the demo and or testing
+    let timeUntilMidnight = midnight.getTime() - now.getTime(); //10000;
+
+    // If it's already past midnight, schedule for the next day
+    if (timeUntilMidnight < 0) {
+      midnight.setDate(midnight.getDate() + 1);
+      timeUntilMidnight = midnight.getTime() - now.getTime();
+    }
+
+    // Schedule the daily challenge generation
+    setTimeout(async () => {
+      const [data, error] = await getDailyChallenges();
+
+      if (error) {
+        setError("Failed to fetch daily challenges.");
+        return;
+      }
+
+      // Parse the JSON string into an array of objects
+      const challengesArray = JSON.parse(data.result);
+      console.log("Challenges Array: JSON.parse: ", challengesArray);
+
+      challengesArray.forEach((challenge) => {
+        // Add a unique ID to each challenge
+        challenge.id = generateUniqueId();
+      });
+
+      // Update the daily challenges
+      setDailyChallenges(challengesArray);
+
+      // Recursively call `generateDaily` to schedule the next execution
+      generateDaily();
+    }, timeUntilMidnight);
+  };
+
+  // Start the process
+  generateDaily();
+
+  // Renders daily challenges though the disabled checkbox happens for all of the challenges when clicked.
+  // I hypothesis that this is the result of how I am adding the id to the challenges in the prompt. Which makes them not unique
+  // and therefore the completedChallenges will always have the id
+  // I can try using recursion to generate the id vs the database
   return (
     <div className="daily-challenges-container">
       <h3>Today's Challenges</h3>
+      <button onClick={handleClick}>Generate Challenges</button>
       <ul>
-        {challenges.map((challenge) => (
-          <li key={challenge.id} style={{ marginBottom: "1em" }}>
-            <label>
-              <input
-                type="checkbox"
-                disabled={completedChallenges.includes(challenge.id)}
-                onChange={() => handleChallengeComplete(challenge)}
-              />
-              {challenge.description} ({challenge.exp} XP)
-            </label>
-          </li>
-        ))}
+        {dailyChallenges.map(
+          (challenge) => (
+            console.log("Challenge: ", challenge),
+            (
+              <li key={challenge.id} style={{ marginBottom: "1em" }}>
+                <label>
+                  <input
+                    type="checkbox"
+                    disabled={completedChallenges.includes(challenge.id)}
+                    onChange={() => handleChallengeComplete(challenge)}
+                  />
+                  {challenge.description} ({challenge.exp} XP)
+                </label>
+              </li>
+            )
+          )
+        )}
       </ul>
     </div>
   );
-}
+};

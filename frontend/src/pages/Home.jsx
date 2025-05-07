@@ -1,6 +1,7 @@
 import { AIPromptForm } from "../components/CreateChallengeForm";
 import { CreateChallengeForm } from "../components/CreateChallengeForm.jsx";
 import { DailyChallengeTest } from "../components/DailyChallengeTest.jsx";
+import { DailyChallenges } from "../components/DailyChallenges.jsx";
 
 export default function HomePage() {
   return (
@@ -13,7 +14,9 @@ export default function HomePage() {
       </p>
       <CreateChallengeForm />
       <br />
-      <DailyChallengeTest />
+      {/* <DailyChallengeTest /> */}
+      <DailyChallenges />
+      <br />
       <p>Put something interesting here!</p>
     </>
   );
