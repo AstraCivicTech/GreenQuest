@@ -1,30 +1,30 @@
-import { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { generateUniqueId } from "../utils/generateId";
-import { getDailyChallenges } from "../adapters/ai-adapters";
+import { useContext, useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { generateUniqueId } from '../utils/generateId';
+import { getDailyChallenges } from '../adapters/ai-adapters';
 import {
   getUserLevelInfo,
   updateUserLevelInfo,
-} from "../adapters/user-adapter";
+} from '../adapters/user-adapter';
 import {
   getChallenges,
   getCompletedChallenges,
   completeChallenge,
   addChallengeToDB,
-} from "../adapters/challenge-adapter";
-import CurrentUserContext from "../contexts/current-user-context";
-import "../styles/DailyChallenges.css";
+} from '../adapters/challenge-adapter';
+import CurrentUserContext from '../contexts/current-user-context';
+import '../styles/DailyChallenges.css';
 
-export default function DailyChallenges({ activeTab }) {
-  const { id } = useParams(); // user ID from route
-  const {
-    levelInfo,
-    setLevelInfo,
-    completedChallenges,
-    setCompletedChallenges,
-  } = useContext(CurrentUserContext);
+// export default function DailyChallenges({ activeTab }) {
+//   const { id } = useParams(); // user ID from route
+//   const {
+//     levelInfo,
+//     setLevelInfo,
+//     completedChallenges,
+//     setCompletedChallenges,
+//   } = useContext(CurrentUserContext);
 
-export const DailyChallenges = () => {
+export const DailyChallenges = ({ activeTab }) => {
   const { id } = useParams();
   const { levelInfo, setLevelInfo } = useContext(CurrentUserContext);
   // checks if a challenge has been completed via it's id
@@ -32,7 +32,8 @@ export const DailyChallenges = () => {
   // AI info
   const [dailyChallenges, setDailyChallenges] = useState([]);
   const [error, setError] = useState(null);
-  
+  const [challenges, setChallenges] = useState([]);
+
   useEffect(() => {
     const fetchAllData = async () => {
       const [levelData, levelError] = await getUserLevelInfo(id);
@@ -53,13 +54,35 @@ export const DailyChallenges = () => {
 
   const handleChallengeComplete = async (challenge) => {
     if (!id || !challenge?.id) {
-      console.error("Missing userId or challengeId", { id, challenge });
+      console.error('Missing userId or challengeId', { id, challenge });
+      return;
+    }
+
+    const [_, error] = await completeChallenge(id, challenge.id);
+    if (error) return console.error('Challenge completion error:', error);
+
+    const newExp = levelInfo.exp + challenge.experienceReward;
+    const [updatedInfo, levelError] = await updateUserLevelInfo(id, newExp);
+
+    if (!levelError) {
+      setLevelInfo(updatedInfo);
+      setCompletedChallenges((prev) => [...prev, Number(challenge.id)]);
+    }
+  };
+
+  // This is the function that will be called when the button is clicked to generate daily challenges
+  const handleClick = async () => {
+    const [data, error] = await getDailyChallenges();
+    //if (!levelInfo || challenges.length === 0) return <p>Loading...</p>;
+
+    if (error) {
+      setError('Failed to fetch daily challenges.');
       return;
     }
 
     // Parse the JSON string into an array of objects
     const challengesArray = JSON.parse(data.result);
-    console.log("Challenges Array: JSON.parse: ", challengesArray);
+    console.log('Challenges Array: JSON.parse: ', challengesArray);
 
     challengesArray.forEach((challenge) => {
       // Add a unique ID to each challenge
@@ -72,7 +95,7 @@ export const DailyChallenges = () => {
   const generateDaily = () => {
     // Get the current date and time
     const now = new Date();
-    console.log("Current Date and Time: ", now);
+    console.log('Current Date and Time: ', now);
 
     // Create a new date object for the next midnight
     const midnight = new Date(now);
@@ -80,7 +103,7 @@ export const DailyChallenges = () => {
 
     // Calculate the time difference in milliseconds
     // change to the commented value for the demo and or testing
-    let timeUntilMidnight = midnight.getTime() - now.getTime(); //10000;
+    let timeUntilMidnight = 15000; // midnight.getTime() - now.getTime();
 
     // If it's already past midnight, schedule for the next day
     if (timeUntilMidnight < 0) {
@@ -93,13 +116,13 @@ export const DailyChallenges = () => {
       const [data, error] = await getDailyChallenges();
 
       if (error) {
-        setError("Failed to fetch daily challenges.");
+        setError('Failed to fetch daily challenges.');
         return;
       }
 
       // Parse the JSON string into an array of objects
       const challengesArray = JSON.parse(data.result);
-      console.log("Challenges Array: JSON.parse: ", challengesArray);
+      console.log('Challenges Array: JSON.parse: ', challengesArray);
 
       challengesArray.forEach((challenge) => {
         // Add a unique ID to each challenge
@@ -128,9 +151,9 @@ export const DailyChallenges = () => {
       <ul>
         {dailyChallenges.map(
           (challenge) => (
-            console.log("Challenge: ", challenge),
+            console.log('Challenge: ', challenge),
             (
-              <li key={challenge.id} style={{ marginBottom: "1em" }}>
+              <li key={challenge.id} style={{ marginBottom: '1em' }}>
                 <label>
                   <input
                     type="checkbox"

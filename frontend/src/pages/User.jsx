@@ -6,6 +6,7 @@ import { logUserOut } from "../adapters/auth-adapter";
 import UpdateUsernameForm from "../components/UpdateUsernameForm";
 import LevelBar from "../components/LevelBar";
 import ChallengesIcon from "../components/ChallengesIcon";
+import "../styles/User.css";
 
 export default function UserPage() {
   const navigate = useNavigate();
@@ -45,23 +46,34 @@ export default function UserPage() {
     : userProfile.username;
 
   return (
-    <>
-      <h1>{profileUsername}</h1>
-      <p>If the user had any data, here it would be</p>
-      <p>Fake Bio or something</p>
-      {isCurrentUserProfile ? (
-        <>
-          <UpdateUsernameForm
-            currentUser={currentUser}
-            setCurrentUser={setCurrentUser}
+    <div className="user-page">
+      <div className="user-card">
+        {currentUser?.username === "cool_cat" && (
+          <img
+            src="https://www.perfocal.com/blog/content/images/2021/01/Perfocal_17-11-2019_TYWFAQ_100_standard-3.jpg"
+            alt="cool_cat"
+            className="profile-image"
           />
-          <button onClick={handleLogout}>Log Out</button>
-          <LevelBar />
-          <ChallengesIcon />
-        </>
-      ) : (
-        ""
-      )}
-    </>
+        )}
+        <h1 className="username">{profileUsername}</h1>
+        <p className="bio">
+          Nature enthusiast trying to change the world one challenge at a time
+        </p>
+
+        {isCurrentUserProfile && (
+          <>
+            {/*<UpdateUsernameForm
+              currentUser={currentUser}
+              setCurrentUser={setCurrentUser}
+            /> */}
+            <button className="logout-button" onClick={handleLogout}>
+              Log Out
+            </button>
+            <LevelBar />
+            <ChallengesIcon />
+          </>
+        )}
+      </div>
+    </div>
   );
 }
