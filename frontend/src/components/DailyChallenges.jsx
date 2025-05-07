@@ -24,14 +24,10 @@ export default function DailyChallenges({ activeTab }) {
 
   const [challenges, setChallenges] = useState([]);
 
-  addChallenge();
-
   useEffect(() => {
     const fetchAllData = async () => {
       const [levelData, levelError] = await getUserLevelInfo(id);
       if (!levelError) setLevelInfo(levelData);
-
-      await addChallengeToDB();
 
       const [challengeData, challengeError] = await getChallenges(activeTab);
       if (!challengeError) setChallenges(challengeData);
