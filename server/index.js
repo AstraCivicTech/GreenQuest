@@ -16,6 +16,8 @@ const logErrors = require("./middleware/logErrors");
 const authControllers = require("./controllers/authControllers");
 const userControllers = require("./controllers/userControllers");
 const challengesControllers = require("./controllers/challengesControllers");
+
+const aiControllers = require("./controllers/aiControllers");
 const app = express();
 
 // middleware
@@ -32,6 +34,13 @@ app.post("/api/auth/register", authControllers.registerUser);
 app.post("/api/auth/login", authControllers.loginUser);
 app.get("/api/auth/me", authControllers.showMe);
 app.delete("/api/auth/logout", authControllers.logoutUser);
+
+///////////////////////////////
+// AI Routes
+///////////////////////////////
+
+app.post("/api/ai/generate", aiControllers.ai);
+app.post("/api/ai/validate", aiControllers.ai); // revisit
 
 ///////////////////////////////
 // User Routes
@@ -87,7 +96,7 @@ app.use(logErrors);
 // Start Listening
 ///////////////////////////////
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3003;
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}/`);
 });

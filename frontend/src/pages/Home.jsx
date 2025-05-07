@@ -1,6 +1,20 @@
+import { AIPromptForm } from "../components/CreateChallengeForm";
+import { CreateChallengeForm } from "../components/CreateChallengeForm.jsx";
+import { DailyChallengeTest } from "../components/DailyChallengeTest.jsx";
+
 export default function HomePage() {
-  return <>
-    <h1>Home</h1>
-    <p>Put something interesting here!</p>
-  </>
+  return (
+    <>
+      <h1>Welcome to GreenQuest!</h1>
+      <p>
+        GreenQuest is a community based eco-friendly habit tracker! Where users
+        can create challenges for others in their community to complete. Gain
+        experience and level up to become an eco-warrior.
+      </p>
+      <CreateChallengeForm />
+      <br />
+      <DailyChallengeTest />
+      <p>Put something interesting here!</p>
+    </>
+  );
 }
