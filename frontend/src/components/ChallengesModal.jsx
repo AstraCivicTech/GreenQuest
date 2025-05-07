@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "../styles/ChallengesModal.css";
-import DailyChallenges from "./DailyChallenges"; // Component for daily challenge content
+import { DailyChallenges } from "./DailyChallenges.jsx"; // Component for daily challenge content
 import LevelBar from "./LevelBar";
 export default function ChallengesModal({ isOpen, onClose }) {
   // Local state to track which tab is active ("daily" or "community")
