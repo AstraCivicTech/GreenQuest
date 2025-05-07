@@ -10,26 +10,14 @@ import {
   getChallenges,
   getCompletedChallenges,
   completeChallenge,
-  addChallengeToDB,
 } from '../adapters/challenge-adapter';
 import CurrentUserContext from '../contexts/current-user-context';
 import '../styles/DailyChallenges.css';
 
-// export default function DailyChallenges({ activeTab }) {
-//   const { id } = useParams(); // user ID from route
-//   const {
-//     levelInfo,
-//     setLevelInfo,
-//     completedChallenges,
-//     setCompletedChallenges,
-//   } = useContext(CurrentUserContext);
-
 export const DailyChallenges = ({ activeTab }) => {
   const { id } = useParams();
   const { levelInfo, setLevelInfo } = useContext(CurrentUserContext);
-  // checks if a challenge has been completed via it's id
   const [completedChallenges, setCompletedChallenges] = useState([]);
-  // AI info
   const [dailyChallenges, setDailyChallenges] = useState([]);
   const [error, setError] = useState(null);
   const [challenges, setChallenges] = useState([]);
@@ -44,7 +32,6 @@ export const DailyChallenges = ({ activeTab }) => {
 
       const [completed, completedError] = await getCompletedChallenges(id);
       if (!completedError) {
-        // When app gets a list of completed challenge IDs from the server, it might return them as strings, that's why Number helps avoid this behavior by parsing strs into nums
         setCompletedChallenges(completed.map(Number));
       }
     };
@@ -52,16 +39,20 @@ export const DailyChallenges = ({ activeTab }) => {
     fetchAllData();
   }, [id, activeTab, setLevelInfo]);
 
+  useEffect(() => {
+    generateDaily();
+  }, []);
+
   const handleChallengeComplete = async (challenge) => {
     if (!id || !challenge?.id) {
       console.error('Missing userId or challengeId', { id, challenge });
       return;
     }
+    // use to record completed challenges in the database
+    //const [_, error] = await completeChallenge(id, challenge.id);
+    //if (error) return console.error("Challenge completion error:", error);
 
-    const [_, error] = await completeChallenge(id, challenge.id);
-    if (error) return console.error('Challenge completion error:', error);
-
-    const newExp = levelInfo.exp + challenge.experienceReward;
+    const newExp = levelInfo.exp + challenge.exp;
     const [updatedInfo, levelError] = await updateUserLevelInfo(id, newExp);
 
     if (!levelError) {
@@ -70,22 +61,15 @@ export const DailyChallenges = ({ activeTab }) => {
     }
   };
 
-  // This is the function that will be called when the button is clicked to generate daily challenges
   const handleClick = async () => {
     const [data, error] = await getDailyChallenges();
-    //if (!levelInfo || challenges.length === 0) return <p>Loading...</p>;
-
     if (error) {
       setError('Failed to fetch daily challenges.');
       return;
     }
 
-    // Parse the JSON string into an array of objects
     const challengesArray = JSON.parse(data.result);
-    console.log('Challenges Array: JSON.parse: ', challengesArray);
-
     challengesArray.forEach((challenge) => {
-      // Add a unique ID to each challenge
       challenge.id = generateUniqueId();
     });
 
@@ -93,79 +77,55 @@ export const DailyChallenges = ({ activeTab }) => {
   };
 
   const generateDaily = () => {
-    // Get the current date and time
     const now = new Date();
-    console.log('Current Date and Time: ', now);
-
-    // Create a new date object for the next midnight
     const midnight = new Date(now);
-    midnight.setHours(24, 0, 0, 0); // Set to the next midnight
+    midnight.setHours(24, 0, 0, 0);
 
-    // Calculate the time difference in milliseconds
-    // change to the commented value for the demo and or testing
-    let timeUntilMidnight = 15000; // midnight.getTime() - now.getTime();
+    let timeUntilMidnight = 15000; // for testing
 
-    // If it's already past midnight, schedule for the next day
     if (timeUntilMidnight < 0) {
       midnight.setDate(midnight.getDate() + 1);
       timeUntilMidnight = midnight.getTime() - now.getTime();
     }
 
-    // Schedule the daily challenge generation
     setTimeout(async () => {
       const [data, error] = await getDailyChallenges();
-
       if (error) {
         setError('Failed to fetch daily challenges.');
         return;
       }
 
-      // Parse the JSON string into an array of objects
       const challengesArray = JSON.parse(data.result);
-      console.log('Challenges Array: JSON.parse: ', challengesArray);
-
       challengesArray.forEach((challenge) => {
-        // Add a unique ID to each challenge
         challenge.id = generateUniqueId();
       });
 
-      // Update the daily challenges
       setDailyChallenges(challengesArray);
-
-      // Recursively call `generateDaily` to schedule the next execution
-      generateDaily();
+      generateDaily(); // schedule again
     }, timeUntilMidnight);
   };
 
-  // Start the process
-  generateDaily();
-
-  // Renders daily challenges though the disabled checkbox happens for all of the challenges when clicked.
-  // I hypothesis that this is the result of how I am adding the id to the challenges in the prompt. Which makes them not unique
-  // and therefore the completedChallenges will always have the id
-  // I can try using recursion to generate the id vs the database
   return (
     <div className="daily-challenges-container">
       <h3>Today's Challenges</h3>
       <button onClick={handleClick}>Generate Challenges</button>
+      {error && <p className="error-text">{error}</p>}
       <ul>
-        {dailyChallenges.map(
-          (challenge) => (
-            console.log('Challenge: ', challenge),
-            (
-              <li key={challenge.id} style={{ marginBottom: '1em' }}>
-                <label>
-                  <input
-                    type="checkbox"
-                    disabled={completedChallenges.includes(challenge.id)}
-                    onChange={() => handleChallengeComplete(challenge)}
-                  />
-                  {challenge.description} ({challenge.exp} XP)
-                </label>
-              </li>
-            )
-          )
-        )}
+        {dailyChallenges.map((challenge) => {
+          console.log('Challenge: ', challenge);
+          return (
+            <li key={challenge.id} style={{ marginBottom: '1em' }}>
+              <label>
+                <input
+                  type="checkbox"
+                  disabled={completedChallenges.includes(challenge.id)}
+                  onChange={() => handleChallengeComplete(challenge)}
+                />
+                {challenge.description} ({challenge.exp} XP)
+              </label>
+            </li>
+          );
+        })}
       </ul>
     </div>
   );
