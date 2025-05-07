@@ -26,7 +26,11 @@ export const completeChallenge = async (userId, challengeId) => {
       "User ID and Challenge ID are required to complete a challenge."
     );
   }
-
   const body = { userId, challengeId };
   return await fetchHandler(`${baseUrl}/complete`, getPostOptions(body));
+};
+
+// Add a new challenge to the DB (uses a default backend-defined challenge)
+export const addChallengeToDB = async (challengeData) => {
+  return await fetchHandler(`${baseUrl}/create`, getPostOptions(challengeData));
 };

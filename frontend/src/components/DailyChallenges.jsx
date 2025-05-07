@@ -8,10 +8,14 @@ import {
   getChallenges,
   getCompletedChallenges,
   completeChallenge,
+  addChallengeToDB,
 } from "../adapters/challenge-adapter";
 import CurrentUserContext from "../contexts/current-user-context";
 import "../styles/DailyChallenges.css";
 
+const addChallenge = async () => {
+  await addChallengeToDB();
+};
 export default function DailyChallenges({ activeTab }) {
   const { id } = useParams(); // user ID from route
   const {
@@ -23,8 +27,11 @@ export default function DailyChallenges({ activeTab }) {
 
   const [challenges, setChallenges] = useState([]);
 
+  addChallenge();
+
   useEffect(() => {
     const fetchAllData = async () => {
+      await addChallengeToDB();
       const [levelData, levelError] = await getUserLevelInfo(id);
       if (!levelError) setLevelInfo(levelData);
 

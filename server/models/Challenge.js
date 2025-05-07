@@ -27,12 +27,13 @@ class Challenge {
   // records a new daily or community challenge to target table
   static async addChallengeToDB(challengeInstance) {
     try {
+      console.log("Inserting challenge:", challengeInstance);
       await knex("dailyAndCommunityChallenges").insert({
+        category: challengeInstance.category, // Should be "daily" or "community"
         challengeType: challengeInstance.challengeType,
-        challengeDescription: challengeInstance.challengeDescription,
+        description: challengeInstance.challengeDescription,
         experienceReward: challengeInstance.experienceReward,
-        category: challengeInstance.category,
-        userId: challengeInstance.userId || null,
+        userId: challengeInstance.userId, // nullable is OK
       });
       return { success: true };
     } catch (error) {
@@ -44,7 +45,7 @@ class Challenge {
   // Get today's challenges from the dailyAndCommunityChallenges table
   static async getChallenges(category) {
     return await knex("dailyAndCommunityChallenges")
-      .select("id", "challengeDescription", "experienceReward")
+      .select("id", "description", "experienceReward")
       .where({ category });
   }
 
