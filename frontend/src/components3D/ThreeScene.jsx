@@ -24,12 +24,12 @@ export default function ThreeScene() {
       camera={{ position: [0, 3, 14], fov: 50 }}
       shadows
       style={{
+        width: "100vw",
+        height: "100vh",
         position: "fixed",
         top: 0,
         left: 0,
-        width: "100vw",
-        height: "100vh",
-        zIndex: 0, // send it behind other content if needed
+        zIndex: 0,
       }}
     >
       {/* 🌌 Background */}
@@ -67,11 +67,7 @@ export default function ThreeScene() {
       </Text>
 
       <CameraRig />
-      <OrbitControls
-        enablePan={false}
-        enableRotate={false}
-        enableZoom={false}
-      />
+      <OrbitControls enablePan={false} enableRotate={true} enableZoom={false} />
     </Canvas>
   );
 }

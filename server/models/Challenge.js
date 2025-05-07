@@ -72,7 +72,10 @@ class Challenge {
   }
 
   // Reset daily challenges at midnight
-  static async resetDailyChallenges(newChallenges) {}
+  static async resetDailyChallenges(newChallenges) {
+    // deletes all rows from dailyAndCommunityChallenges table (must delete rows not drop table in order to avoid reseting the ids)
+    await knex("dailyAndCommunityChallenges").del();
+  }
 }
 
 module.exports = Challenge;
