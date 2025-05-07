@@ -13,9 +13,6 @@ import {
 import CurrentUserContext from "../contexts/current-user-context";
 import "../styles/DailyChallenges.css";
 
-const addChallenge = async () => {
-  await addChallengeToDB();
-};
 export default function DailyChallenges({ activeTab }) {
   const { id } = useParams(); // user ID from route
   const {
@@ -31,9 +28,10 @@ export default function DailyChallenges({ activeTab }) {
 
   useEffect(() => {
     const fetchAllData = async () => {
-      await addChallengeToDB();
       const [levelData, levelError] = await getUserLevelInfo(id);
       if (!levelError) setLevelInfo(levelData);
+
+      await addChallengeToDB();
 
       const [challengeData, challengeError] = await getChallenges(activeTab);
       if (!challengeError) setChallenges(challengeData);
