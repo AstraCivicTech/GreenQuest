@@ -27,7 +27,7 @@ export default function GrassPlanet() {
       </mesh>
 
       {/* 🌳 Tree positioned on top of the sphere */}
-      <Tree position={[0, 2.62, 0]} scale={[0.6, 0.6, 0.6]} />
+      <Tree position={[0, 2.57, 0]} scale={[0.6, 0.6, 0.6]} />
     </group>
   );
 }

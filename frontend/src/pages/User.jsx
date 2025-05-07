@@ -6,6 +6,7 @@ import { logUserOut } from "../adapters/auth-adapter";
 import UpdateUsernameForm from "../components/UpdateUsernameForm";
 import LevelBar from "../components/LevelBar";
 import ChallengesIcon from "../components/ChallengesIcon";
+import "../styles/User.css";
 
 export default function UserPage() {
   const navigate = useNavigate();
@@ -45,23 +46,26 @@ export default function UserPage() {
     : userProfile.username;
 
   return (
-    <>
-      <h1>{profileUsername}</h1>
-      <p>If the user had any data, here it would be</p>
-      <p>Fake Bio or something</p>
-      {isCurrentUserProfile ? (
-        <>
-          <UpdateUsernameForm
-            currentUser={currentUser}
-            setCurrentUser={setCurrentUser}
-          />
-          <button onClick={handleLogout}>Log Out</button>
-          <LevelBar />
-          <ChallengesIcon />
-        </>
-      ) : (
-        ""
-      )}
-    </>
+    <div className="user-page">
+      <div className="user-card">
+        <h1 className="username">{profileUsername}</h1>
+        <p className="bio">If the user had any data, here it would be.</p>
+        <p className="bio">Fake Bio or something</p>
+
+        {isCurrentUserProfile && (
+          <>
+            <UpdateUsernameForm
+              currentUser={currentUser}
+              setCurrentUser={setCurrentUser}
+            />
+            <button className="logout-button" onClick={handleLogout}>
+              Log Out
+            </button>
+            <LevelBar />
+            <ChallengesIcon />
+          </>
+        )}
+      </div>
+    </div>
   );
 }

@@ -1,4 +1,4 @@
-import { ThreeScene } from "../components3D/ThreeScene";
+import TreeScene from "../components3D/ThreeScene";
 
 export default function HomePage() {
   return (

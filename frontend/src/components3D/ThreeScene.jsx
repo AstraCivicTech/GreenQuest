@@ -21,9 +21,16 @@ function CameraRig() {
 export default function ThreeScene() {
   return (
     <Canvas
-      camera={{ position: [0, 3, 14], fov: 50 }} // 📍 Start further back
+      camera={{ position: [0, 3, 14], fov: 50 }}
       shadows
-      style={{ width: "100vw", height: "100vh" }}
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        width: "100vw",
+        height: "100vh",
+        zIndex: 0, // send it behind other content if needed
+      }}
     >
       {/* 🌌 Background */}
       <color attach="background" args={["#02040f"]} />
