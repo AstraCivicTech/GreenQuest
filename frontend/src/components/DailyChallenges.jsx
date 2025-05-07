@@ -72,7 +72,7 @@ export const DailyChallenges = () => {
 
     // Calculate the time difference in milliseconds
     // change to the commented value for the demo and or testing
-    let timeUntilMidnight = midnight.getTime() - now.getTime(); //10000;
+    let timeUntilMidnight = midnight.getTime() - now.getTime(); // 10000;
 
     // If it's already past midnight, schedule for the next day
     if (timeUntilMidnight < 0) {
