@@ -4,24 +4,20 @@ class Challenge {
   constructor({
     category,
     challengeType,
-    challengeDescription,
+    description,
     experienceReward,
     userId,
   }) {
     // userId will be null for daily challenges
-    if (
-      !category ||
-      !challengeType ||
-      !challengeDescription ||
-      !experienceReward
-    ) {
+    if (!category || !challengeType || !description || !experienceReward) {
       throw new Error("All fields are required to create a challenge.");
     }
-
+    this.category = category;
     this.challengeType = challengeType;
-    this.challengeDescription = challengeDescription;
+    this.description = description;
     this.experienceReward = experienceReward;
     this.completedAt = null;
+    this.userId = userId;
   }
 
   // records a new daily or community challenge to target table
@@ -31,7 +27,7 @@ class Challenge {
       await knex("dailyAndCommunityChallenges").insert({
         category: challengeInstance.category, // Should be "daily" or "community"
         challengeType: challengeInstance.challengeType,
-        description: challengeInstance.challengeDescription,
+        description: challengeInstance.description,
         experienceReward: challengeInstance.experienceReward,
         userId: challengeInstance.userId, // nullable is OK
       });

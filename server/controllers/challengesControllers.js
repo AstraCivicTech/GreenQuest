@@ -51,14 +51,17 @@ exports.getCompletedChallenges = async (req, res) => {
 
 exports.createChallenge = async (req, res) => {
   const challengeToAdd = {
-    challengeType: "planting",
     category: "daily",
-    challengeDescription: "plant 5 seeds in your backyard or local park",
+    challengeType: "planting",
+    description: "plant 5 seeds in your backyard or local park",
     experienceReward: 1000,
-    userId: null, // if it's a daily challenge
+    userId: null,
   };
+
+  console.log("Attempting to create challenge with:", challengeToAdd); // 👈 add this
+
   try {
-    const challenge = new Challenge(challengeToAdd);
+    const challenge = new Challenge(challengeToAdd); // 💥 error likely happens here
     const result = await Challenge.addChallengeToDB(challenge);
 
     if (!result.success) {
