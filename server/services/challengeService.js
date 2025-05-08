@@ -1,71 +1,102 @@
-// require('dotenv').config({
-//   path: require('path').resolve(__dirname, '../.env'),
-// }); // Ensure .env is loaded relative to server folder
-// const { GoogleGenerativeAI } = require('@google/generative-ai');
-// const knex = require('../db/knex'); // Assuming your knex instance is exported from here
-// const { generateUniqueId } = require('../utils/generateId'); // Assuming you have this utility
+require("dotenv").config({
+  path: require("path").resolve(__dirname, "../.env"),
+}); // Ensure .env is loaded relative to server folder
+const Challenge = require("../models/Challenge"); // Assuming this is the correct path to your challenge module
+const { GoogleGenerativeAI } = require("@google/generative-ai");
 
-// const { API_KEY } = process.env;
+const { API_KEY } = process.env;
 
-// if (!API_KEY) {
-//   console.error(
-//     'API_KEY is not defined. Please check your .env file in the server directory.'
-//   );
-//   // Potentially throw an error or exit if API_KEY is critical for this service
-// }
+if (!API_KEY) {
+  console.error(
+    "API_KEY is not defined. Please check your .env file in the server directory."
+  );
+  // Potentially throw an error or exit if API_KEY is critical for this service
+}
 
-// const genAI = new GoogleGenerativeAI(API_KEY);
+const genAI = new GoogleGenerativeAI(API_KEY);
 
-// /**
-//  * Fetches new daily challenges from the AI and processes them.
-//  * This function should also handle storing these challenges (e.g., in a database or cache).
-//  */
-// async function fetchAndProcessDailyChallenges() {
-//   console.log('Attempting to fetch new daily challenges...');
-//   try {
-//     const prompt =
-//       'Generate 5 unique daily eco-friendly challenges, each with a short description and an experience point (XP) reward. Return as a JSON array.'; // Customize your prompt
-//     const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
-//     const result = await model.generateContent(prompt);
-//     const response = await result.response;
-//     const responseText = response.text();
+/**
+ * Fetches new daily challenges from the AI and processes them.
+ * This function should also handle storing these challenges (e.g., in a database or cache).
+ */
+async function fetchAndProcessDailyChallenges() {
+  console.log("Attempting to fetch new daily challenges...");
+  try {
+    const prompt = `Return ONLY valid JSON without any markdown formatting or code blocks.
+Generate 3 real-life daily challenges following these themes: Eco Habit, Nature Appreciation, and Community Engagement. Challenges should be short (1 sentence), engaging, and written in the tone of an energetic game master. Each challenge should have a unique name and a playful description that encourages real-world action.
+Format the response as a JSON array of objects with these fields:
+- "type": Must be exactly one of these strings: "Eco-Habit", "Nature Appreciation", or "Community Engagement"
+- "description": A single sentence challenge description
+- "exp": A number between 33-133
+Challenges should be suitable for all ages and not require special equipment or long travel.
+Example of desired format:
+[
+  {
+    "type": "Eco-Habit",
+    "category": "Daily",
+    "description": "Today's mission, Eco-Warriors: Collect all recyclable items in your immediate vicinity and get them to the recycling bin – let's conquer waste!",
+    "exp": 78
+  },
+  {
+    "type": "Nature Appreciation",
+    "category": "Daily",
+    "description": "Calling all Nature Scouts! Spend 10 minutes observing and writing down 3 details you notice about nature around you – a flower's color, a bird's song, anything! Let's unlock nature's secrets!",
+    "exp": 124
+  },
+  {
+    "type": "Community Engagement",
+    "category": "Daily",
+    "description": "Citizens of Kindness Kingdom! Perform a small act of kindness for a neighbor or family member today – a helping hand earns you major points in the Kindness Games!",
+    "exp": 92
+  }
+]`; // Customize your prompt
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" }); // Use correct method name & version
+    const result = await model.generateContent(prompt);
+    const response = await result.response.text(); // text()
 
-//     let challengesArray = JSON.parse(responseText);
+    let challengesArray = JSON.parse(response);
 
-//     // 1. Validate the structure of challengesArray (optional, but good practice)
-//     // e.g., if (!Array.isArray(challengesArray) || challengesArray.some(c => !c.description || !c.experienceReward)) throw new Error('Invalid challenge format from AI');
+    // 1. Validate the structure of challengesArray (optional, but good practice)
+    // e.g., if (!Array.isArray(challengesArray) || challengesArray.some(c => !c.description || !c.experienceReward)) throw new Error('Invalid challenge format from AI');
 
-//     // 2. Add unique IDs if your AI doesn't provide them and your DB table doesn't auto-generate them.
-//     // If your DB auto-generates IDs, you can skip this for the 'id' field.
-//     challengesArray = challengesArray.map((challenge) => ({
-//       ...challenge,
-//       // id: generateUniqueId(), // Uncomment if you need to generate IDs here and your table doesn't auto-increment 'id'
-//       // Ensure other fields like description, experienceReward are present from the AI
-//     }));
+    // 2. Add unique IDs if your AI doesn't provide them and your DB table doesn't auto-generate them.
+    // If your DB auto-generates IDs, you can skip this for the 'id' field.
+    challengesArray = challengesArray.map((challenge) => ({
+      ...challenge,
+      // id: generateUniqueId(), // Uncomment if you need to generate IDs here and your table doesn't auto-increment 'id'
+      // Ensure other fields like description, experienceReward are present from the AI
+    }));
 
-//     // 3. Store these challenges in the database.
-//     // IMPORTANT: Adjust 'daily_challenges' to your actual table name.
-//     // This example deletes all old challenges and inserts new ones.
-//     console.log('Deleting old daily challenges...');
-//     await knex('daily_challenges').del();
+    // 3. Store these challenges in the database.
+    // IMPORTANT: Adjust 'daily_challenges' to your actual table name.
+    // This example deletes all old challenges and inserts new ones.
+    console.log("Deleting old daily challenges...");
+    Challenge.resetDailyChallenges();
 
-//     console.log('Inserting new daily challenges...', challengesArray);
-//     // Ensure the objects in challengesArray match your table columns.
-//     // If your table has an auto-incrementing ID, do not include `id` in the insert data
-//     // or ensure the `id` from `generateUniqueId` is what you intend to insert.
-//     await knex('daily_challenges').insert(
-//       challengesArray.map(({ id, ...rest }) => rest)
-//     ); // Example: assuming DB auto-generates ID, so we omit it from insert
-//     // If you generated and want to use your own IDs, use: await knex('daily_challenges').insert(challengesArray);
+    console.log("Inserting new daily challenges...", challengesArray);
 
-//     console.log('Successfully fetched and stored new daily challenges.');
-//     return challengesArray;
-//   } catch (error) {
-//     console.error('Error in fetchAndProcessDailyChallenges:', error);
-//     // Depending on your error handling strategy, you might re-throw,
-//     // or handle it and return an error status.
-//     throw error;
-//   }
-// }
+    challengesArray.forEach((challenge) => {
+      // Ensure the challenge object has the correct structure
+      if (!challenge.type || !challenge.description || !challenge.exp) {
+        throw new Error("Challenge object is missing required fields");
+      }
 
-// module.exports = { fetchAndProcessDailyChallenges };
+      // add the challenge to the database
+      Challenge.addChallengeToDB(challenge);
+    });
+
+    console.log(
+      "Successfully fetched and stored new daily challenges.",
+      challengesArray
+    );
+  } catch (error) {
+    console.error("Error in fetchAndProcessDailyChallenges:", error);
+    // Depending on your error handling strategy, you might re-throw,
+    // or handle it and return an error status.
+    throw error;
+  }
+}
+
+module.exports = { fetchAndProcessDailyChallenges };
+
+// This creates and saves new challenges

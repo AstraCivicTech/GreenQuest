@@ -72,9 +72,11 @@ class Challenge {
   }
 
   // Reset daily challenges at midnight
-  static async resetDailyChallenges(newChallenges) {
+  static async resetDailyChallenges() {
     // deletes all rows from dailyAndCommunityChallenges table (must delete rows not drop table in order to avoid reseting the ids)
-    await knex("dailyAndCommunityChallenges").del();
+    await knex("dailyAndCommunityChallenges")
+      .where({ category: "daily" })
+      .del();
 
     // make the call here to record the new daily and community challenges into the database
   }

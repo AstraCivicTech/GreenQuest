@@ -5,6 +5,8 @@ import {
   validateChallengeOptions,
 } from "../utils/fetchingUtils";
 
+// TODO: Understand why we don't use these request in the frontend
+
 //if you're getting a 404 error, change the port from 3003 to 3000 or vise versa
 const baseUrl = (use) => {
   return `http://localhost:3003/api/ai/${use}`;
