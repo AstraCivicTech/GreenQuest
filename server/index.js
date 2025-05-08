@@ -17,6 +17,10 @@ const authControllers = require('./controllers/authControllers');
 const userControllers = require('./controllers/userControllers');
 const aiControllers = require('./controllers/aiControllers');
 const challengesControllers = require('./controllers/challengesControllers');
+
+// Initialize and start the challenge scheduler
+require('./scheduler/challengeScheduler');
+
 const app = express();
 
 // middleware
