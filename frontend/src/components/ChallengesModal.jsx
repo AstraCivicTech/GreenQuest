@@ -1,10 +1,10 @@
-import { useState } from "react";
-import "../styles/ChallengesModal.css";
-import { DailyChallenges } from "./DailyChallenges.jsx"; // Component for daily challenge content
-import LevelBar from "./LevelBar";
+import { useState } from 'react';
+import '../styles/ChallengesModal.css';
+import { DailyChallenges } from './DailyChallenges.jsx'; // Component for daily challenge content
+import LevelBar from './LevelBar';
 export default function ChallengesModal({ isOpen, onClose }) {
   // Local state to track which tab is active ("daily" or "community")
-  const [activeTab, setActiveTab] = useState("daily");
+  const [activeTab, setActiveTab] = useState('Daily');
 
   // If the modal is not open, render nothing
   if (!isOpen) return null;
@@ -16,14 +16,14 @@ export default function ChallengesModal({ isOpen, onClose }) {
           {/* ---------- Tab Buttons for Daily & Community ---------- */}
           <div className="modal-tabs">
             <button
-              className={activeTab === "daily" ? "tab active" : "tab"}
-              onClick={() => setActiveTab("daily")}
+              className={activeTab === 'Daily' ? 'tab active' : 'tab'}
+              onClick={() => setActiveTab('Daily')}
             >
               Daily Challenges
             </button>
             <button
-              className={activeTab === "community" ? "tab active" : "tab"}
-              onClick={() => setActiveTab("community")}
+              className={activeTab === 'community' ? 'tab active' : 'tab'}
+              onClick={() => setActiveTab('community')}
             >
               Community Challenges
             </button>
@@ -31,10 +31,10 @@ export default function ChallengesModal({ isOpen, onClose }) {
 
           {/* ---------- Dynamic Content Area Based on Active Tab ---------- */}
           <div className="modal-body">
-            {activeTab === "daily" ? (
+            {activeTab === 'Daily' ? (
               <div>
-                <DailyChallenges activeTab={activeTab} />{" "}
-                {/* Prop determines if we fetch daily or community challenges */}
+                <DailyChallenges activeTab={activeTab} />{' '}
+                {/* Prop determines if we fetch Daily or community challenges */}
               </div>
             ) : (
               <div>
