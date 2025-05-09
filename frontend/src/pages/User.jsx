@@ -1,16 +1,15 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import CurrentUserContext from "../contexts/current-user-context";
-import { getUser, getUserLevelInfo } from "../adapters/user-adapter";
-import { logUserOut } from "../adapters/auth-adapter";
-import UpdateUsernameForm from "../components/UpdateUsernameForm";
-import LevelBar from "../components/LevelBar";
+import { getUser } from "../adapters/user-adapter";
 import ChallengesIcon from "../components/ChallengesIcon";
+import LevelBar from "../components/LevelBar";
 import "../styles/User.css";
 
 export default function UserPage() {
   const navigate = useNavigate();
-  const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
+  const { currentUser, setCurrentUser, levelInfo } =
+    useContext(CurrentUserContext);
   const [userProfile, setUserProfile] = useState(null);
   const [error, setError] = useState(null);
   const { id } = useParams();
@@ -18,61 +17,62 @@ export default function UserPage() {
 
   useEffect(() => {
     const loadUser = async () => {
-      // fetch user info
       const [user, error] = await getUser(id);
       if (error) return setError(error);
       setUserProfile(user);
     };
-
     loadUser();
   }, [id]);
 
-  const handleLogout = async () => {
-    logUserOut();
-    setCurrentUser(null);
-    navigate("/");
-  };
+  if (error) return <p>Sorry, could not load user.</p>;
+  if (!userProfile || !levelInfo) return null;
 
-  if (error)
-    return (
-      <p>Sorry, there was a problem loading user. Please try again later.</p>
-    );
-
-  if (!userProfile) return null;
-
-  // When we update the username, the userProfile state won't change but the currentUser state will.
   const profileUsername = isCurrentUserProfile
     ? currentUser.username
     : userProfile.username;
 
   return (
-    <div className="user-page">
-      <div className="user-card">
-        {currentUser?.username === "cool_cat" && (
-          <img
-            src="https://www.perfocal.com/blog/content/images/2021/01/Perfocal_17-11-2019_TYWFAQ_100_standard-3.jpg"
-            alt="cool_cat"
-            className="profile-image"
-          />
-        )}
-        <h1 className="username">{profileUsername}</h1>
+    <div className="greenquest-profile">
+      <div className="profile-card">
+        <div className="profile-picture-ring-wrapper">
+          <LevelBar />
+          <div className="profile-picture-overlay">
+            <img
+              src="https://www.perfocal.com/blog/content/images/2021/01/Perfocal_17-11-2019_TYWFAQ_100_standard-3.jpg"
+              alt="User Avatar"
+              className="profile-image"
+            />
+          </div>
+        </div>
+
+        {/* Level & XP Display under avatar */}
+        <div className="level-display">
+          <p className="level-text">
+            Lv. {levelInfo.level} - {levelInfo.levelTitle}
+          </p>
+          <p className="xp-text">
+            {levelInfo.exp} / {levelInfo.nextLevelExp} XP
+          </p>
+        </div>
+
+        <h2 className="username">@{profileUsername}</h2>
         <p className="bio">
-          Nature enthusiast trying to change the world one challenge at a time
+          Nature enthusiast changing the world one challenge at a time 🌱
         </p>
 
-        {isCurrentUserProfile && (
-          <>
-            {/*<UpdateUsernameForm
-              currentUser={currentUser}
-              setCurrentUser={setCurrentUser}
-            /> */}
-            <button className="logout-button" onClick={handleLogout}>
-              Log Out
-            </button>
-            <LevelBar />
-            <ChallengesIcon />
-          </>
-        )}
+        <div className="eco-tags">
+          <button className="tag-button">♻️ Zero Waste</button>
+          <button className="tag-button">🌿 Urban Gardener</button>
+        </div>
+      </div>
+
+      <div className="user-posts">
+        <h2 className="activity">Activity</h2>
+        <p>This user hasn't posted anything yet.</p>
+      </div>
+
+      <div className="bottom-right-widget">
+        <ChallengesIcon />
       </div>
     </div>
   );
