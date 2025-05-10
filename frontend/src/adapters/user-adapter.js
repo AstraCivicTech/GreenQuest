@@ -2,7 +2,6 @@
 // with the provided body and the remaining options
 import {
   fetchHandler,
-  getPatchOptions,
   getPostOptions,
 } from "../utils/fetchingUtils";
 
