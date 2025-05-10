@@ -1,16 +1,18 @@
+/* eslint-disable max-len */
+/* eslint-disable func-style */
 require('dotenv').config({
   path: require('path').resolve(__dirname, '../.env'),
 }); // Ensure .env is loaded relative to server folder
-const Challenge = require('../models/Challenge'); // Assuming this is the correct path to your challenge module
 const { GoogleGenerativeAI } = require('@google/generative-ai');
+const Challenge = require('../models/Challenge');
 
 const { API_KEY } = process.env;
 
+// Ensure the API key is defined in the environment variables file.
 if (!API_KEY) {
   console.error(
     'API_KEY is not defined. Please check your .env file in the server directory.'
   );
-  // Potentially throw an error or exit if API_KEY is critical for this service
 }
 
 const genAI = new GoogleGenerativeAI(API_KEY);
@@ -57,9 +59,19 @@ Example of desired format:
 
     let challengesArray = JSON.parse(response);
 
-    // 1. Validate the structure of challengesArray (optional, but good practice)
-    // e.g., if (!Array.isArray(challengesArray) || challengesArray.some(c => !c.description || !c.experienceReward)) throw new Error('Invalid challenge format from AI');
-
+    // 1. Validates the structure of challengesArray
+    if (
+      !Array.isArray(challengesArray) ||
+      challengesArray.some(
+        (c) =>
+          !c.challengeType ||
+          !c.category ||
+          !c.description ||
+          !c.experienceReward
+      )
+    ) {
+      throw new Error('Invalid challenge object structure from AI');
+    }
     // 2. Add unique IDs if your AI doesn't provide them and your DB table doesn't auto-generate them.
     // If your DB auto-generates IDs, you can skip this for the 'id' field.
     challengesArray = challengesArray.map((challenge) => ({
@@ -77,16 +89,6 @@ Example of desired format:
     console.log('Inserting new daily challenges...', challengesArray);
 
     challengesArray.forEach((challenge) => {
-      // Ensure the challenge object has the correct structure
-      if (
-        !challenge.category ||
-        !challenge.challengeType ||
-        !challenge.description ||
-        !challenge.experienceReward
-      ) {
-        throw new Error('Challenge object is missing required fields');
-      }
-
       // add the challenge to the database
       Challenge.addChallengeToDB(challenge);
     });
@@ -94,8 +96,6 @@ Example of desired format:
     return challengesArray;
   } catch (error) {
     console.error('Error in fetchAndProcessDailyChallenges:', error);
-    // Depending on your error handling strategy, you might re-throw,
-    // or handle it and return an error status.
     throw error;
   }
 }
