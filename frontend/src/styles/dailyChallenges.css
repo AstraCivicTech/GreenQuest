@@ -1,25 +1,35 @@
-@keyframes sparkleFlight {
+@keyframes flyToRing {
   0% {
     transform: translate(0, 0) scale(1);
     opacity: 1;
   }
   100% {
-    transform: translate(180px, -200px) scale(0.2) rotate(45deg); /* tune if needed */
+    transform: translate(var(--x), var(--y)) scale(0.3);
     opacity: 0;
   }
 }
 
-.xp-particle {
-  position: absolute;
+@keyframes sparkleTwinkle {
+  0%,
+  100% {
+    box-shadow: 0 0 4px #3ddc91;
+  }
+  50% {
+    box-shadow: 0 0 12px #aaffd5;
+  }
+}
+
+.sparkle-particle {
+  position: fixed;
   width: 10px;
   height: 10px;
-  background: radial-gradient(circle at center, #aaffcc, #2ecc71);
+  background: #3ddc91;
   border-radius: 50%;
-  box-shadow: 0 0 8px #3bc982, 0 0 12px #aaffcc;
-  animation: sparkleFlight 3s ease-out forwards;
-  z-index: 9999;
+  opacity: 0.9;
+  animation: flyToRing 1.3s ease-out forwards,
+    sparkleTwinkle 1.3s ease-in-out infinite;
   pointer-events: none;
-  opacity: 0.85;
+  z-index: 9999;
 }
 
 .daily-challenges-container {

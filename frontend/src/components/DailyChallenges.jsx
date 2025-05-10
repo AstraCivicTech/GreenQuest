@@ -161,6 +161,7 @@
 //     </div>
 //   );
 // };
+
 import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import {
@@ -185,7 +186,7 @@ export const DailyChallenges = ({ activeTab }) => {
   } = useContext(CurrentUserContext);
 
   const [challenges, setChallenges] = useState([]);
-  const [xpParticles, setXpParticles] = useState([]);
+  const [sparkles, setSparkles] = useState([]);
 
   useEffect(() => {
     const fetchAllData = async () => {
@@ -218,18 +219,22 @@ export const DailyChallenges = ({ activeTab }) => {
       setCompletedChallenges((prev) => [...prev, Number(challenge.id)]);
 
       const rect = e.target.getBoundingClientRect();
-      const particle = {
-        id: Date.now(),
-        x: rect.left,
-        y: rect.top,
-        amount: challenge.experienceReward,
-      };
 
-      setXpParticles((prev) => [...prev, particle]);
+      for (let i = 0; i < 8; i++) {
+        const sparkle = {
+          id: `${Date.now()}-${i}`,
+          x: rect.left + 10 + Math.random() * 20 - 10,
+          y: rect.top + 10 + Math.random() * 20 - 10,
+          dx: 150 + Math.random() * 50 - 25,
+          dy: -240 + Math.random() * 50 - 25,
+        };
 
-      setTimeout(() => {
-        setXpParticles((prev) => prev.filter((p) => p.id !== particle.id));
-      }, 1000);
+        setSparkles((prev) => [...prev, sparkle]);
+
+        setTimeout(() => {
+          setSparkles((prev) => prev.filter((p) => p.id !== sparkle.id));
+        }, 1200);
+      }
     }
   };
 
@@ -262,18 +267,17 @@ export const DailyChallenges = ({ activeTab }) => {
         })}
       </ul>
 
-      {xpParticles.map((p) => (
+      {sparkles.map((s) => (
         <div
-          key={p.id}
-          className="xp-particle"
+          key={s.id}
+          className="sparkle-particle"
           style={{
-            top: `${p.y}px`,
-            left: `${p.x}px`,
-            position: "fixed",
+            top: `${s.y}px`,
+            left: `${s.x}px`,
+            "--x": `${s.dx}px`,
+            "--y": `${s.dy}px`,
           }}
-        >
-          +{p.amount} XP
-        </div>
+        />
       ))}
     </div>
   );

@@ -1,22 +1,14 @@
-.modal-content {
+.challenges-panel {
   background: #f8fdf6;
   border: 2px solid #bde5c8;
   border-radius: 18px;
   padding: 1.5rem;
-  margin-top: 10%;
-  margin-bottom: 15%;
-  margin-left: -5%;
-  height: 45%;
-  width: 360px;
-  max-width: 90%;
+  width: 400px;
   color: #2d5e46;
   font-family: "Poppins", sans-serif;
   box-shadow: 0 6px 20px rgba(44, 108, 85, 0.12);
-  transition: all 0.3s ease;
-  position: relative;
 }
 
-/* Tabs */
 .modal-tabs {
   display: flex;
   justify-content: space-around;
@@ -44,19 +36,8 @@
   color: #2b6d52;
 }
 
-/* Body */
 .modal-body {
-  margin-top: 0.8rem;
   font-size: 0.9rem;
   line-height: 1.5;
   color: #3b5e4c;
-}
-
-.close-button:hover {
-  background-color: #3fd78b;
-  color: white;
-}
-
-.close-button {
-  display: none !important;
 }

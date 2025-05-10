@@ -20,7 +20,7 @@ exports.seed = async (knex) => {
       username: "cool_cat",
       password_hash: await bcrypt.hash("1234", saltRounds),
       zipcode: "12345",
-      exp: 0,
+      exp: 900,
       level: 1,
       streak: 2,
     },
