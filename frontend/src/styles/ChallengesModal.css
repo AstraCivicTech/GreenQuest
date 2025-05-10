@@ -1,80 +1,62 @@
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.75); /* No blur, just dark transparent layer */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 100%;
-  z-index: 100;
-}
-
 .modal-content {
-  background: #0a0f0d;
-  border: 2px solid #00ff9c;
+  background: #f8fdf6;
+  border: 2px solid #bde5c8;
   border-radius: 18px;
-  padding: 2rem;
-  width: 440px;
+  padding: 1.5rem;
+  margin-top: 10%;
+  margin-bottom: 15%;
+  margin-left: -5%;
+  height: 45%;
+  width: 360px;
   max-width: 90%;
-  color: #e0ffe4;
-  font-family: "Montserrat", sans-serif;
-  box-shadow: 0 0 25px rgba(0, 255, 153, 0.25);
-  position: relative;
+  color: #2d5e46;
+  font-family: "Poppins", sans-serif;
+  box-shadow: 0 6px 20px rgba(44, 108, 85, 0.12);
   transition: all 0.3s ease;
+  position: relative;
 }
 
+/* Tabs */
 .modal-tabs {
   display: flex;
-  justify-content: space-evenly;
-  margin-bottom: 1.5rem;
-  border-bottom: 1px solid #00ff9c33;
+  justify-content: space-around;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #d0f2dc;
 }
 
 .tab {
-  background: transparent;
+  background: none;
   border: none;
   font-weight: 600;
-  font-size: 1rem;
-  color: #99ffe0;
-  padding: 0.6rem 1.2rem;
+  font-size: 0.95rem;
+  color: #5a9274;
+  padding: 0.5rem 1rem;
   cursor: pointer;
-  transition: color 0.2s, border-color 0.2s;
+  transition: all 0.2s ease;
 }
 
 .tab:hover {
-  color: #00ff9c;
+  color: #2b6d52;
 }
 
 .tab.active {
-  border-bottom: 2px solid #00ff9c;
-  color: #00ff9c;
+  border-bottom: 2px solid #3fd78b;
+  color: #2b6d52;
 }
 
+/* Body */
 .modal-body {
-  margin-top: 1.2rem;
-  font-size: 0.95rem;
+  margin-top: 0.8rem;
+  font-size: 0.9rem;
   line-height: 1.5;
-  color: #ccffe3;
-}
-
-.close-button {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  background: transparent;
-  color: #00ff9c;
-  border: 1px solid #00ff9c;
-  padding: 0.4rem 0.8rem;
-  border-radius: 6px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
+  color: #3b5e4c;
 }
 
 .close-button:hover {
-  background: #00ff9c;
-  color: #0a0f0d;
+  background-color: #3fd78b;
+  color: white;
+}
+
+.close-button {
+  display: none !important;
 }

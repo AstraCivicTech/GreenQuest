@@ -1,36 +1,36 @@
 /* General Layout */
 .greenquest-profile {
-  background: rgba(255, 255, 255, 0.85);
   display: flex;
   flex-direction: column;
   align-items: center;
   min-height: 100vh;
-  margin-top: 70%;
+
   font-family: "Poppins", sans-serif;
   position: relative;
   padding-bottom: 6rem;
-  color: #cdd3d1;
+  background: linear-gradient(to bottom right, #f4fff9, #e9fdf4);
+  color: #222;
 }
 
 /* Profile Card */
 .profile-card {
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(12px);
-  margin-top: -60px;
+  background: #ffffff;
+  border: 3px solid #d3f7de;
+  margin-top: 290px;
   border-radius: 24px;
   padding: 2rem;
   width: 90%;
   max-width: 400px;
-  box-shadow: 0 8px 24px rgba(30, 160, 120, 0.1);
+  box-shadow: 0 8px 24px rgba(70, 200, 150, 0.15);
   text-align: center;
 }
 
 /* Profile Picture */
 .profile-picture-ring-wrapper {
   position: relative;
-  width: 140px;
-  height: 140px;
-  margin-left: 40%;
+  width: 160px;
+  height: 160px;
+  margin-left: 35%;
   display: center;
   align-items: center;
   justify-content: center;
@@ -38,8 +38,8 @@
 
 /* LevelBar SVG should take up the full wrapper */
 .level-ring-overlay {
-  width: 130px;
-  height: 130px;
+  width: 140px;
+  height: 140px;
   position: absolute;
   top: 0;
   left: 0;
@@ -48,33 +48,35 @@
 
 /* Avatar sits inside */
 .profile-picture-overlay {
-  width: 100px;
-  height: 100px;
+  width: 137px;
+  height: 136.5px;
   border-radius: 50%;
   overflow: hidden;
   position: relative;
   z-index: 2;
-  background: #ffffff;
-  box-shadow: 0 4px 12px rgba(0, 128, 96, 0.15);
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(70, 180, 120, 0.2);
 }
 
 .profile-image {
   width: 100%;
   height: 100%;
   border-radius: 50%;
+  display: center;
   object-fit: cover;
 }
 
 /* Text Info */
 .username {
-  font-size: 1.3rem;
-  font-weight: 600;
-  color: #165b47;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #0f5132;
+  margin-top: 1rem;
 }
 .bio {
-  font-size: 0.95rem;
-  color: #4b7f6a;
-  margin-top: 0.4rem;
+  font-size: 1rem;
+  color: #2f6d4f;
+  margin-top: 0.3rem;
 }
 
 /* Eco Tags */
@@ -82,15 +84,44 @@
   margin: 1rem 0;
 }
 .tag-button {
-  background: #dffcf0;
-  border: none;
+  background: #ebfef4;
+  border: 2px solid #b0f0cd;
   border-radius: 20px;
   padding: 0.4rem 1rem;
-  margin: 0.25rem;
-  font-size: 0.85rem;
-  color: #1ea378;
+  margin: 0.3rem;
+  font-size: 0.9rem;
+  color: #198754;
   cursor: default;
-  box-shadow: 0 2px 4px rgba(30, 160, 120, 0.1);
+  box-shadow: 0 2px 4px rgba(30, 160, 120, 0.12);
+  font-weight: 500;
+}
+
+/* Badge Section */
+.section h3 {
+  font-size: 1.1rem;
+  color: #1f845a;
+  margin-bottom: 0.6rem;
+}
+.badges {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+}
+.badges img {
+  height: 44px;
+  width: 44px;
+  border-radius: 12px;
+  background: #fff;
+  padding: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+/* Challenges Icon Placement */
+.bottom-right-widget {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 10;
 }
 
 /* Level Info */
@@ -101,45 +132,37 @@
 
 .level-text {
   font-weight: 600;
-  font-size: 1rem;
-  color: #22b67d;
+  font-size: 1.1rem;
+  color: #0e9e60;
 }
 
 .xp-text {
-  font-size: 0.85rem;
-  color: #5d7c71;
+  font-size: 0.9rem;
+  color: #678d7b;
 }
 
 /* Activity Section */
 .user-posts {
   width: 90%;
   max-width: 600px;
-  background: rgba(255, 255, 255, 0.85);
+  background: #ffffff;
+  border: 2px solid #d8f5e4;
   border-radius: 20px;
   padding: 1.5rem 2rem;
   margin-top: 2rem;
-  box-shadow: 0 6px 20px rgba(30, 160, 120, 0.12);
-  backdrop-filter: blur(10px);
+  box-shadow: 0 6px 20px rgba(40, 180, 130, 0.1);
   text-align: left;
 }
 
 .user-posts .activity {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: #165b47;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #145e46;
   margin-bottom: 1rem;
 }
 
 .user-posts p {
   font-size: 1rem;
-  color: #4b7f6a;
+  color: #396957;
   line-height: 1.5;
-}
-
-/* Challenges Icon Widget */
-.bottom-right-widget {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 10;
 }

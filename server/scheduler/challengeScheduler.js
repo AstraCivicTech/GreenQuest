@@ -1,10 +1,10 @@
-const cron = require('node-cron');
-const aiControllers = require('../controllers/aiControllers');
+const cron = require("node-cron");
+const aiControllers = require("../controllers/aiControllers");
 const {
   fetchAndProcessDailyChallenges,
-} = require('../services/challengeService');
+} = require("../services/challengeService");
 
-console.log('Challenge scheduler initialized. Waiting for the scheduled time.');
+console.log("Challenge scheduler initialized. Waiting for the scheduled time.");
 
 const { prompt } = {
   prompt: `Return ONLY valid JSON without any markdown formatting or code blocks.
@@ -41,7 +41,7 @@ Example of desired format:
 // Cron expression format: 'minute hour day-of-month month day-of-week'
 // IMPORTANT: Change this back to '0 0 * * *' for daily execution at midnight after testing!
 cron.schedule(
-  '*/15 * * * *', // Runs every minute
+  "*/1 * * * *", // Runs every minute
   async () => {
     console.log(
       `[${new Date().toISOString()}] Running scheduled job: Fetching new daily challenges...`
@@ -60,18 +60,18 @@ cron.schedule(
   },
   {
     scheduled: true,
-    timezone: 'America/New_York', // IMPORTANT: Set this to your server's or target users' timezone
+    timezone: "America/New_York", // IMPORTANT: Set this to your server's or target users' timezone
   }
 );
 
 // Run the job once immediately on startup for testing.
 // IMPORTANT: Comment this out or remove it for production.
 (async () => {
-  console.log('Running initial fetch for testing upon startup...');
+  console.log("Running initial fetch for testing upon startup...");
   try {
     const result = await fetchAndProcessDailyChallenges();
-    console.log('Generated challenge:', result);
+    console.log("Generated challenge:", result);
   } catch (error) {
-    console.error('Initial fetch failed:', error);
+    console.error("Initial fetch failed:", error);
   }
 })();

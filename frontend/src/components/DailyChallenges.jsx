@@ -161,23 +161,22 @@
 //     </div>
 //   );
 // };
-import { useContext, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useContext, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import {
   getUserLevelInfo,
   updateUserLevelInfo,
-} from '../adapters/user-adapter';
+} from "../adapters/user-adapter";
 import {
   getChallenges,
   getCompletedChallenges,
   completeChallenge,
-  addChallengeToDB,
-} from '../adapters/challenge-adapter';
-import CurrentUserContext from '../contexts/current-user-context';
-import '../styles/dailyChallenges.css';
+} from "../adapters/challenge-adapter";
+import CurrentUserContext from "../contexts/current-user-context";
+import "../styles/dailyChallenges.css";
 
 export const DailyChallenges = ({ activeTab }) => {
-  const { id } = useParams(); // user ID from route
+  const { id } = useParams();
   const {
     levelInfo,
     setLevelInfo,
@@ -186,6 +185,7 @@ export const DailyChallenges = ({ activeTab }) => {
   } = useContext(CurrentUserContext);
 
   const [challenges, setChallenges] = useState([]);
+  const [xpParticles, setXpParticles] = useState([]);
 
   useEffect(() => {
     const fetchAllData = async () => {
@@ -197,7 +197,6 @@ export const DailyChallenges = ({ activeTab }) => {
 
       const [completed, completedError] = await getCompletedChallenges(id);
       if (!completedError) {
-        // When app gets a list of completed challenge IDs from the server, it might return them as strings, that's why Number helps avoid this behavior by parsing strs into nums
         setCompletedChallenges(completed.map(Number));
       }
     };
@@ -205,14 +204,11 @@ export const DailyChallenges = ({ activeTab }) => {
     fetchAllData();
   }, [id, activeTab, setLevelInfo]);
 
-  const handleChallengeComplete = async (challenge) => {
-    if (!id || !challenge?.id) {
-      console.error('Missing userId or challengeId', { id, challenge });
-      return;
-    }
+  const handleChallengeComplete = async (challenge, e) => {
+    if (!id || !challenge?.id) return;
 
     const [_, error] = await completeChallenge(id, challenge.id);
-    if (error) return console.error('Challenge completion error:', error);
+    if (error) return;
 
     const newExp = levelInfo.exp + challenge.experienceReward;
     const [updatedInfo, levelError] = await updateUserLevelInfo(id, newExp);
@@ -220,6 +216,20 @@ export const DailyChallenges = ({ activeTab }) => {
     if (!levelError) {
       setLevelInfo(updatedInfo);
       setCompletedChallenges((prev) => [...prev, Number(challenge.id)]);
+
+      const rect = e.target.getBoundingClientRect();
+      const particle = {
+        id: Date.now(),
+        x: rect.left,
+        y: rect.top,
+        amount: challenge.experienceReward,
+      };
+
+      setXpParticles((prev) => [...prev, particle]);
+
+      setTimeout(() => {
+        setXpParticles((prev) => prev.filter((p) => p.id !== particle.id));
+      }, 1000);
     }
   };
 
@@ -233,18 +243,17 @@ export const DailyChallenges = ({ activeTab }) => {
           const isCompleted = completedChallenges.includes(
             Number(challenge.id)
           );
-
           return (
             <li
               key={challenge.id}
-              className={`challenge-item ${isCompleted ? 'completed' : ''}`}
+              className={`challenge-item ${isCompleted ? "completed" : ""}`}
             >
               <label>
                 <input
                   type="checkbox"
                   checked={isCompleted}
                   disabled={isCompleted}
-                  onChange={() => handleChallengeComplete(challenge)}
+                  onChange={(e) => handleChallengeComplete(challenge, e)}
                 />
                 {challenge.description} ({challenge.experienceReward} XP)
               </label>
@@ -252,6 +261,20 @@ export const DailyChallenges = ({ activeTab }) => {
           );
         })}
       </ul>
+
+      {xpParticles.map((p) => (
+        <div
+          key={p.id}
+          className="xp-particle"
+          style={{
+            top: `${p.y}px`,
+            left: `${p.x}px`,
+            position: "fixed",
+          }}
+        >
+          +{p.amount} XP
+        </div>
+      ))}
     </div>
   );
 };
