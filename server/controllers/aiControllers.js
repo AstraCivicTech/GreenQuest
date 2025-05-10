@@ -1,5 +1,7 @@
+require("dotenv").config();
 const { GoogleGenerativeAI } = require("@google/generative-ai");
-const API_KEY = process.env.API_KEY;
+
+const { API_KEY } = process.env;
 
 const genAI = new GoogleGenerativeAI(API_KEY);
 
@@ -21,3 +23,5 @@ exports.ai = async (req, res) => {
     res.status(500).send({ message: "Error generating daily challenges" });
   }
 };
+
+// change file name as this is not a controller
