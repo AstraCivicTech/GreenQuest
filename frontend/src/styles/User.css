@@ -125,20 +125,24 @@
 }
 
 /* Level Info */
-.level-display {
-  margin-top: 0.5rem;
+.level-info-text {
   text-align: center;
+  margin-top: 0.75rem;
 }
 
-.level-text {
+.level-title {
   font-weight: 600;
-  font-size: 1.1rem;
-  color: #0e9e60;
+  font-size: 1rem;
+  color: #2e604c;
 }
 
-.xp-text {
+.title-text {
+  color: #35a86b;
+}
+
+.xp-progress {
   font-size: 0.9rem;
-  color: #678d7b;
+  color: #629f83;
 }
 
 /* Container for profile + challenges layout */
@@ -169,7 +173,7 @@
 /* Activity Section */
 .user-posts {
   width: 90%;
-  max-width: 600px;
+  max-width: 900px;
   background: #ffffff;
   border: 2px solid #d8f5e4;
   border-radius: 20px;

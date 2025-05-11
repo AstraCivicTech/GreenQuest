@@ -176,7 +176,7 @@ import {
 import CurrentUserContext from "../contexts/current-user-context";
 import "../styles/dailyChallenges.css";
 
-export const DailyChallenges = ({ activeTab }) => {
+export const DailyChallenges = () => {
   const { id } = useParams();
   const {
     levelInfo,
@@ -186,14 +186,14 @@ export const DailyChallenges = ({ activeTab }) => {
   } = useContext(CurrentUserContext);
 
   const [challenges, setChallenges] = useState([]);
-  const [sparkles, setSparkles] = useState([]);
+  const [particles, setParticles] = useState([]);
 
   useEffect(() => {
     const fetchAllData = async () => {
       const [levelData, levelError] = await getUserLevelInfo(id);
       if (!levelError) setLevelInfo(levelData);
 
-      const [challengeData, challengeError] = await getChallenges(activeTab);
+      const [challengeData, challengeError] = await getChallenges("Daily");
       if (!challengeError) setChallenges(challengeData);
 
       const [completed, completedError] = await getCompletedChallenges(id);
@@ -203,7 +203,25 @@ export const DailyChallenges = ({ activeTab }) => {
     };
 
     fetchAllData();
-  }, [id, activeTab, setLevelInfo]);
+  }, [id, setLevelInfo]);
+
+  const triggerParticles = (x, y, count = 8) => {
+    const newParticles = Array.from({ length: count }).map((_, i) => ({
+      id: Date.now() + i,
+      x,
+      y,
+      offsetX: Math.random() * 200 - 100,
+      offsetY: -Math.random() * 200 - 50,
+    }));
+
+    setParticles((prev) => [...prev, ...newParticles]);
+
+    setTimeout(() => {
+      setParticles((prev) =>
+        prev.filter((p) => !newParticles.find((np) => np.id === p.id))
+      );
+    }, 4500);
+  };
 
   const handleChallengeComplete = async (challenge, e) => {
     if (!id || !challenge?.id) return;
@@ -219,25 +237,10 @@ export const DailyChallenges = ({ activeTab }) => {
       setCompletedChallenges((prev) => [...prev, Number(challenge.id)]);
 
       const rect = e.target.getBoundingClientRect();
-
-      for (let i = 0; i < 8; i++) {
-        const sparkle = {
-          id: `${Date.now()}-${i}`,
-          x: rect.left + 10 + Math.random() * 20 - 10,
-          y: rect.top + 10 + Math.random() * 20 - 10,
-          dx: 150 + Math.random() * 50 - 25,
-          dy: -240 + Math.random() * 50 - 25,
-        };
-
-        setSparkles((prev) => [...prev, sparkle]);
-
-        setTimeout(() => {
-          setSparkles((prev) => prev.filter((p) => p.id !== sparkle.id));
-        }, 1200);
-      }
+      triggerParticles(rect.left + 10, rect.top + 10);
     }
   };
-
+  console.log(particles);
   if (!levelInfo || challenges.length === 0) return <p>Loading...</p>;
 
   return (
@@ -248,6 +251,7 @@ export const DailyChallenges = ({ activeTab }) => {
           const isCompleted = completedChallenges.includes(
             Number(challenge.id)
           );
+
           return (
             <li
               key={challenge.id}
@@ -266,16 +270,16 @@ export const DailyChallenges = ({ activeTab }) => {
           );
         })}
       </ul>
-
-      {sparkles.map((s) => (
+      {particles.map((p) => (
         <div
-          key={s.id}
           className="sparkle-particle"
           style={{
-            top: `${s.y}px`,
-            left: `${s.x}px`,
-            "--x": `${s.dx}px`,
-            "--y": `${s.dy}px`,
+            top: "200px",
+            left: "400px",
+            position: "fixed",
+            transform: "translate(0, -100px) scale(0.3)",
+            animation:
+              "fadeOut 1.3s ease-out forwards, sparkleTwinkle 1.3s ease-in-out",
           }}
         />
       ))}

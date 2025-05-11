@@ -2,12 +2,12 @@ import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import CurrentUserContext from "../contexts/current-user-context";
 import { getUser } from "../adapters/user-adapter";
-import ChallengesModal from "../components/ChallengesModal";
+import { DailyChallenges } from "../components/DailyChallenges";
 import LevelBar from "../components/LevelBar";
 import "../styles/User.css";
 
 export default function UserPage() {
-  const { currentUser } = useContext(CurrentUserContext);
+  const { currentUser, levelInfo } = useContext(CurrentUserContext);
   const [userProfile, setUserProfile] = useState(null);
   const [error, setError] = useState(null);
   const { id } = useParams();
@@ -46,9 +46,22 @@ export default function UserPage() {
             </div>
           </div>
 
+          {/* Level title and XP */}
+          {levelInfo && (
+            <div className="level-info-text">
+              <p className="level-title">
+                Level {levelInfo.level}:{" "}
+                <span className="title-text">{levelInfo.levelTitle}</span>
+              </p>
+              <p className="xp-progress">
+                {levelInfo.exp} / {levelInfo.nextLevelExp} XP
+              </p>
+            </div>
+          )}
+
           <h2 className="username">@{profileUsername}</h2>
           <p className="bio">
-            Nature enthusiast changing the world one challenge at a time 🌱
+            Nature enthusiast changing the world one challenge at a time
           </p>
 
           <div className="eco-tags">
@@ -57,8 +70,8 @@ export default function UserPage() {
           </div>
         </div>
 
-        {/* Daily Challenges section now next to profile */}
-        <ChallengesModal activeTab="Daily" />
+        {/* Daily Challenges next to profile */}
+        <DailyChallenges />
       </div>
 
       <div className="user-posts">

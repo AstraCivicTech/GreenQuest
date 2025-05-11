@@ -4,23 +4,29 @@ import "../styles/LevelBar.css";
 
 export default function LevelBar() {
   const { levelInfo } = useContext(CurrentUserContext);
-  const [prevLevel, setPrevLevel] = useState(levelInfo?.level);
+
+  // Always call hooks
+  const [prevLevel, setPrevLevel] = useState(null);
   const [shouldPulse, setShouldPulse] = useState(false);
 
-  if (!levelInfo) return null;
-
-  const percent = Math.min(
-    (levelInfo.exp / levelInfo.nextLevelExp) * 100,
-    100
-  ).toFixed(1);
+  const percent = levelInfo
+    ? Math.min((levelInfo.exp / levelInfo.nextLevelExp) * 100, 100).toFixed(1)
+    : 0;
 
   useEffect(() => {
-    if (levelInfo.level > prevLevel) {
+    if (!levelInfo) return;
+
+    if (prevLevel !== null && levelInfo.level > prevLevel) {
       setShouldPulse(true);
       setTimeout(() => setShouldPulse(false), 1000);
-      setPrevLevel(levelInfo.level);
     }
-  }, [levelInfo.level, prevLevel]);
+
+    setPrevLevel(levelInfo.level);
+  }, [levelInfo, prevLevel]);
+
+  if (!levelInfo) {
+    return <div className="level-ring level-ring-loading" />;
+  }
 
   return (
     <div

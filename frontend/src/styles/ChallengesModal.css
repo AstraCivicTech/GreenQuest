@@ -1,43 +1,18 @@
 .challenges-panel {
-  background: #f8fdf6;
-  border: 2px solid #bde5c8;
-  border-radius: 18px;
-  padding: 1.5rem;
-  width: 400px;
-  color: #2d5e46;
-  font-family: "Poppins", sans-serif;
-  box-shadow: 0 6px 20px rgba(44, 108, 85, 0.12);
-}
-
-.modal-tabs {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  border-radius: 24px;
+  padding: 2rem;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 8px 24px rgba(30, 160, 120, 0.1);
+  text-align: center;
+  margin-top: 2rem;
+  margin-left: 2rem;
   display: flex;
-  justify-content: space-around;
-  margin-bottom: 1rem;
-  border-bottom: 1px solid #d0f2dc;
-}
-
-.tab {
-  background: none;
-  border: none;
-  font-weight: 600;
-  font-size: 0.95rem;
-  color: #5a9274;
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.tab:hover {
-  color: #2b6d52;
-}
-
-.tab.active {
-  border-bottom: 2px solid #3fd78b;
-  color: #2b6d52;
-}
-
-.modal-body {
-  font-size: 0.9rem;
-  line-height: 1.5;
-  color: #3b5e4c;
+  flex-direction: column;
+  align-items: center;
+  overflow: visible;
+  color: #1f3b2c;
+  position: relative;
 }

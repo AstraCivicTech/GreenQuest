@@ -1,27 +1,29 @@
-// src/components/ThreeScene.jsx
 import { Canvas, useFrame } from "@react-three/fiber";
-import { OrbitControls, Stars, Environment, Text } from "@react-three/drei";
+import {
+  OrbitControls,
+  Environment,
+  Text,
+  Sky,
+  Cloud,
+} from "@react-three/drei";
 import { Suspense, useRef } from "react";
 import GrassPlanet from "./GrassPlanet";
 import Fireflies from "./Fireflies";
-import Tree from "./Tree"; // Adjust the path if needed
+import Tree from "./Tree";
 
 function CameraRig() {
-  const cameraRef = useRef();
-
   useFrame(({ camera }) => {
     if (camera.position.z > 9) {
-      camera.position.z -= 0.02; // Zoom in speed
+      camera.position.z -= 0.02;
     }
   });
-
   return null;
 }
 
 export default function ThreeScene() {
   return (
     <Canvas
-      camera={{ position: [0, 3, 14], fov: 50 }}
+      camera={{ position: [0, 5, 14], fov: 50 }}
       shadows
       style={{
         width: "100vw",
@@ -32,30 +34,31 @@ export default function ThreeScene() {
         zIndex: 0,
       }}
     >
-      {/* 🌌 Background */}
-      <color attach="background" args={["#02040f"]} />
+      {/* ☁️ Day Sky */}
+      <color attach="background" args={["#aee7ff"]} />
+      <Sky
+        sunPosition={[100, 5, 100]} // ⬅️ lower Y value "lowers" the sky gradient
+        turbidity={8}
+        rayleigh={6}
+        mieCoefficient={0.005}
+        mieDirectionalG={0.8}
+      />
+
+      {/* ☁️ Moving Clouds */}
+      <Cloud position={[0, 5, -10]} speed={0.2} opacity={0.4} segments={20} />
+      <Cloud position={[5, 6, -15]} speed={0.25} opacity={0.35} segments={20} />
+      <Cloud position={[-5, 4, -8]} speed={0.18} opacity={0.5} segments={20} />
 
       {/* 💡 Lighting */}
-      <ambientLight intensity={0.4} />
-      <directionalLight position={[5, 10, 5]} intensity={1.5} castShadow />
+      <ambientLight intensity={0.6} />
+      <directionalLight position={[5, 10, 5]} intensity={1.2} castShadow />
 
       <Suspense fallback={null}>
         <GrassPlanet />
         <Fireflies />
-        <Stars
-          radius={200} // Radius of the inner sphere (controls star spread)
-          depth={50} // Star field depth
-          count={10000} // Total number of stars
-          factor={15} // Size of stars (increase for brightness effect)
-          saturation={2} // Color saturation
-          fade // Enables fading based on distance
-          speed={2} // Subtle motion to make them twinkle
-        />
-
         <Environment preset="sunset" />
       </Suspense>
 
-      {/* 📝 Floating 3D Text */}
       <Text
         position={[0, 2.5, 0]}
         fontSize={0.5}
@@ -67,7 +70,12 @@ export default function ThreeScene() {
       </Text>
 
       <CameraRig />
-      <OrbitControls enablePan={false} enableRotate={true} enableZoom={false} />
+      <OrbitControls
+        enablePan={false}
+        enableRotate={true}
+        enableZoom={false}
+        target={[0, 3, 0]} // 👈 centers rotation on the new planet position
+      />
     </Canvas>
   );
 }

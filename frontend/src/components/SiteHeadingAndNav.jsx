@@ -13,10 +13,15 @@ export default function SiteHeadingAndNav() {
     setCurrentUser(null);
   };
 
+  const toggleDropdown = () => {
+    setShowDropdown((prev) => !prev);
+  };
+
   return (
     <nav className="navbar">
       <div className="nav-container">
         <h1 className="logo">🌱</h1>
+
         <ul className="nav-links">
           <li>
             <NavLink to="/">Home</NavLink>
@@ -25,35 +30,32 @@ export default function SiteHeadingAndNav() {
           {currentUser ? (
             <>
               <li>
-                <NavLink to="/users" end={true}>
-                  Users
-                </NavLink>
+                <NavLink to="/users">Users</NavLink>
               </li>
-              <li
-                className="nav-user-menu"
-                onMouseEnter={() => setShowDropdown(true)}
-                onMouseLeave={() => setShowDropdown(false)}
-              >
-                <NavLink
-                  to={`/users/${currentUser.id}`}
-                  className="nav-username"
-                >
-                  {currentUser.username}
-                </NavLink>
-                {showDropdown && (
-                  <div className="dropdown-menu glass">
-                    <NavLink to="/settings" className="dropdown-item">
-                      Settings
-                    </NavLink>
-                    <NavLink
-                      to="/"
-                      className="dropdown-item"
-                      onClick={handleLogout}
-                    >
-                      Log Out
-                    </NavLink>
-                  </div>
-                )}
+
+              <li className="nav-user-menu">
+                <div className="nav-username" onClick={toggleDropdown}>
+                  <NavLink to={`/users/${currentUser.id}`}>
+                    {currentUser.username}
+                  </NavLink>
+                  <span
+                    className={`dropdown-arrow ${showDropdown ? "open" : ""}`}
+                  >
+                    ▼
+                  </span>
+                </div>
+
+                <div className={`dropdown-menu ${showDropdown ? "show" : ""}`}>
+                  <NavLink to="/settings" className="dropdown-item">
+                    Settings
+                  </NavLink>
+                  <button
+                    className="dropdown-item logout-button"
+                    onClick={handleLogout}
+                  >
+                    Log Out
+                  </button>
+                </div>
               </li>
             </>
           ) : (
