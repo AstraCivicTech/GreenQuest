@@ -7,6 +7,7 @@ import UpdateUsernameForm from "../components/UpdateUsernameForm";
 import LevelBar from "../components/LevelBar";
 import ChallengesIcon from "../components/ChallengesIcon";
 import "../styles/User.css";
+import { CommunityChallengeForm } from "../components/CommunityChallengeForm";
 
 export default function UserPage() {
   const navigate = useNavigate();
@@ -69,6 +70,7 @@ export default function UserPage() {
             <button className="logout-button" onClick={handleLogout}>
               Log Out
             </button>
+            <CommunityChallengeForm />
             <LevelBar />
             <ChallengesIcon />
           </>

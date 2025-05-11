@@ -1,17 +1,17 @@
 /* eslint-disable max-len */
 /* eslint-disable func-style */
-require('dotenv').config({
-  path: require('path').resolve(__dirname, '../.env'),
+require("dotenv").config({
+  path: require("path").resolve(__dirname, "../.env"),
 }); // Ensure .env is loaded relative to server folder
-const { GoogleGenerativeAI } = require('@google/generative-ai');
-const Challenge = require('../models/Challenge');
+const { GoogleGenerativeAI } = require("@google/generative-ai");
+const Challenge = require("../models/Challenge");
 
 const { API_KEY } = process.env;
 
 // Ensure the API key is defined in the environment variables file.
 if (!API_KEY) {
   console.error(
-    'API_KEY is not defined. Please check your .env file in the server directory.'
+    "API_KEY is not defined. Please check your .env file in the server directory."
   );
 }
 
@@ -22,12 +22,12 @@ const genAI = new GoogleGenerativeAI(API_KEY);
  * This function should also handle storing these challenges (e.g., in a database or cache).
  */
 async function fetchAndProcessDailyChallenges() {
-  console.log('Attempting to fetch new daily challenges...');
+  console.log("Attempting to fetch new daily challenges...");
   try {
     const prompt = `Return ONLY valid JSON without any markdown formatting or code blocks.
-Generate 3 real-life daily challenges following these themes: Eco Habit, Nature Appreciation, and Community Engagement. Challenges should be short (1 sentence), engaging, and written in the tone of an energetic game master. Each challenge should have a unique name and a playful description that encourages real-world action.
+Generate 3 real-life daily challenges following this theme: Eco Habit. Challenges should be short (1 sentence), engaging, and written in the tone of an energetic game master. Each challenge should have a unique name and a playful description that encourages real-world action.
 Format the response as a JSON array of objects with these fields:
-- "challengeType": Must be exactly one of these strings: "Eco-Habit", "Nature Appreciation", or "Community Engagement"
+- "challengeType": Must be exactly "Eco-Habit"
 - "category": should always be "Daily"
 - "description": A single sentence challenge description
 - "experienceReward": A number between 33-133
@@ -37,23 +37,11 @@ Example of desired format:
   {
     "challengeType": "Eco-Habit",
     "category": "Daily",
-    "description": "Today's mission, Eco-Warriors: Collect all recyclable items in your immediate vicinity and get them to the recycling bin – let's conquer waste!",
+    "description": "Eco-Warriors: Collect all recyclable items in your immediate vicinity and get them to the recycling bin – let's conquer waste!",
     "experienceReward": 78
   },
-  {
-    "challengeType": "Nature Appreciation",
-    "category": "Daily",
-    "description": "Calling all Nature Scouts! Spend 10 minutes observing and writing down 3 details you notice about nature around you – a flower's color, a bird's song, anything! Let's unlock nature's secrets!",
-    "experienceReward": 124
-  },
-  {
-    "challengeType": "Community Engagement",
-    "category": "Daily",
-    "description": "Citizens of Kindness Kingdom! Perform a small act of kindness for a neighbor or family member today – a helping hand earns you major points in the Kindness Games!",
-    "experienceReward": 92
-  }
 ]`; // Customize your prompt
-    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' }); // Use correct method name & version
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" }); // Use correct method name & version
     const result = await model.generateContent(prompt);
     const response = await result.response.text(); // text()
 
@@ -70,7 +58,7 @@ Example of desired format:
           !c.experienceReward
       )
     ) {
-      throw new Error('Invalid challenge object structure from AI');
+      throw new Error("Invalid challenge object structure from AI");
     }
     // 2. Add unique IDs if your AI doesn't provide them and your DB table doesn't auto-generate them.
     // If your DB auto-generates IDs, you can skip this for the 'id' field.
@@ -83,10 +71,10 @@ Example of desired format:
     // 3. Store these challenges in the database.
     // IMPORTANT: Adjust 'daily_challenges' to your actual table name.
     // This example deletes all old challenges and inserts new ones.
-    console.log('Deleting old daily challenges...');
+    console.log("Deleting old daily challenges...");
     Challenge.resetDailyChallenges();
 
-    console.log('Inserting new daily challenges...', challengesArray);
+    console.log("Inserting new daily challenges...", challengesArray);
 
     challengesArray.forEach((challenge) => {
       // add the challenge to the database
@@ -95,7 +83,7 @@ Example of desired format:
 
     return challengesArray;
   } catch (error) {
-    console.error('Error in fetchAndProcessDailyChallenges:', error);
+    console.error("Error in fetchAndProcessDailyChallenges:", error);
     throw error;
   }
 }
