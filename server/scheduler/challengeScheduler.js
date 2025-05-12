@@ -1,6 +1,7 @@
 const cron = require('node-cron');
 const {
-  fetchAndProcessDailyChallenges,
+  processDailyChallenges,
+  fetchDailyChallenges,
 } = require('../services/challengeService');
 
 console.log('Challenge scheduler initialized. Waiting for the scheduled time.');
@@ -15,7 +16,7 @@ cron.schedule(
       `[${new Date().toISOString()}] Running scheduled job: Fetching new daily challenges...`
     );
     try {
-      await fetchAndProcessDailyChallenges();
+      await processDailyChallenges();
       console.log(`[${new Date().toISOString()}] Daily challenges updated successfully by scheduler.`);
     } catch (error) {
       console.error(`[${new Date().toISOString()}] Scheduler failed to update daily challenges:`, error);
@@ -29,7 +30,7 @@ cron.schedule(
 const initJob = async () => {
   console.log('Running initial fetch for testing upon startup...');
   try {
-    const result = await fetchAndProcessDailyChallenges();
+    const result = await processDailyChallenges();
     console.log('Generated challenge:', result);
   } catch (error) {
     console.error('Initial fetch failed:', error);
