@@ -10,6 +10,7 @@ import { Suspense, useRef } from "react";
 import GrassPlanet from "./GrassPlanet";
 import Fireflies from "./Fireflies";
 import Tree from "./Tree";
+import Skybox from "./Skybox";
 
 function CameraRig() {
   useFrame(({ camera }) => {
@@ -23,7 +24,7 @@ function CameraRig() {
 export default function ThreeScene() {
   return (
     <Canvas
-      camera={{ position: [0, 5, 14], fov: 50 }}
+      camera={{ position: [0, 4, 12], fov: 50 }}
       shadows
       style={{
         width: "100vw",
@@ -45,22 +46,28 @@ export default function ThreeScene() {
       />
 
       {/* ☁️ Moving Clouds */}
-      <Cloud position={[0, 5, -10]} speed={0.2} opacity={0.4} segments={20} />
-      <Cloud position={[5, 6, -15]} speed={0.25} opacity={0.35} segments={20} />
-      <Cloud position={[-5, 4, -8]} speed={0.18} opacity={0.5} segments={20} />
+      <Cloud position={[0, 2.5, -10]} speed={0.2} opacity={0.4} segments={20} />
+      <Cloud
+        position={[5, 3.5, -15]}
+        speed={0.25}
+        opacity={0.35}
+        segments={20}
+      />
+      <Cloud position={[0, 0, 5]} speed={0.18} opacity={1.5} segments={20} />
 
       {/* 💡 Lighting */}
       <ambientLight intensity={0.6} />
       <directionalLight position={[5, 10, 5]} intensity={1.2} castShadow />
 
       <Suspense fallback={null}>
+        <Skybox />
         <GrassPlanet />
-        <Fireflies />
+
         <Environment preset="sunset" />
       </Suspense>
 
       <Text
-        position={[0, 2.5, 0]}
+        position={[0, 6.5, 0]}
         fontSize={0.5}
         color="white"
         anchorX="center"
@@ -74,7 +81,7 @@ export default function ThreeScene() {
         enablePan={false}
         enableRotate={true}
         enableZoom={false}
-        target={[0, 3, 0]} // 👈 centers rotation on the new planet position
+        target={[0, 4.5, 0]} // 👈 centers rotation on the new planet position
       />
     </Canvas>
   );
