@@ -20,6 +20,7 @@ export default function App() {
         return;
       }
       console.log("Current user:", user);
+      setCurrentUser(user) // This line ensures the authentication state is saved in context across page refreshes.
     };
     loadCurrentUser();
   }, [setCurrentUser]);
