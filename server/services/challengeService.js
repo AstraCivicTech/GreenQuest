@@ -145,5 +145,3 @@ async function processDailyChallenges() {
 }
 
 module.exports = { processDailyChallenges, fetchDailyChallenges };
-
-// This creates and saves new challenges
