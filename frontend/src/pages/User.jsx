@@ -35,7 +35,9 @@ export default function UserPage() {
   return (
     <div className="greenquest-profile">
       <div className="profile-banner" />
+
       <div className="profile-main">
+        {/* Profile Card */}
         <div className="profile-card">
           <div className="profile-picture-ring-wrapper">
             <LevelBar />
@@ -48,7 +50,7 @@ export default function UserPage() {
             </div>
           </div>
 
-          {/* Level title and XP */}
+          {/* Level Info */}
           {levelInfo && (
             <div className="level-info-text">
               <p className="level-title">
@@ -72,23 +74,28 @@ export default function UserPage() {
           </div>
         </div>
 
-        {/* Daily Challenges next to profile */}
-        <DailyChallenges />
+        {/* Challenges + Scientist Character */}
+        <div className="challenges-and-scientist">
+          <DailyChallenges />
+
+          <div className="character-widget">
+            <div className="character-canvas-wrapper">
+              <Canvas camera={{ position: [-4.5, 2, -2], fov: -100 }}>
+                <ambientLight />
+                <Suspense fallback={null}>
+                  <ScientistCharacter />
+                </Suspense>
+              </Canvas>
+            </div>
+            <SpeechBubble username={profileUsername} />
+          </div>
+        </div>
       </div>
+
+      {/* Posts Section */}
       <div className="user-posts">
         <h2 className="activity">Activity</h2>
         <p>This user hasn't posted anything yet.</p>
-      </div>
-      <div className="character-widget">
-        <div className="character-canvas-wrapper">
-          <Canvas camera={{ position: [-4.5, 2, -2], fov: -100 }}>
-            <ambientLight />
-            <Suspense fallback={null}>
-              <ScientistCharacter />
-            </Suspense>
-          </Canvas>
-        </div>
-        <SpeechBubble username={profileUsername} />
       </div>
     </div>
   );

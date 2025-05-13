@@ -196,13 +196,36 @@
   line-height: 1.5;
 }
 
-.scientist-character-container {
-  position: fixed;
-  padding: 50px;
-  bottom: 300px;
-  right: 17px;
-  width: 90px;
-  height: 350px;
-  z-index: 999;
-  pointer-events: none; /* Keeps it non-interactive */
+.challenges-and-scientist {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+.character-widget {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.character-canvas-wrapper {
+  width: 180px;
+  height: 220px;
+}
+
+.challenges-and-scientist {
+  display: flex;
+  flex-direction: row;
+  gap: 2.5rem;
+  align-items: flex-start;
+  flex: 1;
+}
+
+/* Responsive layout stacking */
+@media (max-width: 900px) {
+  .challenges-and-scientist {
+    flex-direction: column;
+    align-items: center;
+  }
 }

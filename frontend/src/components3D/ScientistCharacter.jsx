@@ -8,7 +8,6 @@ export default function ScientistCharacter(props) {
   const { scene, animations } = useGLTF("/models/scientist.glb");
   const { actions } = useAnimations(animations, ref);
 
-  // Play first animation
   useEffect(() => {
     if (actions && Object.values(actions)[0]) {
       Object.values(actions)[0].play();
@@ -19,9 +18,9 @@ export default function ScientistCharacter(props) {
     <primitive
       object={scene}
       ref={ref}
-      position={[2.5, -3, 2]}
-      scale={props.scale || [3, 3, 3]}
-      rotation={[-0.38, Math.PI, 0]} // face camera
+      position={[-1, 4.5, 1.5]}
+      scale={props.scale || [5.5, 5.5, 5.5]}
+      rotation={[Math.PI, Math.PI, -0.2]} // only Y-axis to face camera
       {...props}
     />
   );
