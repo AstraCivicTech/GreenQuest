@@ -1,10 +1,13 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, Suspense } from "react";
+import { Canvas } from "@react-three/fiber";
 import { useParams } from "react-router-dom";
 import CurrentUserContext from "../contexts/current-user-context";
 import { getUser } from "../adapters/user-adapter";
 import { DailyChallenges } from "../components/DailyChallenges";
 import LevelBar from "../components/LevelBar";
 import "../styles/User.css";
+import ScientistCharacter from "../components3D/ScientistCharacter";
+import SpeechBubble from "../components/SpeechBubble";
 
 export default function UserPage() {
   const { currentUser, levelInfo } = useContext(CurrentUserContext);
@@ -32,7 +35,6 @@ export default function UserPage() {
   return (
     <div className="greenquest-profile">
       <div className="profile-banner" />
-
       <div className="profile-main">
         <div className="profile-card">
           <div className="profile-picture-ring-wrapper">
@@ -73,10 +75,20 @@ export default function UserPage() {
         {/* Daily Challenges next to profile */}
         <DailyChallenges />
       </div>
-
       <div className="user-posts">
         <h2 className="activity">Activity</h2>
         <p>This user hasn't posted anything yet.</p>
+      </div>
+      <div className="character-widget">
+        <div className="character-canvas-wrapper">
+          <Canvas camera={{ position: [-4.5, 2, -2], fov: -100 }}>
+            <ambientLight />
+            <Suspense fallback={null}>
+              <ScientistCharacter />
+            </Suspense>
+          </Canvas>
+        </div>
+        <SpeechBubble username={profileUsername} />
       </div>
     </div>
   );
