@@ -2,6 +2,7 @@ import { useState } from "react";
 import "../styles/SpeechBubble.css";
 
 export default function SpeechBubble({ username }) {
+  // array of messages to be displayed in the speech bubble
   const messages = [
     `Welcome, ${username}! 🌱`,
     "My name is Dr. Green, your guide on this eco-adventure.",
@@ -10,9 +11,9 @@ export default function SpeechBubble({ username }) {
     "Your level reflects your impact — the more actions you take, the greener your legacy.",
     "Ready to grow your quest? 🌍✨",
   ];
-
+  // state to keep track of the current step in the messages array
   const [step, setStep] = useState(0);
-
+  // function to handle click events on the speech bubble
   const handleClick = () => {
     if (step < messages.length - 1) {
       setStep(step + 1);

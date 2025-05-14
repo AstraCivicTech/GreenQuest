@@ -3,8 +3,11 @@ import { useRef, useEffect } from "react";
 import "../styles/ThreeCharacter.css";
 
 export default function ScientistCharacter(props) {
+  // useful for keeping a mutable value between renders
   const ref = useRef();
+  // useGLTF loads the model and animations
   const { scene, animations } = useGLTF("/models/scientist.glb");
+  // useAnimations is used to manage the animations of the model
   const { actions } = useAnimations(animations, ref);
 
   useEffect(() => {

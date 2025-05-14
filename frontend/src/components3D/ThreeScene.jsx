@@ -1,5 +1,7 @@
 // src/components3D/ThreeScene.jsx
+// useFrame is used to create an animation loop
 import { Canvas, useFrame } from "@react-three/fiber";
+// prebuilt components from react-three-fiber
 import {
   OrbitControls,
   Environment,
@@ -8,6 +10,7 @@ import {
   Cloud,
   Html,
 } from "@react-three/drei";
+// Suspense is used to delay rendering until assets are ready
 import { Suspense, useRef } from "react";
 import GrassPlanet from "./GrassPlanet";
 import Skybox from "./Skybox";
@@ -25,6 +28,7 @@ function CameraRig() {
 // Wraps the entire Canvas to delay rendering until assets are ready
 export default function ThreeScene() {
   return (
+    // loading screen
     <Suspense
       fallback={
         <div className="canvas-loader">
@@ -35,6 +39,7 @@ export default function ThreeScene() {
         </div>
       }
     >
+      {/* three.js container */}
       <Canvas
         camera={{ position: [0, 4, 12], fov: 50 }}
         shadows
@@ -55,10 +60,11 @@ export default function ThreeScene() {
           mieCoefficient={0.005}
           mieDirectionalG={0.8}
         />
+        
         <Cloud
           position={[0, 2.5, -10]}
           speed={0.2}
-          opacity={0.4}
+          opacity={0.4} 
           segments={20}
         />
         <Cloud
@@ -94,7 +100,7 @@ export default function ThreeScene() {
         <CameraRig />
         <OrbitControls
           enablePan={false}
-          enableRotate={true}
+          enableRotate={false}
           enableZoom={false}
           target={[0, 4.5, 0]}
         />

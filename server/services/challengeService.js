@@ -28,6 +28,7 @@ Format the response as a JSON array of objects with these fields:
 - "challengeType": Must be exactly one of this string: "Eco-Habit"
 - "category": should always be "Daily"
 - "description": A single sentence challenge description
+- "type": A single word from these selections to ensure variety "planting", "cleaning", "recycling", "conserving", "reducing", "composting"
 - "experienceReward": A number between 33-133
 Challenges should be suitable for all ages and not require special equipment or long travel.
 Example of desired format:
