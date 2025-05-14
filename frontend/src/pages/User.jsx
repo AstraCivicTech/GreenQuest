@@ -11,28 +11,38 @@ import ScientistCharacter from "../components3D/ScientistCharacter";
 import SpeechBubble from "../components/SpeechBubble";
 
 export default function UserPage() {
+  // On this first line we access our user context to get the current user and level information
   const { currentUser, levelInfo } = useContext(CurrentUserContext);
+  // here we keep track of the state of user profile
   const [userProfile, setUserProfile] = useState(null);
   const [error, setError] = useState(null);
+  // this is an intro scene to give players a sense of purpose when they first sign up and log in
   const [showIntro, setShowIntro] = useState(false);
+  // useParams is used to extract the user ID from the URL
   const { id } = useParams();
+  // keeps track of current user profile
   const isCurrentUserProfile = currentUser && currentUser.id === Number(id);
 
+  // Every time a new user logs in re-render the component to fetch their profile data
   useEffect(() => {
     const loadUser = async () => {
+      // sends a request to the backend using UserId to fetch user data
       const [user, error] = await getUser(id);
       if (error) return setError(error);
       setUserProfile(user);
     };
     loadUser();
+    // re-render the component when the user ID changes
   }, [id]);
 
   // Check for first login (temporary local check)
   useEffect(() => {
     if (currentUser && currentUser.id) {
       const key = `seenIntro-${currentUser.id}`;
+      // check if the user has already seen the intro
       if (!localStorage.getItem(key)) {
-        setShowIntro(true);
+        // if not show intro scene
+        setShowIntro(true); // This is temporary, we will replace it with a backend solution to ensure data persists
         localStorage.setItem(key, "true");
       }
     }
@@ -56,7 +66,7 @@ export default function UserPage() {
             <LevelBar />
             <div className="profile-picture-overlay">
               <img
-                src="https://www.perfocal.com/blog/content/images/2021/01/Perfocal_17-11-2019_TYWFAQ_100_standard-3.jpg"
+                src="https://thumbs.wbm.im/pw/small/c8f447e28f84f8ac64100cdb60e71d77.jpg"
                 alt="User Avatar"
                 className="profile-image"
               />

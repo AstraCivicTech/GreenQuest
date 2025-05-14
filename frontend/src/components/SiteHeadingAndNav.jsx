@@ -20,7 +20,7 @@ export default function SiteHeadingAndNav() {
   return (
     <nav className="navbar">
       <div className="nav-container">
-        <h1 className="logo">🌱</h1>
+        <img src="/logo/green-quest-logo1.png" className="logo" />
 
         <ul className="nav-links">
           <li>
@@ -29,9 +29,9 @@ export default function SiteHeadingAndNav() {
 
           {currentUser ? (
             <>
-              <li>
+              {/* <li>
                 <NavLink to="/users">Users</NavLink>
-              </li>
+              </li> */}
 
               <li className="nav-user-menu">
                 <div className="nav-username" onClick={toggleDropdown}>
@@ -49,12 +49,14 @@ export default function SiteHeadingAndNav() {
                   <NavLink to="/settings" className="dropdown-item">
                     Settings
                   </NavLink>
-                  <button
-                    className="dropdown-item logout-button"
-                    onClick={handleLogout}
-                  >
-                    Log Out
-                  </button>
+                  <NavLink to="/">
+                    <button
+                      className="dropdown-item logout-button"
+                      onClick={handleLogout}
+                    >
+                      Log Out
+                    </button>
+                  </NavLink>
                 </div>
               </li>
             </>
