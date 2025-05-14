@@ -1,0 +1,130 @@
+.community-challenges-page {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.challenges-container {
+  background: rgba(20, 40, 30, 0.4);
+  border-radius: 18px;
+  padding: 2rem;
+  margin: 2rem auto;
+  border: 1px solid rgba(0, 255, 153, 0.15);
+  box-shadow: 0 0 18px rgba(0, 255, 153, 0.08);
+  backdrop-filter: blur(14px);
+  font-family: "Segoe UI", sans-serif;
+  color: #ccf8e4;
+}
+
+.challenges-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  padding: 1rem;
+}
+
+.community-challenge-card {
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(0, 255, 153, 0.15);
+  border-radius: 14px;
+  padding: 1.2rem;
+  transition: background 0.3s ease, transform 0.2s ease;
+  backdrop-filter: blur(4px);
+}
+
+.community-challenge-card:hover {
+  background-color: rgba(0, 255, 153, 0.07);
+  transform: translateY(-2px);
+}
+
+.community-challenge-card.completed {
+  opacity: 0.7;
+  background-color: rgba(0, 255, 153, 0.07);
+  position: relative;
+  overflow: hidden;
+}
+
+.community-challenge-card.completed::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: rgba(110, 231, 183, 0.5);
+  animation: strikethrough 0.3s ease-out forwards;
+  transform-origin: left;
+}
+
+@keyframes strikethrough {
+  0% {
+    transform: scaleX(0);
+  }
+  100% {
+    transform: scaleX(1);
+  }
+}
+
+.community-challenge-card h3 {
+  color: #6ee7b7;
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  text-shadow: 0 0 6px rgba(0, 255, 153, 0.2);
+}
+
+.challenge-description {
+  color: #d1fae5;
+  font-size: 1rem;
+  margin: 1rem 0;
+  line-height: 1.5;
+}
+
+.challenge-description.completed {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.challenge-exp {
+  color: #10b981;
+  font-weight: bold;
+  font-size: 0.9rem;
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.challenge-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(0, 255, 153, 0.15);
+}
+
+.challenge-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #6ee7b7;
+}
+
+.challenge-checkbox input[type="checkbox"] {
+  accent-color: #10b981;
+  width: 1.2rem;
+  height: 1.2rem;
+  cursor: pointer;
+}
+
+.challenge-checkbox input[type="checkbox"]:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.challenges-container h2 {
+  color: #6ee7b7;
+  font-size: 1.6rem;
+  margin-bottom: 1.2rem;
+  text-align: center;
+  text-shadow: 0 0 6px rgba(0, 255, 153, 0.2);
+}

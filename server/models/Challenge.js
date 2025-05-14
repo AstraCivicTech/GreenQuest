@@ -42,13 +42,12 @@ class Challenge {
     try {
       console.log("Inserting community challenge:", challengeInstance);
       await knex("dailyAndCommunityChallenges").insert({
-        category: "Community",
+        category: "community",
         challengeType: "Eco-Habit",
         description: challengeInstance.description,
         experienceReward: Math.floor(Math.random() * (133 - 33 + 1) + 33),
         userId: challengeInstance.userId, // this should be passed in from the form
       });
-      return { success: true };
     } catch (error) {
       console.error("Error inserting community challenge:", error);
       return {
@@ -63,6 +62,12 @@ class Challenge {
     return await knex("dailyAndCommunityChallenges")
       .select("id", "description", "experienceReward")
       .where({ category });
+  }
+  // used to get the id for user challenges
+  static async getChallengeForID() {
+    return await knex("dailyAndCommunityChallenges")
+      .select("id", "userId", "description", "experienceReward")
+      .where("community");
   }
 
   // Check if a user already completed a challenge
@@ -87,7 +92,8 @@ class Challenge {
         // Unique violation: already completed
         return { success: false, message: "Challenge already completed." };
       }
-      throw error;
+      console.error("Error completing challenge:", error);
+      return { success: false, message: "Failed to complete challenge" };
     }
   }
 
@@ -95,7 +101,7 @@ class Challenge {
   static async resetDailyChallenges() {
     // deletes all rows from dailyAndCommunityChallenges table (must delete rows not drop table in order to avoid reseting the ids)
     await knex("dailyAndCommunityChallenges")
-      .where({ category: "Daily" })
+      .where({ category: "daily" })
       .del();
 
     // make the call here to record the new daily and community challenges into the database

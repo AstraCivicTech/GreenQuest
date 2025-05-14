@@ -1,180 +1,17 @@
-// import { useContext, useEffect, useState } from "react";
-// import { useParams } from "react-router-dom";
-// // import { generateUniqueId } from '../utils/generateId'; // Likely not needed here anymore
-// // import { getDailyChallenges } from '../adapters/ai-adapters'; // AI adapter removed
-// import {
-//   getUserLevelInfo,
-//   updateUserLevelInfo,
-// } from "../adapters/user-adapter";
-// import {
-//   // getChallenges, // Removed if activeTab is removed
-//   getChallenges,
-//   getCompletedChallenges,
-//   completeChallenge,
-//   // getDailyChallengesFromDB, // << ASSUMED NEW ADAPTER FUNCTION
-// } from "../adapters/challenge-adapter";
-// import CurrentUserContext from "../contexts/current-user-context";
-// import "../styles/dailyChallenges.css";
-
-// // Removed activeTab from props
-// export const DailyChallenges = ({ activeTab }) => {
-//   const { id } = useParams(); // User ID
-//   const { levelInfo, setLevelInfo } = useContext(CurrentUserContext);
-//   const [completedChallenges, setCompletedChallenges] = useState([]);
-//   const [dailyChallenges, setDailyChallenges] = useState([]); // This will hold challenges from DB
-//   const [error, setError] = useState(null);
-//   // const [challenges, setChallenges] = useState([]); // Removed, was for activeTab
-
-//   //////////////////////////////
-//   // useEffect: fetches user level info, daily challenges from DB, and completed challenges
-//   //////////////////////////////
-
-//   useEffect(() => {
-//     const fetchComponentData = async () => {
-//       if (!id) return; // Ensure user ID is present
-
-//       setError(null); // Reset error on new fetch
-//       try {
-//         // Fetch user level info
-//         const [levelData, levelError] = await getUserLevelInfo(id);
-//         if (levelError) {
-//           console.error("Error fetching level info:", levelError);
-//           setError(
-//             (error) =>
-//               (error ? error + "\n" : "") + "Failed to fetch level info."
-//           );
-//         } else {
-//           setLevelInfo(levelData);
-//         }
-
-//         // Fetch daily challenges from the database
-//         const [dbDailyChallenges, dbDailyError] = await getChallenges(
-//           activeTab
-//         );
-//         if (dbDailyError) {
-//           console.error(
-//             "Error fetching daily challenges from DB:",
-//             dbDailyError
-//           );
-//           setError(
-//             (error) =>
-//               (error ? error + "\n" : "") + "Failed to load daily challenges."
-//           );
-//           setDailyChallenges([]); // Clear or set to empty on error
-//         } else {
-//           setDailyChallenges(dbDailyChallenges || []);
-//         }
-
-//         // Fetch completed challenges
-//         const [completed, completedError] = await getCompletedChallenges(id);
-//         if (completedError) {
-//           console.error("Error fetching completed challenges:", completedError);
-//           // Optionally set an error state or just log
-//         } else {
-//           setCompletedChallenges((completed || []).map(Number));
-//         }
-//       } catch (err) {
-//         console.error("Unexpected error in fetchComponentData:", err);
-//         setError("An unexpected error occurred.");
-//         setDailyChallenges([]);
-//       }
-//     };
-
-//     fetchComponentData();
-//     // Dependencies: id, setLevelInfo.
-//     // getDailyChallengesFromDB might need to be stable or wrapped in useCallback if it were a prop.
-//   }, [id, setLevelInfo]);
-
-//   //////////////////////////////
-//   // handleChallengeComplete: when a challenge is completed this sets the new level info and marks the challenge as complete
-//   //////////////////////////////
-
-//   const handleChallengeComplete = async (challenge) => {
-//     // Assuming challenge.exp is the correct property for experience points
-//     // and matches the data structure from your daily_challenges table.
-//     const newExp = levelInfo.exp + challenge.exp;
-
-//     // First, update level info locally and on the backend
-//     const [updatedInfo, levelUpdateError] = await updateUserLevelInfo(
-//       id,
-//       newExp
-//     );
-//     if (levelUpdateError) {
-//       console.error("Error updating level info:", levelUpdateError);
-//       // Potentially show an error to the user
-//       return;
-//     }
-//     setLevelInfo(updatedInfo);
-
-//     // Then, mark challenge as complete on the backend
-//     // This 'completeChallenge' adapter needs to correctly target the daily challenge in the DB
-//     const [_, completionError] = await completeChallenge(id, challenge.id);
-//     if (completionError) {
-//       console.error("Challenge completion error:", completionError);
-//       // Potentially revert level update or show error
-//       // For now, we'll keep the local state for completed challenges optimistic if backend fails
-//       // but ideally, this would be more robust.
-//       return;
-//     }
-
-//     // Update local state for completed challenges
-//     setCompletedChallenges((prev) => [...prev, Number(challenge.id)]);
-//   };
-
-//   // Removed handleClick and generateDaily functions
-
-//   if (error) {
-//     return <div className="daily-challenges-container error-text">{error}</div>;
-//   }
-
-//   if (!levelInfo) {
-//     // or a more specific loading state
-//     return (
-//       <div className="daily-challenges-container">
-//         <p>Loading user data...</p>
-//       </div>
-//     );
-//   }
-
-//   return (
-//     <div className="daily-challenges-container">
-//       <h3>Today's Challenges</h3>
-//       {/* Removed Generate Challenges button */}
-//       {dailyChallenges.length === 0 && !error && (
-//         <p>No daily challenges available at the moment, or still loading...</p>
-//       )}
-//       <ul>
-//         {dailyChallenges.map((challenge) => (
-//           <li key={challenge.id} style={{ marginBottom: "1em" }}>
-//             <label>
-//               <input
-//                 type="checkbox"
-//                 checked={completedChallenges.includes(challenge.id)} // Use checked for controlled component
-//                 disabled={completedChallenges.includes(challenge.id)}
-//                 onChange={() => handleChallengeComplete(challenge)}
-//               />
-//               {challenge.description} ({challenge.exp} XP)
-//             </label>
-//           </li>
-//         ))}
-//       </ul>
-//     </div>
-//   );
-// };
-import { useContext, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useContext, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import {
   getUserLevelInfo,
   updateUserLevelInfo,
-} from '../adapters/user-adapter';
+} from "../adapters/user-adapter";
 import {
   getChallenges,
   getCompletedChallenges,
   completeChallenge,
   addChallengeToDB,
-} from '../adapters/challenge-adapter';
-import CurrentUserContext from '../contexts/current-user-context';
-import '../styles/dailyChallenges.css';
+} from "../adapters/challenge-adapter";
+import CurrentUserContext from "../contexts/current-user-context";
+import "../styles/dailyChallenges.css";
 
 export const DailyChallenges = ({ activeTab }) => {
   const { id } = useParams(); // user ID from route
@@ -183,36 +20,60 @@ export const DailyChallenges = ({ activeTab }) => {
     setLevelInfo,
     completedChallenges,
     setCompletedChallenges,
+    currentUser,
   } = useContext(CurrentUserContext);
 
   const [challenges, setChallenges] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchAllData = async () => {
-      const [levelData, levelError] = await getUserLevelInfo(id);
-      if (!levelError) setLevelInfo(levelData);
+      try {
+        setLoading(true);
+        // Use activeTab prop for category
+        const dailyResponse = await getChallenges("daily");
+        console.log("Response (daily):", dailyResponse); // Add this for debugging
 
-      const [challengeData, challengeError] = await getChallenges(activeTab);
-      if (!challengeError) setChallenges(challengeData);
+        if (!dailyResponse.ok) {
+          throw new Error("Failed to fetch challenges");
+        }
 
-      const [completed, completedError] = await getCompletedChallenges(id);
-      if (!completedError) {
-        // When app gets a list of completed challenge IDs from the server, it might return them as strings, that's why Number helps avoid this behavior by parsing strs into nums
-        setCompletedChallenges(completed.map(Number));
+        const dailyData = await dailyResponse.json();
+        console.log("Challenge data (daily):", dailyData); // Add this for debugging
+
+        // Fetch completed challenges if user is logged in
+        let completedData = [];
+        if (currentUser) {
+          const completedResponse = await getCompletedChallenges(
+            currentUser.id
+          );
+          if (completedResponse.ok) {
+            completedData = await completedResponse.json();
+          }
+        }
+
+        setChallenges(dailyData);
+        setCompletedChallenges(completedData);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        setError(error.message);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchAllData();
-  }, [id, activeTab, setLevelInfo]);
+  }, [activeTab, currentUser]); // Add activeTab to dependencies
 
   const handleChallengeComplete = async (challenge) => {
     if (!id || !challenge?.id) {
-      console.error('Missing userId or challengeId', { id, challenge });
+      console.error("Missing userId or challengeId", { id, challenge });
       return;
     }
 
     const [_, error] = await completeChallenge(id, challenge.id);
-    if (error) return console.error('Challenge completion error:', error);
+    if (error) return console.error("Challenge completion error:", error);
 
     const newExp = levelInfo.exp + challenge.experienceReward;
     const [updatedInfo, levelError] = await updateUserLevelInfo(id, newExp);
@@ -223,7 +84,10 @@ export const DailyChallenges = ({ activeTab }) => {
     }
   };
 
-  if (!levelInfo || challenges.length === 0) return <p>Loading...</p>;
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
+  if (!levelInfo || challenges.length === 0)
+    return <p>No challenges available</p>;
 
   return (
     <div className="daily-challenges-container">
@@ -237,7 +101,7 @@ export const DailyChallenges = ({ activeTab }) => {
           return (
             <li
               key={challenge.id}
-              className={`challenge-item ${isCompleted ? 'completed' : ''}`}
+              className={`challenge-item ${isCompleted ? "completed" : ""}`}
             >
               <label>
                 <input

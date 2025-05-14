@@ -32,11 +32,14 @@ Please evaluate this eco-challenge description for appropriateness and validity.
 Check for:
 1. Malicious or harmful content
 2. Relevance to environmental sustainability
-3. Feasibility for users to complete
+3. Feasibility for users to complete within a week
+4. Compliance with usa laws and regulations
+
+Though the exact specificity behind it doesn't have to be the crazy. "Water 5 plants", etc is a valid prompt as users are implementing fun challenges for others to do.
 
 Challenge description: "${challenge.description}"
 
-Respond with only "yes" if the challenge is appropriate and valid, or "no" if it should be rejected.
+Respond with only "yes" if the challenge is not malicious, or "no" if it should be rejected. Add a small explanation if you say no.
 `;
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" }); // Use correct method name & version
     const result = await model.generateContent(prompt);
@@ -48,8 +51,9 @@ Respond with only "yes" if the challenge is appropriate and valid, or "no" if it
     if (!valid.includes("yes")) {
       return res.status(400).json({
         success: false,
-        message:
-          "Malicious or invalid challenge description detected, please try again.",
+        message: `Malicious or invalid challenge description detected: ${valid.slice(
+          4
+        )} Please try again.`,
       });
     }
 

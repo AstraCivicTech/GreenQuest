@@ -10,6 +10,7 @@ export const CommunityChallengeForm = () => {
     // Get the form element directly
     const form = event.target;
     const challengeDescription = form.elements["challenge-description"].value;
+    console.log("currentUSER: ", currentUser);
 
     try {
       const response = await fetch("/api/challenges/create", {
@@ -19,7 +20,8 @@ export const CommunityChallengeForm = () => {
         },
         body: JSON.stringify({
           description: challengeDescription,
-          userId: currentUser?.id,
+          userId: currentUser.id,
+          username: currentUser.username,
         }),
       });
 
@@ -29,7 +31,7 @@ export const CommunityChallengeForm = () => {
         setMessage("Failed to submit challenge: " + data.message);
         return;
       }
-
+      console.log("Challenge submitted successfully:", data);
       setMessage("Challenge submitted successfully!");
       form.reset(); // Clear the form
     } catch (error) {

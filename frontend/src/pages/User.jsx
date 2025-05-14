@@ -1,8 +1,9 @@
 import { useContext, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import CurrentUserContext from "../contexts/current-user-context";
 import { getUser, getUserLevelInfo } from "../adapters/user-adapter";
 import { logUserOut } from "../adapters/auth-adapter";
+import { Link } from "react-router-dom";
 import UpdateUsernameForm from "../components/UpdateUsernameForm";
 import LevelBar from "../components/LevelBar";
 import ChallengesIcon from "../components/ChallengesIcon";
@@ -60,6 +61,13 @@ export default function UserPage() {
         <p className="bio">
           Nature enthusiast trying to change the world one challenge at a time
         </p>
+        <button
+          onClick={() => navigate(`/community-challenges`)}
+          className="community-button"
+          disabled={!currentUser}
+        >
+          Community Page
+        </button>
 
         {isCurrentUserProfile && (
           <>
@@ -70,7 +78,6 @@ export default function UserPage() {
             <button className="logout-button" onClick={handleLogout}>
               Log Out
             </button>
-            <CommunityChallengeForm />
             <LevelBar />
             <ChallengesIcon />
           </>

@@ -28,7 +28,7 @@ async function fetchAndProcessDailyChallenges() {
 Generate 3 real-life daily challenges following this theme: Eco Habit. Challenges should be short (1 sentence), engaging, and written in the tone of an energetic game master. Each challenge should have a unique name and a playful description that encourages real-world action.
 Format the response as a JSON array of objects with these fields:
 - "challengeType": Must be exactly "Eco-Habit"
-- "category": should always be "Daily"
+- "category": should always be "daily"
 - "description": A single sentence challenge description
 - "experienceReward": A number between 33-133
 Challenges should be suitable for all ages and not require special equipment or long travel.
@@ -36,7 +36,7 @@ Example of desired format:
 [
   {
     "challengeType": "Eco-Habit",
-    "category": "Daily",
+    "category": "daily",
     "description": "Eco-Warriors: Collect all recyclable items in your immediate vicinity and get them to the recycling bin – let's conquer waste!",
     "experienceReward": 78
   },

@@ -105,3 +105,19 @@ exports.updateLevelInfo = async (req, res) => {
     });
   }
 };
+
+exports.getUsername = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const user = await User.find(id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found." });
+    }
+
+    res.json({ username: user.username });
+  } catch (error) {
+    console.error("Error fetching username:", error);
+    res.status(500).json({ message: "Something went wrong." });
+  }
+};

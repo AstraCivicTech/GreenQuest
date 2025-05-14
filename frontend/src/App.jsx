@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import HomePage from "./pages/Home";
 import SignUpPage from "./pages/SignUp";
 import LoginPage from "./pages/Login";
+import { CommunityChallengesPage } from "./pages/CommunityChallenges";
 import SiteHeadingAndNav from "./components/SiteHeadingAndNav";
 import NotFoundPage from "./pages/NotFound";
 import UserContext from "./contexts/current-user-context";
@@ -34,6 +35,10 @@ export default function App() {
           <Route path="/sign-up" element={<SignUpPage />} />
           <Route path="/users" element={<UsersPage />} />
           <Route path="/users/:id" element={<UserPage />} />
+          <Route
+            path="/community-challenges"
+            element={<CommunityChallengesPage />}
+          />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>

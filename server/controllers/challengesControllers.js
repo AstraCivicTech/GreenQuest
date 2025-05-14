@@ -3,15 +3,27 @@ const knex = require("../db/knex");
 
 exports.getChallenges = async (req, res) => {
   const { category } = req.query;
+  console.log("Raw category received:", category);
 
   try {
     if (!category) {
       return res.status(400).json({ message: "Category is required." });
     }
 
-    const challenges = await knex("dailyAndCommunityChallenges").where({
-      category,
-    });
+    const normalizedCategory = category.toLowerCase();
+    console.log("Normalized category:", normalizedCategory);
+
+    const challenges = await knex("dailyAndCommunityChallenges")
+      .whereRaw("LOWER(category) = ?", [normalizedCategory])
+      .debug(); // Add this to see the actual SQL query
+
+    console.log("Found challenges:", challenges);
+
+    if (challenges.length === 0) {
+      return res.status(404).json({
+        message: `No challenges found for category: ${category}`,
+      });
+    }
 
     res.status(200).json(challenges);
   } catch (error) {
@@ -27,10 +39,17 @@ exports.completeChallenge = async (req, res) => {
   const { userId, challengeId } = req.body;
 
   try {
+    if (!userId || !challengeId) {
+      return res.status(400).json({
+        message: "Missing required fields: userId and challengeId",
+      });
+    }
+
     const result = await Challenge.completeChallenge(userId, challengeId);
     if (!result.success) {
       return res.status(400).json({ message: result.message });
     }
+
     res.status(200).json({ message: "Challenge marked as completed." });
   } catch (error) {
     console.error("Error completing challenge:", error);

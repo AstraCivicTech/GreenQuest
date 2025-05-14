@@ -68,28 +68,32 @@ app.get(
   checkAuthentication,
   userControllers.getLevelInfo
 );
+
+// This endpoint is used to get the users username from the database via
+// the userId when displaying the community challenges
+app.get(
+  "/api/users/:id/username",
+  checkAuthentication,
+  userControllers.getUsername
+);
+
 app.patch(
   "/api/users/:id/level",
   checkAuthentication,
   userControllers.updateLevelInfo
 );
 // routes for managing challenges
-app.get(
-  "/api/challenges",
-  checkAuthentication,
-  challengesControllers.getChallenges
-);
+// changed so authentication is not required
+app.get("/api/challenges", challengesControllers.getChallenges);
 app.get(
   "/api/users/:id/completed-challenges",
   checkAuthentication,
   challengesControllers.getCompletedChallenges
 );
-app.post(
-  "/api/challenges/complete",
-  checkAuthentication,
-  challengesControllers.completeChallenge
-);
+app.post("/api/challenges/complete", challengesControllers.completeChallenge);
 app.post("/api/challenges/create", validateAndProcessCommunityChallenges);
+// This endpoint is used to get all the community challenges from the database
+app.get("/api/challenges/community", challengesControllers.getChallenges);
 ///////////////////////////////
 // Fallback Routes
 ///////////////////////////////
