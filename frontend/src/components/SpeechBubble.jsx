@@ -3,7 +3,8 @@ import "../styles/SpeechBubble.css";
 
 export default function SpeechBubble({ username }) {
   const messages = [
-    `Welcome back, ${username}! 🌱`,
+    `Welcome, ${username}! 🌱`,
+    "My name is Dr. Green, your guide on this eco-adventure.",
     "Here on Green Quest, our mission is simple: turn small actions into big change.",
     "By completing eco-friendly challenges, you gain experience and level up!",
     "Your level reflects your impact — the more actions you take, the greener your legacy.",

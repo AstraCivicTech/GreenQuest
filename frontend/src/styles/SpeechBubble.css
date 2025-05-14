@@ -1,18 +1,31 @@
+/* Inside User.css or SpeechBubble.css */
+
 .speech-bubble {
-  background: #ffffff;
-  border-radius: 12px;
-  border: 2px solid #d3f7de;
-  box-shadow: 0 4px 16px rgba(30, 160, 120, 0.15);
-  padding: 1rem 1.2rem;
-  max-width: 450px;
   position: fixed;
-  bottom: 580px;
-  right: 5;
-  font-size: 0.95rem;
-  color: #2c5f4a;
-  cursor: pointer;
-  z-index: 15;
-  transition: all 0.3s ease-in-out;
+  bottom: 590px; /* Adjust height above character */
+  right: 15%;
+  transform: translateX(50%);
+  background-color: white;
+  color: #222;
+  padding: 12px 30px;
+  border-radius: 14px;
+  max-width: 350px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  font-size: 1.05rem;
+  font-family: "Poppins", sans-serif;
+  z-index: 1000;
+  pointer-events: auto;
+}
+
+.speech-bubble::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 10px;
+  border-style: solid;
+  border-color: white transparent transparent transparent;
 }
 
 .speech-bubble p {

@@ -116,14 +116,6 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
-/* Challenges Icon Placement */
-.bottom-right-widget {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 10;
-}
-
 /* Level Info */
 .level-info-text {
   text-align: center;
@@ -199,27 +191,31 @@
 .challenges-and-scientist {
   display: flex;
   flex-direction: row;
-  gap: 2rem;
+  gap: -5rem;
   align-items: flex-start;
-}
-
-.character-widget {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.character-canvas-wrapper {
-  width: 180px;
-  height: 220px;
 }
 
 .challenges-and-scientist {
+  position: relative; /* Needed for absolute positioning to work inside */
+}
+
+.character-widget {
+  position: absolute;
+  right: -60px; /* adjust as needed */
+  top: 0;
+  margin-top: 13%;
+  z-index: 10;
   display: flex;
-  flex-direction: row;
-  gap: 2.5rem;
-  align-items: flex-start;
-  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: none; /* ensures it's non-blocking */
+}
+
+.character-canvas-wrapper {
+  width: 260px;
+  height: 380px;
+  margin-right: -180px;
+  pointer-events: none;
 }
 
 /* Responsive layout stacking */

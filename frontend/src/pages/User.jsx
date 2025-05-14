@@ -1,3 +1,4 @@
+// src/pages/UserPage.jsx
 import { useContext, useEffect, useState, Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
 import { useParams } from "react-router-dom";
@@ -13,6 +14,7 @@ export default function UserPage() {
   const { currentUser, levelInfo } = useContext(CurrentUserContext);
   const [userProfile, setUserProfile] = useState(null);
   const [error, setError] = useState(null);
+  const [showIntro, setShowIntro] = useState(false);
   const { id } = useParams();
   const isCurrentUserProfile = currentUser && currentUser.id === Number(id);
 
@@ -24,6 +26,17 @@ export default function UserPage() {
     };
     loadUser();
   }, [id]);
+
+  // Check for first login (temporary local check)
+  useEffect(() => {
+    if (currentUser && currentUser.id) {
+      const key = `seenIntro-${currentUser.id}`;
+      if (!localStorage.getItem(key)) {
+        setShowIntro(true);
+        localStorage.setItem(key, "true");
+      }
+    }
+  }, [currentUser]);
 
   if (error) return <p>Sorry, could not load user.</p>;
   if (!userProfile) return null;
@@ -50,7 +63,6 @@ export default function UserPage() {
             </div>
           </div>
 
-          {/* Level Info */}
           {levelInfo && (
             <div className="level-info-text">
               <p className="level-title">
@@ -74,25 +86,26 @@ export default function UserPage() {
           </div>
         </div>
 
-        {/* Challenges + Scientist Character */}
+        {/* Daily Challenges + Optional Character */}
         <div className="challenges-and-scientist">
           <DailyChallenges />
 
-          <div className="character-widget">
-            <div className="character-canvas-wrapper">
-              <Canvas camera={{ position: [-4.5, 2, -2], fov: -100 }}>
-                <ambientLight />
-                <Suspense fallback={null}>
-                  <ScientistCharacter />
-                </Suspense>
-              </Canvas>
+          {showIntro && (
+            <div className="character-widget">
+              <div className="character-canvas-wrapper">
+                <Canvas camera={{ position: [0, 1.5, 3], fov: 80 }}>
+                  <ambientLight />
+                  <Suspense fallback={null}>
+                    <ScientistCharacter />
+                  </Suspense>
+                </Canvas>
+              </div>
+              <SpeechBubble username={profileUsername} />
             </div>
-            <SpeechBubble username={profileUsername} />
-          </div>
+          )}
         </div>
       </div>
 
-      {/* Posts Section */}
       <div className="user-posts">
         <h2 className="activity">Activity</h2>
         <p>This user hasn't posted anything yet.</p>

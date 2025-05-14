@@ -1,4 +1,3 @@
-// src/components/ScientistCharacter.jsx
 import { useGLTF, useAnimations } from "@react-three/drei";
 import { useRef, useEffect } from "react";
 import "../styles/ThreeCharacter.css";
@@ -18,9 +17,9 @@ export default function ScientistCharacter(props) {
     <primitive
       object={scene}
       ref={ref}
-      position={[-1, 4.5, 1.5]}
-      scale={props.scale || [5.5, 5.5, 5.5]}
-      rotation={[Math.PI, Math.PI, -0.2]} // only Y-axis to face camera
+      position={[0.4, -1.2, 0.3]}
+      scale={props.scale || [1.8, 1.8, 1.8]}
+      rotation={[0, -2.5, 0]} // Face camera
       {...props}
     />
   );
