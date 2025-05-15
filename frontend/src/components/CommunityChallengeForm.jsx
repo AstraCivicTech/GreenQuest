@@ -26,6 +26,7 @@ export const CommunityChallengeForm = ({ refresh }) => {
         body: JSON.stringify({
           description: challengeDescription,
           userId: currentUser.id,
+
           username: currentUser.username,
         }),
       });

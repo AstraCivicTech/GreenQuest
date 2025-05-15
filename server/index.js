@@ -89,11 +89,7 @@ app.get(
   checkAuthentication,
   challengesControllers.getCompletedChallenges
 );
-app.post(
-  "/api/challenges/complete",
-  checkAuthentication,
-  challengesControllers.completeChallenge
-);
+app.post("/api/challenges/complete", challengesControllers.completeChallenge);
 app.post("/api/challenges/create", challengesControllers.createChallenge);
 ///////////////////////////////
 // Fallback Routes

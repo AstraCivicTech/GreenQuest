@@ -21,12 +21,14 @@ export const getCompletedChallenges = async (userId) => {
 };
 
 export const completeChallenge = async (userId, challengeId) => {
+  console.log("adapters userId:", userId, "challenge id:", challengeId);
   if (!userId || !challengeId) {
     throw new Error(
       "User ID and Challenge ID are required to complete a challenge."
     );
   }
   const body = { userId, challengeId };
+  console.log("body (challenge adapter, complete challenge):", body);
   return await fetchHandler(`${baseUrl}/complete`, getPostOptions(body));
 };
 

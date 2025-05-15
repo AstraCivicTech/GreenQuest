@@ -41,7 +41,7 @@ Example of desired format:
 // Cron expression format: 'minute hour day-of-month month day-of-week'
 // IMPORTANT: Change this back to '0 0 * * *' for daily execution at midnight after testing!
 cron.schedule(
-  "*/1 * * * *", // Runs every minute
+  "0 0 * * *", // Runs every day
   async () => {
     console.log(
       `[${new Date().toISOString()}] Running scheduled job: Fetching new daily challenges...`

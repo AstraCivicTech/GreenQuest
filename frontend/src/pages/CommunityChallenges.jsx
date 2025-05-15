@@ -1,13 +1,16 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { CommunityChallengeForm } from "../components/CommunityChallengeForm";
 import { CommunityChallengeCard } from "../components/CommunityChallengeCards";
 import { getChallenges } from "../adapters/challenge-adapter";
+import { getUserLevelInfo } from "../adapters/user-adapter";
+import CurrentUserContext from "../contexts/current-user-context";
 import "../styles/CommunityChallengePage.css";
 
 export const CommunityChallenges = () => {
   const [challenges, setChallenges] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { levelInfo, setLevelInfo } = useContext(CurrentUserContext);
 
   const fetchChallenges = async () => {
     try {
@@ -33,11 +36,17 @@ export const CommunityChallenges = () => {
     }
   };
 
+  const fetchLevelInfo = async () => {
+    const [levelData, levelError] = await getUserLevelInfo(id);
+    if (!levelError) setLevelInfo(levelData);
+  };
+
   const refresh = () => {
     fetchChallenges();
   };
 
   useEffect(() => {
+    fetchLevelInfo();
     fetchChallenges();
   }, []);
 
@@ -54,7 +63,12 @@ export const CommunityChallenges = () => {
 
       <div className="challenges-grid">
         {challenges.map((challenge) => (
-          <CommunityChallengeCard key={challenge.id} challenge={challenge} />
+          <CommunityChallengeCard
+            key={challenge.id}
+            challenge={challenge}
+            levelInfo={levelInfo}
+            setLevelInfo={setLevelInfo}
+          />
         ))}
       </div>
     </div>

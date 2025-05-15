@@ -25,9 +25,11 @@ exports.getChallenges = async (req, res) => {
 
 exports.completeChallenge = async (req, res) => {
   const { userId, challengeId } = req.body;
+  console.log("inside completeChallenge (controllers):", userId, challengeId);
 
   try {
     const result = await Challenge.completeChallenge(userId, challengeId);
+    console.log("result (complete, controllers):", result);
     if (!result.success) {
       return res.status(400).json({ message: result.message });
     }
