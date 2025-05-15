@@ -48,6 +48,10 @@ export const CommunityChallengeCard = ({
 
     const completed = await fetchCompleted();
 
+    if (completed) {
+      setCompletedChallenges(completed);
+    }
+
     console.log(
       `Level Exp: ${levelInfo.exp} | Challenge Exp: ${challenge.experienceReward}`
     );
@@ -56,18 +60,17 @@ export const CommunityChallengeCard = ({
 
     if (!levelError) {
       setLevelInfo(updatedInfo);
+      setIsCompleted(true);
     }
 
     console.log("inside handleComplete (completedChallenges):", completed);
     console.log("bool check:", completed.includes(Number(challenge.id)));
-    setIsCompleted(true);
     console.log("onClick event finished");
-    window.location.reload();
   };
 
   useEffect(() => {
     setIsCompleted(completedChallenges.includes(Number(challenge.id)));
-  }, [handleChallengeComplete]);
+  }, [completedChallenges, challenge.id]);
 
   return (
     <div
