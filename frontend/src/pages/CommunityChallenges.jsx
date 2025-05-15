@@ -1,7 +1,10 @@
 import { useState, useEffect, useContext } from "react";
 import { CommunityChallengeForm } from "../components/CommunityChallengeForm";
 import { CommunityChallengeCard } from "../components/CommunityChallengeCards";
-import { getChallenges } from "../adapters/challenge-adapter";
+import {
+  getChallenges,
+  getCompletedChallenges2,
+} from "../adapters/challenge-adapter";
 import { getUserLevelInfo } from "../adapters/user-adapter";
 import CurrentUserContext from "../contexts/current-user-context";
 import "../styles/CommunityChallengePage.css";
@@ -10,7 +13,13 @@ export const CommunityChallenges = () => {
   const [challenges, setChallenges] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const { levelInfo, setLevelInfo } = useContext(CurrentUserContext);
+  const {
+    currentUser,
+    levelInfo,
+    setLevelInfo,
+    completedChallenges,
+    setCompletedChallenges,
+  } = useContext(CurrentUserContext);
 
   const fetchChallenges = async () => {
     try {
@@ -41,12 +50,25 @@ export const CommunityChallenges = () => {
     if (!levelError) setLevelInfo(levelData);
   };
 
+  const fetchCompleted = async () => {
+    // "/api/users/completed-challenges"
+    try {
+      console.log("fetch completed current user:", currentUser);
+      const [data, error] = await getCompletedChallenges2(currentUser.id);
+      console.log("data from fe.Comp.:", data);
+      setCompletedChallenges(data);
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
   const refresh = () => {
     fetchChallenges();
   };
 
   useEffect(() => {
     fetchLevelInfo();
+    fetchCompleted();
     fetchChallenges();
   }, []);
 
@@ -68,6 +90,7 @@ export const CommunityChallenges = () => {
             challenge={challenge}
             levelInfo={levelInfo}
             setLevelInfo={setLevelInfo}
+            completedChallenges={completedChallenges}
           />
         ))}
       </div>

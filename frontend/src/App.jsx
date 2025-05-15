@@ -20,6 +20,7 @@ export default function App() {
         return;
       }
       console.log("Current user:", user);
+      // setCurrentUser(user); // Add this line
     };
     loadCurrentUser();
   }, [setCurrentUser]);

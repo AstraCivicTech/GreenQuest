@@ -41,7 +41,13 @@ exports.completeChallenge = async (req, res) => {
 };
 
 exports.getCompletedChallenges = async (req, res) => {
-  const { id } = req.params;
+  console.log("ReqBody:", req.body);
+  const { id } = req.body; // Destructure id from req.body
+
+  if (!id) {
+    return res.status(400).json({ message: "User ID is required" });
+  }
+
   try {
     const completed = await Challenge.getCompletedChallenges(id);
     res.status(200).json(completed);

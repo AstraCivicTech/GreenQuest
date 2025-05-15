@@ -20,6 +20,16 @@ export const getCompletedChallenges = async (userId) => {
   return await fetchHandler(`/api/users/${userId}/completed-challenges`);
 };
 
+export const getCompletedChallenges2 = async (id) => {
+  console.log("inside of get..2:", id);
+  return await fetchHandler(`/api/users/completed-challenges`, {
+    method: "POST",
+    credentials: "include",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ id: Number(id) }), // Send as an object
+  });
+};
+
 export const completeChallenge = async (userId, challengeId) => {
   console.log("adapters userId:", userId, "challenge id:", challengeId);
   if (!userId || !challengeId) {

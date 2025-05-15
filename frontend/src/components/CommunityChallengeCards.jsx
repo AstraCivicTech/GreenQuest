@@ -5,6 +5,7 @@ import { updateUserLevelInfo } from "../adapters/user-adapter";
 import {
   getCompletedChallenges,
   completeChallenge,
+  getCompletedChallenges2,
 } from "../adapters/challenge-adapter";
 import "../styles/ChallengeCards.css";
 
@@ -12,17 +13,24 @@ export const CommunityChallengeCard = ({
   challenge,
   levelInfo,
   setLevelInfo,
+  completedChallenges,
 }) => {
   const [isCompleted, setIsCompleted] = useState(false);
-  const {
-    currentUser,
-    updateUserExp,
-    completedChallenges,
-    setCompletedChallenges,
-  } = useContext(CurrentUserContext);
-
-  console.log("User context: ", currentUser);
+  const { currentUser, updateUserExp, setCompletedChallenges } =
+    useContext(CurrentUserContext);
   const id = currentUser.id;
+
+  const fetchCompleted = async () => {
+    // "/api/users/completed-challenges"
+    try {
+      console.log("fetch completed current user:", currentUser);
+      const [data, error] = await getCompletedChallenges2(currentUser.id);
+      console.log("data from fe.Comp.:", data);
+      return data;
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
 
   const handleChallengeComplete = async (e) => {
     console.log("Challenge card clicked and handleComplete started");
@@ -38,6 +46,8 @@ export const CommunityChallengeCard = ({
     if (error) return;
     console.log("past error");
 
+    const completed = await fetchCompleted();
+
     console.log(
       `Level Exp: ${levelInfo.exp} | Challenge Exp: ${challenge.experienceReward}`
     );
@@ -46,14 +56,18 @@ export const CommunityChallengeCard = ({
 
     if (!levelError) {
       setLevelInfo(updatedInfo);
-      setCompletedChallenges((prev) => [...prev, Number(challenge.id)]);
-
-      const rect = e.target.getBoundingClientRect();
-      triggerParticles(rect.left + 10, rect.top + 10);
     }
 
+    console.log("inside handleComplete (completedChallenges):", completed);
+    console.log("bool check:", completed.includes(Number(challenge.id)));
+    setIsCompleted(true);
     console.log("onClick event finished");
+    window.location.reload();
   };
+
+  useEffect(() => {
+    setIsCompleted(completedChallenges.includes(Number(challenge.id)));
+  }, [handleChallengeComplete]);
 
   return (
     <div

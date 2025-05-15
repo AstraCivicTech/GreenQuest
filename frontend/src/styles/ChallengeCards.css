@@ -14,6 +14,12 @@
   transform: translateY(-2px);
 }
 
+.challenge-card.completed {
+  background-color: #eafaf2;
+  opacity: 0.8;
+  cursor: default;
+}
+
 .challenge-card-content {
   display: flex;
   flex-direction: column;
@@ -32,6 +38,11 @@
   color: #2d5742;
   margin: 0;
   line-height: 1.4;
+}
+
+.challenge-card.completed .challenge-description {
+  text-decoration: line-through;
+  color: #88ab9b;
 }
 
 .challenge-meta {
