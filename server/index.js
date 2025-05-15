@@ -17,6 +17,7 @@ const authControllers = require("./controllers/authControllers");
 const userControllers = require("./controllers/userControllers");
 const aiControllers = require("./controllers/aiControllers");
 const challengesControllers = require("./controllers/challengesControllers");
+const postRoutes = require('./routes/postRoutes');
 
 // Initialize and start the challenge scheduler
 require("./scheduler/challengeScheduler");
@@ -88,6 +89,8 @@ app.post(
   challengesControllers.completeChallenge
 );
 app.post("/api/challenges/create", challengesControllers.createChallenge);
+app.use('/api/posts', postRoutes);
+
 ///////////////////////////////
 // Fallback Routes
 ///////////////////////////////
