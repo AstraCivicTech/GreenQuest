@@ -1,0 +1,40 @@
+.community-challenges-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 1200px;
+  margin: 120px auto 0; /* Increased top margin */
+  padding: 2rem;
+  min-height: calc(100vh - 120px);
+  position: relative; /* Add position relative */
+  z-index: 1; /* Ensure content appears above navbar */
+}
+
+.create-challenge-section {
+  width: 100%;
+  max-width: 800px;
+  margin-bottom: 3rem;
+  text-align: center;
+  padding-top: 2rem; /* Add some padding at the top */
+}
+
+.challenges-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+  width: 100%;
+  padding: 1rem;
+}
+
+h1 {
+  color: #2e7d5f;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+h2 {
+  color: #2e7d5f;
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+}

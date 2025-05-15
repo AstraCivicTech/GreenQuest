@@ -1,0 +1,122 @@
+.challenge-form {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 2rem;
+  width: 100%;
+  max-width: 600px;
+  margin: 1rem auto; /* Add margin */
+  box-shadow: 0 4px 12px rgba(30, 160, 120, 0.1);
+  border: 2px solid #ccebd8;
+  position: relative; /* Add position relative */
+  z-index: 2; /* Ensure form appears above container */
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #2e7d5f;
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #d3f0de;
+  border-radius: 8px;
+  font-size: 1rem;
+  color: #244d38;
+  transition: border-color 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #3bc982;
+  box-shadow: 0 0 0 2px rgba(59, 201, 130, 0.2);
+}
+
+.form-group textarea {
+  min-height: 120px;
+  resize: vertical;
+  font-family: "Poppins", sans-serif;
+  line-height: 1.6;
+  background-color: #f9fdfa;
+  transition: all 0.3s ease;
+  padding: 1rem;
+  margin-top: 0.5rem;
+}
+
+.form-group textarea:hover {
+  background-color: #f0f9f4;
+}
+
+.form-group textarea:focus {
+  background-color: #ffffff;
+  outline: none;
+  border-color: #3bc982;
+  box-shadow: 0 0 0 3px rgba(59, 201, 130, 0.2);
+  transform: translateY(-2px);
+}
+
+.form-group textarea::placeholder {
+  color: #88ab9b;
+  font-style: italic;
+}
+
+.description-counter {
+  font-size: 0.8rem;
+  color: #88ab9b;
+  text-align: right;
+  margin-top: 0.5rem;
+  font-style: italic;
+}
+
+.description-helper {
+  font-size: 0.85rem;
+  color: #2e7d5f;
+  margin-top: 0.25rem;
+  font-style: italic;
+}
+
+.submit-button {
+  background-color: #3bc982;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  width: 100%;
+}
+
+.submit-button:hover {
+  background-color: #34b574;
+  transform: translateY(-2px);
+}
+
+.submit-button:disabled {
+  background-color: #a8e2c9;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.error-message {
+  color: #dc3545;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+}
+
+.success-message {
+  color: #28a745;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+  text-align: center;
+}

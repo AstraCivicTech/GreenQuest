@@ -18,6 +18,9 @@ const userControllers = require("./controllers/userControllers");
 const aiControllers = require("./controllers/aiControllers");
 const challengesControllers = require("./controllers/challengesControllers");
 
+//placeholder
+const validateAndProcessCommunityChallenges = require("./services/communityChallengeService");
+
 // Initialize and start the challenge scheduler
 require("./scheduler/challengeScheduler");
 
@@ -50,6 +53,10 @@ app.delete("/api/auth/logout", authControllers.logoutUser);
 
 app.get("/api/ai/generate", aiControllers.ai);
 app.post("/api/ai/validate", aiControllers.ai); // revisit
+app.post(
+  "/api/challenges/create-community",
+  validateAndProcessCommunityChallenges
+); // changed name to add "-community" reference line 94 for conflicts example
 
 ///////////////////////////////
 // User Routes
