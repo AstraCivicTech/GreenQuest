@@ -100,8 +100,11 @@ export const DailyChallenges = () => {
                   disabled={isCompleted}
                   onChange={(e) => handleChallengeComplete(challenge, e)}
                 />
-                {challenge.description} ({challenge.experienceReward} XP)
+                {challenge.description}
               </label>
+              <span className="exp-points">
+                EXP: {challenge.experienceReward}
+              </span>
             </li>
           );
         })}
