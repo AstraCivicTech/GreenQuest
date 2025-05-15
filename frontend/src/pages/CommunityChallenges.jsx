@@ -9,31 +9,35 @@ export const CommunityChallenges = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const fetchChallenges = async () => {
-      try {
-        const [data, error] = await getChallenges("community");
+  const fetchChallenges = async () => {
+    try {
+      const [data, error] = await getChallenges("community");
 
-        if (error) {
-          throw error;
-        }
-
-        console.log("Fetched data:", data); // Debug log
-
-        const communityChallenges = data.filter(
-          (challenge) => challenge.category === "community"
-        );
-        console.log("Filtered challenges:", communityChallenges); // Debug log
-
-        setChallenges(communityChallenges);
-        setIsLoading(false);
-      } catch (err) {
-        console.error("Fetch error:", err); // Debug log
-        setError(err.message);
-        setIsLoading(false);
+      if (error) {
+        throw error;
       }
-    };
 
+      console.log("Fetched data:", data); // Debug log
+
+      const communityChallenges = data.filter(
+        (challenge) => challenge.category === "community"
+      );
+      console.log("Filtered challenges:", communityChallenges); // Debug log
+
+      setChallenges(communityChallenges);
+      setIsLoading(false);
+    } catch (err) {
+      console.error("Fetch error:", err); // Debug log
+      setError(err.message);
+      setIsLoading(false);
+    }
+  };
+
+  const refresh = () => {
+    fetchChallenges();
+  };
+
+  useEffect(() => {
     fetchChallenges();
   }, []);
 
@@ -44,7 +48,7 @@ export const CommunityChallenges = () => {
     <div className="community-challenges-container">
       <div className="create-challenge-section">
         <h2>Create a New Challenge</h2>
-        <CommunityChallengeForm />
+        <CommunityChallengeForm refresh={refresh} />
       </div>
       <h1>Community Challenges</h1>
 

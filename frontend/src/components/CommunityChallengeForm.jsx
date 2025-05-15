@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import CurrentUserContext from "../contexts/current-user-context";
 import "../styles/CreateForm.css";
 
-export const CommunityChallengeForm = () => {
+export const CommunityChallengeForm = ({ refresh }) => {
   const { currentUser } = useContext(CurrentUserContext);
   const [message, setMessage] = useState("");
 
@@ -41,6 +41,7 @@ export const CommunityChallengeForm = () => {
       console.log("Challenge submitted successfully:", data);
       setMessage("Challenge submitted successfully!");
       form.reset(); // Clear the form
+      refresh();
     } catch (error) {
       console.error("Error submitting challenge:", error);
       setMessage("Error submitting challenge. Please try again.");

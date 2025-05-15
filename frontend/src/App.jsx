@@ -8,7 +8,6 @@ import { CommunityChallenges } from "./pages/CommunityChallenges";
 import NotFoundPage from "./pages/NotFound";
 import UserContext from "./contexts/current-user-context";
 import { checkForLoggedInUser } from "./adapters/auth-adapter";
-import UsersPage from "./pages/Users";
 import UserPage from "./pages/User";
 
 export default function App() {
@@ -33,7 +32,6 @@ export default function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/sign-up" element={<SignUpPage />} />
-          <Route path="/users" element={<UsersPage />} />
           <Route path="/users/:id" element={<UserPage />} />
           <Route path="*" element={<NotFoundPage />} />
           <Route

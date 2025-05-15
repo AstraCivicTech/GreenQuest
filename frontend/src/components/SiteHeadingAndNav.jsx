@@ -27,12 +27,13 @@ export default function SiteHeadingAndNav() {
             <NavLink to="/">Home</NavLink>
           </li>
 
-          <li>
-            <NavLink to="/community-challenges">Community Challenges</NavLink>
-          </li>
-
           {currentUser ? (
             <>
+              <li>
+                <NavLink to="/community-challenges">
+                  Community Challenges
+                </NavLink>
+              </li>
               <li className="nav-user-menu">
                 <div className="nav-username" onClick={toggleDropdown}>
                   <NavLink to={`/users/${currentUser.id}`}>
