@@ -1,3 +1,5 @@
+require("dotenv").config({
+  path: require("path").resolve(__dirname, "../.env"),
 /* eslint-disable max-len */
 /* eslint-disable func-style */
 require('dotenv').config({
@@ -12,7 +14,7 @@ const { API_KEY , API_KEY_2} = process.env;
 // Ensure the API key is defined in the environment variables file.
 if (!API_KEY) {
   console.error(
-    'API_KEY is not defined. Please check your .env file in the server directory.'
+    "API_KEY is not defined. Please check your .env file in the server directory."
   );
 }
 
@@ -20,9 +22,10 @@ if (!API_KEY) {
 const prompt = `Return ONLY valid JSON without any markdown formatting or code blocks.
 Generate 3 real-life daily challenges following these themes: Eco Habit, Nature Appreciation, and Community Engagement. Challenges should be short (1 sentence), engaging, and written in the tone of an energetic game master. Each challenge should have a unique name and a playful description that encourages real-world action.
 Format the response as a JSON array of objects with these fields:
-- "challengeType": Must be exactly one of these strings: "Eco-Habit", "Nature Appreciation", or "Community Engagement"
+- "challengeType": Must be exactly one of this string: "Eco-Habit"
 - "category": should always be "Daily"
 - "description": A single sentence challenge description
+- "type": A single word from these selections to ensure variety "planting", "cleaning", "recycling", "conserving", "reducing", "composting"
 - "experienceReward": A number between 33-133
 Challenges should be suitable for all ages and not require special equipment or long travel.
 Example of desired format:
@@ -32,18 +35,6 @@ Example of desired format:
     "category": "Daily",
     "description": "Today's mission, Eco-Warriors: Collect all recyclable items in your immediate vicinity and get them to the recycling bin – let's conquer waste!",
     "experienceReward": 78
-  },
-  {
-    "challengeType": "Nature Appreciation",
-    "category": "Daily",
-    "description": "Calling all Nature Scouts! Spend 10 minutes observing and writing down 3 details you notice about nature around you – a flower's color, a bird's song, anything! Let's unlock nature's secrets!",
-    "experienceReward": 124
-  },
-  {
-    "challengeType": "Community Engagement",
-    "category": "Daily",
-    "description": "Citizens of Kindness Kingdom! Perform a small act of kindness for a neighbor or family member today – a helping hand earns you major points in the Kindness Games!",
-    "experienceReward": 92
   }
 ]`
 
@@ -127,12 +118,22 @@ async function processDailyChallenges() {
     // 3. Store these challenges in the database.
     // IMPORTANT: Adjust 'daily_challenges' to your actual table name.
     // This example deletes all old challenges and inserts new ones.
-    console.log('Deleting old daily challenges...');
+    console.log("Deleting old daily challenges...");
     Challenge.resetDailyChallenges();
 
-    console.log('Inserting new daily challenges...', challengesArray);
+    console.log("Inserting new daily challenges...", challengesArray);
 
     challengesArray.forEach((challenge) => {
+      // Ensure the challenge object has the correct structure
+      if (
+        !challenge.category ||
+        !challenge.challengeType ||
+        !challenge.description ||
+        !challenge.experienceReward
+      ) {
+        throw new Error("Challenge object is missing required fields");
+      }
+
       // add the challenge to the database
       Challenge.addChallengeToDB(challenge);
     });

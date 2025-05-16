@@ -2,20 +2,30 @@
   position: fixed;
   bottom: 30px;
   right: 30px;
-  background-color: #3ba96f; /* Eco green */
-  color: white;
-  border: none;
-  border-radius: 50px;
-  padding: 14px 24px;
+  background-color: #b4e7c0; /* pastel eco-green */
+  color: #2b5f4e;
+  border: 2px solid #a2d9b0;
+  border-radius: 30px;
+  padding: 12px 20px;
   font-size: 16px;
-  font-weight: bold;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  font-weight: 600;
+  font-family: "Poppins", sans-serif;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  z-index: 1000; /* Always on top */
+  transition: all 0.25s ease;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .challenges-icon-button:hover {
-  background-color: #2f8056;
-  transform: scale(1.05);
+  background-color: #c8f2d2;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.challenges-icon-button::before {
+  content: "🍃"; /* simple and cute leaf */
+  font-size: 18px;
 }

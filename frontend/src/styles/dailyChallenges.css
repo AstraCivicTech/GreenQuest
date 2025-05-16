@@ -1,24 +1,53 @@
-/* src/components/ChallengesIcon.css */
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(0, -100px) scale(0.3);
+  }
+}
 
+@keyframes sparkleTwinkle {
+  0%,
+  100% {
+    box-shadow: 0 0 4px #3ddc91;
+  }
+  50% {
+    box-shadow: 0 0 10px #aaffd5;
+  }
+}
+
+.sparkle-particle {
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  background: #3ddc91;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* Daily Challenges Container */
 .daily-challenges-container {
-  background: rgba(20, 40, 30, 0.4);
+  background: #ffffff;
   border-radius: 18px;
-  padding: 2rem;
-  max-width: 500px;
-  margin: 2rem auto;
-  border: 1px solid rgba(0, 255, 153, 0.15);
-  box-shadow: 0 0 18px rgba(0, 255, 153, 0.08);
-  backdrop-filter: blur(14px);
-  font-family: "Segoe UI", sans-serif;
-  color: #ccf8e4;
+  padding: 1rem;
+  margin-top: 0.5%;
+  max-width: 420px;
+  border: 2px solid #ccebd8;
+  box-shadow: 0 6px 16px rgba(30, 160, 120, 0.08);
+  font-family: "Poppins", sans-serif;
+  color: #244d38;
 }
 
 .daily-challenges-container h3 {
-  color: #6ee7b7;
-  font-size: 1.6rem;
-  margin-bottom: 1.2rem;
+  color: #2e7d5f;
+  font-size: 1.4rem;
+  margin-bottom: 2.5rem;
   text-align: center;
-  text-shadow: 0 0 6px rgba(0, 255, 153, 0.2);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
 }
 
 .daily-challenges-container ul {
@@ -28,19 +57,19 @@
 }
 
 .daily-challenges-container li {
-  background-color: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(0, 255, 153, 0.15);
+  background-color: #ffffff;
+  border: 1px solid #d3f0de;
   border-radius: 14px;
-  padding: 0.8rem 1rem;
+  padding: 0.9rem 1.2rem;
   margin-bottom: 0.75rem;
+  height: 70px;
   display: flex;
   align-items: center;
   transition: background 0.3s ease, transform 0.2s ease;
-  backdrop-filter: blur(4px);
 }
 
 .daily-challenges-container li:hover {
-  background-color: rgba(0, 255, 153, 0.07);
+  background-color: #eafaf2;
   transform: translateY(-2px);
 }
 
@@ -48,14 +77,14 @@
   margin-right: 14px;
   width: 20px;
   height: 20px;
-  accent-color: #10b981;
+  accent-color: #3bc982;
   cursor: pointer;
   transform: scale(1.1);
 }
 
 .daily-challenges-container label {
   font-size: 1rem;
-  color: #d1fae5;
+  color: #2d5742;
   display: flex;
   align-items: center;
 }
@@ -64,5 +93,5 @@
   opacity: 0.6;
   text-decoration: line-through;
   font-style: italic;
-  color: #a7f3d0;
+  color: #7aa68f;
 }

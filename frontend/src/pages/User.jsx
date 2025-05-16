@@ -1,78 +1,124 @@
-import { useContext, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+// src/pages/UserPage.jsx
+import { useContext, useEffect, useState, Suspense } from "react";
+import { Canvas } from "@react-three/fiber";
+import { useParams } from "react-router-dom";
 import CurrentUserContext from "../contexts/current-user-context";
-import { getUser, getUserLevelInfo } from "../adapters/user-adapter";
-import { logUserOut } from "../adapters/auth-adapter";
-import UpdateUsernameForm from "../components/UpdateUsernameForm";
+import { getUser } from "../adapters/user-adapter";
+import { DailyChallenges } from "../components/DailyChallenges";
 import LevelBar from "../components/LevelBar";
-import ChallengesIcon from "../components/ChallengesIcon";
 import "../styles/User.css";
+import ScientistCharacter from "../components3D/ScientistCharacter";
+import SpeechBubble from "../components/SpeechBubble";
 
 export default function UserPage() {
-  const navigate = useNavigate();
-  const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
+  // On this first line we access our user context to get the current user and level information
+  const { currentUser, levelInfo } = useContext(CurrentUserContext);
+  // here we keep track of the state of user profile
   const [userProfile, setUserProfile] = useState(null);
   const [error, setError] = useState(null);
+  // this is an intro scene to give players a sense of purpose when they first sign up and log in
+  const [showIntro, setShowIntro] = useState(false);
+  // useParams is used to extract the user ID from the URL
   const { id } = useParams();
+  // keeps track of current user profile
   const isCurrentUserProfile = currentUser && currentUser.id === Number(id);
 
+  // Every time a new user logs in re-render the component to fetch their profile data
   useEffect(() => {
     const loadUser = async () => {
-      // fetch user info
+      // sends a request to the backend using UserId to fetch user data
       const [user, error] = await getUser(id);
       if (error) return setError(error);
       setUserProfile(user);
     };
-
     loadUser();
+    // re-render the component when the user ID changes
   }, [id]);
 
-  const handleLogout = async () => {
-    logUserOut();
-    setCurrentUser(null);
-    navigate("/");
-  };
+  // Check for first login (temporary local check)
+  useEffect(() => {
+    if (currentUser && currentUser.id) {
+      const key = `seenIntro-${currentUser.id}`;
+      // check if the user has already seen the intro
+      if (!localStorage.getItem(key)) {
+        // if not show intro scene
+        setShowIntro(true); // This is temporary, we will replace it with a backend solution to ensure data persists
+        localStorage.setItem(key, "true");
+      }
+    }
+  }, [currentUser]);
 
-  if (error)
-    return (
-      <p>Sorry, there was a problem loading user. Please try again later.</p>
-    );
-
+  if (error) return <p>Sorry, could not load user.</p>;
   if (!userProfile) return null;
 
-  // When we update the username, the userProfile state won't change but the currentUser state will.
   const profileUsername = isCurrentUserProfile
     ? currentUser.username
     : userProfile.username;
 
   return (
-    <div className="user-page">
-      <div className="user-card">
-        {currentUser?.username === "cool_cat" && (
-          <img
-            src="https://www.perfocal.com/blog/content/images/2021/01/Perfocal_17-11-2019_TYWFAQ_100_standard-3.jpg"
-            alt="cool_cat"
-            className="profile-image"
-          />
-        )}
-        <h1 className="username">{profileUsername}</h1>
-        <p className="bio">
-          Nature enthusiast trying to change the world one challenge at a time
-        </p>
+    <div className="greenquest-profile">
+      <div className="profile-banner" />
 
-        {isCurrentUserProfile && (
-          <>
-            {/*<UpdateUsernameForm
-              currentUser={currentUser}
-              setCurrentUser={setCurrentUser}
-            /> */}
-            <button className="logout-button" onClick={handleLogout}>
-              Log Out
-            </button>
+      <div className="profile-main">
+        {/* Profile Card */}
+        <div className="profile-card">
+          <div className="profile-picture-ring-wrapper">
             <LevelBar />
-            <ChallengesIcon />
-          </>
-        )}
+            <div className="profile-picture-overlay">
+              <img
+                src="https://thumbs.wbm.im/pw/small/c8f447e28f84f8ac64100cdb60e71d77.jpg"
+                alt="User Avatar"
+                className="profile-image"
+              />
+            </div>
+          </div>
+
+          {levelInfo && (
+            <div className="level-info-text">
+              <p className="level-title">
+                Level {levelInfo.level}:{" "}
+                <span className="title-text">{levelInfo.levelTitle}</span>
+              </p>
+              <p className="xp-progress">
+                {levelInfo.exp} / {levelInfo.nextLevelExp} XP
+              </p>
+            </div>
+          )}
+
+          <h2 className="username">@{profileUsername}</h2>
+          <p className="bio">
+            Nature enthusiast changing the world one challenge at a time
+          </p>
+
+          <div className="eco-tags">
+            <button className="tag-button">♻️ Zero Waste</button>
+            <button className="tag-button">🌿 Urban Gardener</button>
+          </div>
+        </div>
+
+        {/* Daily Challenges + Optional Character */}
+        <div className="challenges-and-scientist">
+          <DailyChallenges />
+
+          {showIntro && (
+            <div className="character-widget">
+              <div className="character-canvas-wrapper">
+                <Canvas camera={{ position: [0, 1.5, 3], fov: 80 }}>
+                  <ambientLight />
+                  <Suspense fallback={null}>
+                    <ScientistCharacter />
+                  </Suspense>
+                </Canvas>
+              </div>
+              <SpeechBubble username={profileUsername} />
+            </div>
+          )}
+        </div>
+      </div>
+
+      <div className="user-posts">
+        <h2 className="activity">Activity</h2>
+        <p>This user hasn't posted anything yet.</p>
       </div>
     </div>
   );

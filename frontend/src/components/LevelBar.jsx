@@ -1,32 +1,40 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import CurrentUserContext from "../contexts/current-user-context";
 import "../styles/LevelBar.css";
 
 export default function LevelBar() {
   const { levelInfo } = useContext(CurrentUserContext);
 
-  if (!levelInfo) return null;
+  // Always call hooks
+  const [prevLevel, setPrevLevel] = useState(null);
+  const [shouldPulse, setShouldPulse] = useState(false);
 
-  const percent = Math.min(
-    (levelInfo.exp / levelInfo.nextLevelExp) * 100,
-    100
-  ).toFixed(1);
+  const percent = levelInfo
+    ? Math.min((levelInfo.exp / levelInfo.nextLevelExp) * 100, 100).toFixed(1)
+    : 0;
+
+  useEffect(() => {
+    if (!levelInfo) return;
+
+    if (prevLevel !== null && levelInfo.level > prevLevel) {
+      setShouldPulse(true);
+      setTimeout(() => setShouldPulse(false), 1000);
+    }
+
+    setPrevLevel(levelInfo.level);
+  }, [levelInfo, prevLevel]);
+
+  if (!levelInfo) {
+    return <div className="level-ring level-ring-loading" />;
+  }
 
   return (
-    <div className="level-bar-container">
-      <div className="level-bar-header">
-        <h3>
-          Level {levelInfo.level}: {levelInfo.levelTitle}
-        </h3>
-        <span>
-          {levelInfo.exp} / {levelInfo.nextLevelExp} XP
-        </span>
-      </div>
-      <div className="level-bar">
-        <div className="level-bar-fill" style={{ width: `${percent}%` }}>
-          <span className="percent-label">{percent}%</span>
-        </div>
-      </div>
+    <div
+      className={`level-ring ${shouldPulse ? "pulse" : ""}`}
+      style={{ "--progress": percent }}
+      title={`Level ${levelInfo.level}: ${levelInfo.levelTitle} (${percent}%)`}
+    >
+      <div className="level-ring-inner"></div>
     </div>
   );
 }
