@@ -2,9 +2,8 @@ import { useContext, useState } from "react";
 import { useNavigate, Navigate, Link } from "react-router-dom";
 import CurrentUserContext from "../contexts/current-user-context";
 import { registerUser } from "../adapters/auth-adapter";
+import "../styles/SignUp.css";
 
-// Controlling the sign up form is a good idea because we want to add (eventually)
-// more validation and provide real time feedback to the user about usernames and passwords
 export default function SignUpPage() {
   const navigate = useNavigate();
   const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
@@ -15,9 +14,6 @@ export default function SignUpPage() {
   const [email, setEmail] = useState("");
   const [zipcode, setZipcode] = useState("");
 
-  // users shouldn't be able to see the sign up page if they are already logged in.
-  // if the currentUser exists in the context, navigate the user to
-  // the /users/:id page for that user, using the currentUser.id value
   if (currentUser) return <Navigate to={`/users/${currentUser.id}`} />;
 
   const handleSubmit = async (event) => {
@@ -36,7 +32,7 @@ export default function SignUpPage() {
     if (error) return setErrorText(error.message);
 
     setCurrentUser(user);
-    navigate("/");
+    navigate(`/users/${user.id}`);
   };
 
   const handleChange = (event) => {
@@ -49,71 +45,43 @@ export default function SignUpPage() {
   };
 
   return (
-    <>
-      <h1>Sign Up</h1>
+    <div className="signup-page">
       <form
+        className="signup-form"
         onSubmit={handleSubmit}
         onChange={handleChange}
         aria-labelledby="create-heading"
       >
-        <h2 id="create-heading">Create New User</h2>
+        <h1>Sign Up</h1>
+        <h2 id="create-heading">Create New Account</h2>
+
         <label htmlFor="email">Email</label>
-        <input
-          autoComplete="off"
-          type="text"
-          id="email"
-          name="email"
-          onChange={handleChange}
-          value={email}
-        />
+        <input type="text" id="email" name="email" value={email} />
+
         <label htmlFor="username">Username</label>
-        <input
-          autoComplete="off"
-          type="text"
-          id="username"
-          name="username"
-          onChange={handleChange}
-          value={username}
-        />
+        <input type="text" id="username" name="username" value={username} />
 
         <label htmlFor="password">Password</label>
-        <input
-          autoComplete="off"
-          type="password"
-          id="password"
-          name="password"
-          onChange={handleChange}
-          value={password}
-        />
+        <input type="password" id="password" name="password" value={password} />
+
         <label htmlFor="confirmPassword">Confirm Password</label>
         <input
-          autoComplete="off"
           type="password"
           id="confirmPassword"
           name="confirmPassword"
-          onChange={handleChange}
           value={confirmPassword}
         />
-        <label htmlFor="zipcode">ZIP Code</label>
-        <input
-          autoComplete="=off"
-          type="text"
-          id="zipcode"
-          name="zipcode"
-          onChange={handleChange}
-          value={zipcode}
-        />
-        {/* In reality, we'd want a LOT more validation on signup, so add more things if you have time
-        <label htmlFor="password-confirm">Password Confirm</label>
-        <input autoComplete="off" type="password" id="password-confirm" name="passwordConfirm" />
-      */}
 
-        <button>Sign Up Now!</button>
+        <label htmlFor="zipcode">ZIP Code</label>
+        <input type="text" id="zipcode" name="zipcode" value={zipcode} />
+
+        <button type="submit">Sign Up Now!</button>
+
+        {!!errorText && <p className="error-text">{errorText}</p>}
+        <p>
+          Already have an account? <Link to="/login">Log in!</Link>
+        </p>
       </form>
-      {!!errorText && <p>{errorText}</p>}
-      <p>
-        Already have an account with us? <Link to="/login">Log in!</Link>
-      </p>
-    </>
+    </div>
   );
 }

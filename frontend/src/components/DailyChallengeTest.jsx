@@ -2,6 +2,7 @@ import { useState } from "react";
 import { getDailyChallenges } from "../adapters/ai-adapters";
 
 export const DailyChallengeTest = () => {
+  // keep state of daily challenges
   const [dailyChallenges, setDailyChallenges] = useState("");
   const [error, setError] = useState(null);
 
