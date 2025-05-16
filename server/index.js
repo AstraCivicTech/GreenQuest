@@ -5,6 +5,7 @@ const cors = require("cors");
 require("dotenv").config();
 const path = require("path");
 const express = require("express");
+const { Server } = require("socket.io");
 
 // middleware imports
 const handleCookieSessions = require("./middleware/handleCookieSessions");
@@ -25,6 +26,11 @@ const validateAndProcessCommunityChallenges = require("./services/communityChall
 require("./scheduler/challengeScheduler");
 
 const app = express();
+const server = require("http").createServer(app);
+
+// Initialize schedulers after setting up Socket.IO
+require("./scheduler/challengeScheduler");
+// require("./scheduler/challengeCounterScheduler");
 
 // middleware
 app.use(
@@ -114,6 +120,6 @@ app.use(logErrors);
 ///////////////////////////////
 
 const port = process.env.PORT || 3003;
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`Server running at http://localhost:${port}/`);
 });

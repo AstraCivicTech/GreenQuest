@@ -100,6 +100,41 @@ export const CommunityChallenges = () => {
     fetchChallenges();
   };
 
+  // Add this function to calculate milliseconds until next midnight
+  const getMsUntilMidnight = () => {
+    const now = new Date();
+    const midnight = new Date(now);
+
+    // comment out for 24 hr reset
+    // const threeMinutesFromNow = new Date(now);
+    // threeMinutesFromNow.setMinutes(now.getMinutes() + 3);
+    // return threeMinutesFromNow - now;
+
+    midnight.setHours(24, 0, 0, 0);
+    return midnight - now;
+  };
+
+  // Add this useEffect to handle the midnight reset
+  useEffect(() => {
+    const resetCountAtMidnight = () => {
+      console.log("Reset triggered at:", new Date().toLocaleTimeString());
+      setCompletedCount(0);
+      setCanComplete(true);
+
+      // Schedule next reset
+      const timeUntilMidnight = getMsUntilMidnight();
+      console.log("Next reset in (ms):", timeUntilMidnight);
+      setTimeout(resetCountAtMidnight, timeUntilMidnight);
+    };
+
+    // Initial setup of midnight reset
+    const timeUntilMidnight = getMsUntilMidnight();
+    const timer = setTimeout(resetCountAtMidnight, timeUntilMidnight);
+
+    // Cleanup on component unmount
+    return () => clearTimeout(timer);
+  }, []);
+
   useEffect(() => {
     fetchLevelInfo();
     fetchCompleted();
