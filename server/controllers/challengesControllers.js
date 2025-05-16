@@ -57,6 +57,17 @@ exports.getCompletedChallenges = async (req, res) => {
   }
 };
 
+exports.getChallengeFromId = async (req, res) => {
+  const { challengeId } = req.body;
+  console.log("Challenge Id (getChallengeDetailsFromId):", challengeId);
+
+  const challengesResponse = await Challenge.getChallengeDetailsFromId(
+    challengeId
+  );
+  console.log("Controllers (getChallengeDetailsFromId):", challengesResponse);
+  res.status(200).json(challengesResponse);
+};
+
 exports.createChallenge = async (req, res) => {
   const challengeToAdd = {
     category: "daily",

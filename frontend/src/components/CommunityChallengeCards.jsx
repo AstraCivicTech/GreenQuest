@@ -6,6 +6,7 @@ import {
   getCompletedChallenges,
   completeChallenge,
   getCompletedChallenges2,
+  checkCategory,
 } from "../adapters/challenge-adapter";
 import "../styles/ChallengeCards.css";
 
@@ -14,6 +15,9 @@ export const CommunityChallengeCard = ({
   levelInfo,
   setLevelInfo,
   completedChallenges,
+  setCompletedCount,
+  completedCount,
+  canComplete,
 }) => {
   const [isCompleted, setIsCompleted] = useState(false);
   const { currentUser, updateUserExp, setCompletedChallenges } =
@@ -33,6 +37,13 @@ export const CommunityChallengeCard = ({
   };
 
   const handleChallengeComplete = async (e) => {
+    if (!canComplete || completedCount >= 5) {
+      alert(
+        "You've reached your daily limit of 5 community challenges. Come back tomorrow!"
+      );
+      return;
+    }
+
     console.log("Challenge card clicked and handleComplete started");
     console.log("Check challenge:", challenge);
     console.log(`Id: ${id} | Challenge Id: ${challenge.id}`);
@@ -65,7 +76,9 @@ export const CommunityChallengeCard = ({
 
     console.log("inside handleComplete (completedChallenges):", completed);
     console.log("bool check:", completed.includes(Number(challenge.id)));
+    setCompletedCount(completedCount + 1);
     console.log("onClick event finished");
+    // }
   };
 
   useEffect(() => {
@@ -74,7 +87,9 @@ export const CommunityChallengeCard = ({
 
   return (
     <div
-      className={`challenge-card ${isCompleted ? "completed" : ""}`}
+      className={`challenge-card ${isCompleted ? "completed" : ""} ${
+        !canComplete || completedCount >= 5 ? "disabled" : ""
+      }`}
       onClick={handleChallengeComplete}
     >
       <div className="challenge-card-content">

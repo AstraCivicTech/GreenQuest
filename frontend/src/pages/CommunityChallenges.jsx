@@ -4,6 +4,7 @@ import { CommunityChallengeCard } from "../components/CommunityChallengeCards";
 import {
   getChallenges,
   getCompletedChallenges2,
+  checkCategory,
 } from "../adapters/challenge-adapter";
 import { getUserLevelInfo } from "../adapters/user-adapter";
 import CurrentUserContext from "../contexts/current-user-context";
@@ -11,6 +12,8 @@ import "../styles/CommunityChallengePage.css";
 
 export const CommunityChallenges = () => {
   const [challenges, setChallenges] = useState([]);
+  const [completedCount, setCompletedCount] = useState(0);
+  const [canComplete, setCanComplete] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const {
@@ -50,15 +53,46 @@ export const CommunityChallenges = () => {
     if (!levelError) setLevelInfo(levelData);
   };
 
-  const fetchCompleted = async () => {
-    // "/api/users/completed-challenges"
+  // Should be called on every challenge in the completed challenges array
+  const checkCompletionProgress = async (challengeId) => {
     try {
-      console.log("fetch completed current user:", currentUser);
-      const [data, error] = await getCompletedChallenges2(currentUser.id);
-      console.log("data from fe.Comp.:", data);
-      setCompletedChallenges(data);
+      const response = await checkCategory(challengeId);
+      const category = response[0][0].category;
+
+      if (category === "community") {
+        // Use callback form of setState to ensure accurate count
+        setCompletedCount((prevCount) => {
+          const newCount = prevCount + 1;
+          // Update canComplete based on new count
+          if (completedCount >= 5) {
+            setCanComplete(false);
+          }
+
+          console.log("canComplete:", canComplete);
+          return newCount;
+        });
+      }
     } catch (error) {
-      console.error(error.message);
+      console.error("Error checking completion:", error);
+    }
+  };
+
+  const fetchCompleted = async () => {
+    try {
+      const [data, error] = await getCompletedChallenges2(currentUser.id);
+      if (error) throw error;
+
+      setCompletedChallenges(data);
+
+      // Reset count before checking challenges
+      setCompletedCount(0);
+
+      // Use Promise.all to process all challenges
+      await Promise.all(
+        data.map((challengeId) => checkCompletionProgress(challengeId))
+      );
+    } catch (error) {
+      console.error("Error fetching completed challenges:", error);
     }
   };
 
@@ -82,6 +116,9 @@ export const CommunityChallenges = () => {
         <CommunityChallengeForm refresh={refresh} />
       </div>
       <h1>Community Challenges</h1>
+      <p>
+        Community Challenges Completed Today: <span>{completedCount}</span>/5
+      </p>
 
       <div className="challenges-grid">
         {challenges.map((challenge) => (
@@ -91,6 +128,9 @@ export const CommunityChallenges = () => {
             levelInfo={levelInfo}
             setLevelInfo={setLevelInfo}
             completedChallenges={completedChallenges}
+            setCompletedCount={setCompletedCount}
+            completedCount={completedCount}
+            canComplete={canComplete}
           />
         ))}
       </div>

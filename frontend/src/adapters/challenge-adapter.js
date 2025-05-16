@@ -30,6 +30,15 @@ export const getCompletedChallenges2 = async (id) => {
   });
 };
 
+export const checkCategory = async (challengeId) => {
+  return await fetchHandler(`/api/challenges/getById`, {
+    method: "POST",
+    credentials: "include",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ challengeId: Number(challengeId) }), // Send as an object
+  });
+};
+
 export const completeChallenge = async (userId, challengeId) => {
   console.log("adapters userId:", userId, "challenge id:", challengeId);
   if (!userId || !challengeId) {

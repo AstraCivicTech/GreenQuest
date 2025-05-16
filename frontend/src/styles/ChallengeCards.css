@@ -20,6 +20,17 @@
   cursor: default;
 }
 
+.challenge-card.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: all;
+}
+
+.challenge-card.disabled:hover {
+  transform: none;
+  background-color: #ffffff;
+}
+
 .challenge-card-content {
   display: flex;
   flex-direction: column;

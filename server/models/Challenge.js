@@ -58,6 +58,26 @@ class Challenge {
     }
   }
 
+  static async getChallengeDetailsFromId(challengeId) {
+    try {
+      return await knex("dailyAndCommunityChallenges")
+        .select(
+          "id",
+          "userId",
+          "description",
+          "challengeType",
+          "category",
+          "experienceReward",
+          "createdAt"
+        )
+        .where({ id: challengeId });
+      // return { success: true }
+    } catch (error) {
+      console.error("Error getting challenge based on id: ", error.message);
+      return { success: false }; // Add this return statement
+    }
+  }
+
   // Get today's challenges from the dailyAndCommunityChallenges table
   static async getChallenges(category) {
     return await knex("dailyAndCommunityChallenges")

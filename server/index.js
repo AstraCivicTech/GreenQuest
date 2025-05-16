@@ -93,6 +93,7 @@ app.post(
   "/api/users/completed-challenges",
   challengesControllers.getCompletedChallenges
 );
+app.post("/api/challenges/getById", challengesControllers.getChallengeFromId);
 app.post("/api/challenges/complete", challengesControllers.completeChallenge);
 app.post("/api/challenges/create", challengesControllers.createChallenge);
 ///////////////////////////////
