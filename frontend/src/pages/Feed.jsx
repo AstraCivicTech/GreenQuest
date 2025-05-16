@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { getAllPosts } from "../adapters/post-adapter"; // Adjust the import path as necessary
 import "../styles/Feed.css"; // Make sure this path matches your project
 
 export default function Feed() {
@@ -9,10 +10,10 @@ export default function Feed() {
     const fetchPosts = async () => {
       try {
         // Replace with actual adapter or API call
-        const response = await fetch("/api/posts");
-        if (!response.ok) throw new Error("Failed to fetch posts");
-        const data = await response.json();
-        setPosts(data);
+        const response = await getAllPosts();
+        console.log("Response:", response);
+
+        setPosts(response[0]);
       } catch (error) {
         console.error(error);
       } finally {

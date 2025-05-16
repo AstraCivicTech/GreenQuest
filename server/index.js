@@ -17,7 +17,7 @@ const authControllers = require("./controllers/authControllers");
 const userControllers = require("./controllers/userControllers");
 const aiControllers = require("./controllers/aiControllers");
 const challengesControllers = require("./controllers/challengesControllers");
-const postControllers = require("./controllers/postControllers")
+const postControllers = require("./controllers/postControllers");
 // const postRoutes = require('./routes/postRoutes');
 
 // Initialize and start the challenge scheduler
@@ -93,11 +93,11 @@ app.post("/api/challenges/create", challengesControllers.createChallenge);
 // app.use('/api/posts', postRoutes);
 
 // routes for managing posts.
-app.get("/api/posts",postControllers.getAllPosts); // Get all the posts.
-app.get("/api/post/:id",postControllers.getPostById) // Gets a post by the id.
-app.post("/api/create",postControllers.createPost); // Creates a new post. 
-app.patch("/api/update",postControllers.updatePost); // Updates an existing post.
-app.delete("/api/delete/:id",postControllers.deletePost); // Deletes a an existing posts.
+app.get("/api/posts", postControllers.getAllPosts); // Get all the posts.
+app.get("/api/post/:id", postControllers.getPostById); // Gets a post by the id.
+app.post("/api/post", postControllers.createPost); // Creates a new post.
+app.patch("/api/update", postControllers.updatePost); // Updates an existing post.
+app.delete("/api/delete/:id", postControllers.deletePost); // Deletes a an existing posts.
 
 ///////////////////////////////////
 ///////////////////////////////

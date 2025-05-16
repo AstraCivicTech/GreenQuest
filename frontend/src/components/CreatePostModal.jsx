@@ -1,30 +1,47 @@
+import { useContext, useEffect, useState } from "react";
+import CurrentUserContext from "../contexts/current-user-context";
+import { addPostToDB } from "../adapters/post-adapter";
 import "../styles/CreatePostModal.css";
 
 export default function CreatePostModal({ onClose }) {
-  const handlePostSubmit = (event) => {
+  const { currentUser } = useContext(CurrentUserContext);
+  const [content, setContent] = useState("");
+
+  const handleChange = (event) => {
+    console.log(event.target.value);
+    setContent(event.target.value);
+  };
+  const handlePostSubmit = async (event) => {
     event.preventDefault();
     // Handle post submission logic here
-
+    console.log(event);
+    const post = await addPostToDB({
+      content: content,
+      likes: 0,
+      userId: currentUser.id,
+    });
     onClose(); // Close the modal after submission
   };
   return (
     <div className="modal-overlay">
-      <div className="modal-content">
+      <form className="modal-content" onSubmit={handlePostSubmit}>
         <button className="modal-close" onClick={onClose}>
           &times;
         </button>
-        <h2 className="modal-title">Create a Post</h2>
-        <textarea
-          className="modal-textarea"
-          placeholder="What's on your mind?"
-          rows={6}
-        ></textarea>
+        <label className="modal-title">Create a Post</label>
+        <input
+          name="content"
+          type="text"
+          value={content}
+          className="modal-input"
+          onChange={handleChange}
+          placeholder="Write your post here..."
+        />
         <div className="modal-actions">
-          <button className="submit-button" onClick={handlePostSubmit}>
-            Post
-          </button>
+          <label>submit</label>
+          <input type="submit" value="submit" className="submit-button" />
         </div>
-      </div>
+      </form>
     </div>
   );
 }
