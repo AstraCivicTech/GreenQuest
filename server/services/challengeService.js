@@ -7,7 +7,7 @@ require('dotenv').config({
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 const Challenge = require('../models/Challenge');
 
-const { API_KEY } = process.env;
+const { API_KEY , API_KEY_2} = process.env;
 
 // Ensure the API key is defined in the environment variables file.
 if (!API_KEY) {
@@ -80,8 +80,8 @@ const fetchDailyChallenges = async () => {
     });
     console.log('Got response from local model');
     const data = await response.json();
-    // console.log('Parsed response data:', JSON.parse(parseThinkTagsAndReturnJSON(data.response)));
-    // console.log('Running fetchDailyChallenges function');
+    console.log('Parsed response data:', JSON.parse(parseThinkTagsAndReturnJSON(data.response)));
+    console.log('Running fetchDailyChallenges function');
     const challengesArray = JSON.parse(parseThinkTagsAndReturnJSON(data.response));
     return challengesArray;
   } catch (error) {
@@ -89,7 +89,7 @@ const fetchDailyChallenges = async () => {
     // Fallback to the Gemini model if the locally deployed models is offline.
     try {
       console.log('Initializing Gemini model...');
-      const genAI = new GoogleGenerativeAI(API_KEY);
+      const genAI = new GoogleGenerativeAI(API_KEY_2);
       const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' }); // Use correct method name & version
       const result = await model.generateContent(prompt);
       const response = await result.response.text(); // text()

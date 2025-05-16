@@ -38,4 +38,4 @@ const initJob = async () => {
 };
 // Run the job once immediately on startup for testing.
 // IMPORTANT: Comment this out or remove it for production.
-initJob();
+// initJob();

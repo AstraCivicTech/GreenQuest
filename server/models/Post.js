@@ -9,10 +9,10 @@ class Post {
     this.updated_at = updated_at;
   }
 
-  static async create({ user_id, content }) {
+  static async create(content, user_id) {
     try {
       const [post] = await knex('posts')
-        .insert({ user_id, content })
+        .insert({content, userId:user_id , createdAt: new Date(), updated_at: new Date()})
         .returning('*');
       return new Post(post);
     } catch (err) {
@@ -33,7 +33,7 @@ class Post {
 
   static async findById(id) {
     try {
-      const [post] = await knex('posts').where({ id }).select('*');
+      const [post] = await knex('posts').where({ postId: id }).select('*');
       return post ? new Post(post) : null;
     } catch (err) {
       console.error('Error retrieving post by ID:', err);
@@ -41,7 +41,10 @@ class Post {
     }
   }
 
-  static async update(id, { content }) {
+  static async update(id, fieldsToUpdate) {
+
+    const {content} = fieldsToUpdate;
+
     try {
       const [updatedPost] = await knex('posts')
         .where({ id })

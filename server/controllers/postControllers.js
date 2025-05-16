@@ -1,24 +1,18 @@
 const knex = require('../db/knex');
+const Post = require('../models/Post')
 
 // Create a new post
 exports.createPost = async (req, res) => {
   const { content, likes, user_id } = req.body;
-
   // Validate input
-  if (!content || likes === undefined || !user_id) {
+  if (typeof content !== "string" && likes === undefined || user_id === undefined) {
     return res
       .status(400)
       .json({ message: 'Content, likes, and user_id are required.' });
   }
 
   try {
-    const [newPost] = await knex('post')
-      .insert({
-        content,
-        likes,
-        user_id,
-      })
-      .returning('*'); // Return all columns of the new post
+    const newPost = await Post.create(content, user_id)// Return all columns of the new post
     res.status(201).json(newPost);
   } catch (error) {
     console.error('Error creating post:', error);
@@ -31,7 +25,7 @@ exports.createPost = async (req, res) => {
 // Get all posts
 exports.getAllPosts = async (req, res) => {
   try {
-    const posts = await knex('post').select('*');
+    const posts = await Post.findAll();
     res.status(200).json(posts);
   } catch (error) {
     console.error('Error fetching posts:', error);
@@ -45,7 +39,7 @@ exports.getAllPosts = async (req, res) => {
 exports.getPostById = async (req, res) => {
   const { id } = req.params;
   try {
-    const post = await knex('post').where({ id }).first();
+    const post = await Post.findById(id);
     if (!post) {
       return res.status(404).json({ message: 'Post not found' });
     }
@@ -80,10 +74,7 @@ exports.updatePost = async (req, res) => {
   fieldsToUpdate.updated_at = knex.fn.now(); // Update the timestamp
 
   try {
-    const [updatedPost] = await knex('post')
-      .where({ id })
-      .update(fieldsToUpdate)
-      .returning('*');
+    const updatedPost = await Posts(id, fieldsToUpdate);
 
     if (!updatedPost) {
       return res.status(404).json({ message: 'Post not found' });
@@ -101,7 +92,7 @@ exports.updatePost = async (req, res) => {
 exports.deletePost = async (req, res) => {
   const { id } = req.params;
   try {
-    const deletedCount = await knex('post').where({ id }).del();
+    const deletedCount = await Post.delete(id);
     if (deletedCount === 0) {
       return res.status(404).json({ message: 'Post not found' });
     }
