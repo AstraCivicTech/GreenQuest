@@ -1,5 +1,6 @@
 require("dotenv").config({
   path: require("path").resolve(__dirname, "../.env"),
+})
 /* eslint-disable max-len */
 /* eslint-disable func-style */
 require('dotenv').config({
