@@ -18,7 +18,7 @@ export default function CreatePostModal({ onClose }) {
     const post = await addPostToDB({
       content: content,
       likes: 0,
-      userId: currentUser.id,
+      user_id: currentUser.id,
     });
     onClose(); // Close the modal after submission
   };
