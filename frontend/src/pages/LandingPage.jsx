@@ -65,22 +65,25 @@ export const LandingPage = () => {
           "GreenQuest Mission". Click the button to learn more about how to
           create your first challenge!
         </p>
+        {/* This is supposed to show a "How-Tos: Creating a Challenge!" Modal. */}
         <button>Click Me!</button>
       </div>
-      <h2>The Developers</h2>
-      <div className="developer-card-div">
-        {console.log("Developers:", developers)}
-        {developers.map((dev, index) => {
-          console.log("Rendering card for:", dev[0]);
-          return (
-            <DeveloperCard
-              key={index}
-              name={dev[0]}
-              linkedIn={dev[1]}
-              github={dev[2]}
-            />
-          );
-        })}
+      <div className="dev-header">
+        <h2>The Developers</h2>
+        <div className="developer-card-div">
+          {console.log("Developers:", developers)}
+          {developers.map((dev, index) => {
+            console.log("Rendering card for:", dev[0]);
+            return (
+              <DeveloperCard
+                key={index}
+                name={dev[0]}
+                linkedIn={dev[1]}
+                github={dev[2]}
+              />
+            );
+          })}
+        </div>
       </div>
     </div>
   );
