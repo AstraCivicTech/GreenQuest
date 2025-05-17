@@ -1,12 +1,12 @@
 const knex = require("../db/knex");
 
 class Post {
-  constructor({ id, user_id, content, created_at, updated_at }) {
-    this.id = id;
-    this.user_id = user_id;
+  constructor({ postId, userId, content, createdAt, updated_at }) {
+    this.postId = postId;
+    this.userId = userId;
     this.content = content;
-    this.created_at = created_at;
-    this.updated_at = updated_at;
+    this.createdAt = createdAt;
+    this.updatedAt = updated_at;
   }
 
   static async create(content, user_id) {
@@ -52,7 +52,7 @@ class Post {
 
     try {
       const [updatedPost] = await knex("posts")
-        .where({ id })
+        .where({ postId: id })
         .update({ content, updated_at: new Date() })
         .returning("*");
       return updatedPost ? new Post(updatedPost) : null;
@@ -64,7 +64,7 @@ class Post {
 
   static async delete(id) {
     try {
-      const deletedCount = await knex("posts").where({ id }).del();
+      const deletedCount = await knex("posts").where({ postId: id }).del();
       return deletedCount > 0;
     } catch (err) {
       console.error("Error deleting post:", err);

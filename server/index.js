@@ -96,8 +96,8 @@ app.post("/api/challenges/create", challengesControllers.createChallenge);
 app.get("/api/posts", postControllers.getAllPosts); // Get all the posts.
 app.get("/api/post/:id", postControllers.getPostById); // Gets a post by the id.
 app.post("/api/post", postControllers.createPost); // Creates a new post.
-app.patch("/api/update", postControllers.updatePost); // Updates an existing post.
-app.delete("/api/delete/:id", postControllers.deletePost); // Deletes a an existing posts.
+app.patch("/api/post/update/:id", postControllers.updatePost); // Updates an existing post.
+app.delete("/api/post/delete/:id", postControllers.deletePost); // Deletes a an existing posts.
 
 ///////////////////////////////////
 ///////////////////////////////

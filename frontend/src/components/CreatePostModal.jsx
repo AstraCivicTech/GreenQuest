@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import CurrentUserContext from "../contexts/current-user-context";
-import { addPostToDB } from "../adapters/post-adapter";
+import { createPost } from "../adapters/post-adapter";
 import "../styles/CreatePostModal.css";
 
 export default function CreatePostModal({ onClose }) {
@@ -15,7 +15,7 @@ export default function CreatePostModal({ onClose }) {
     event.preventDefault();
     // Handle post submission logic here
     console.log(event);
-    const post = await addPostToDB({
+    const post = await createPost({
       content: content,
       likes: 0,
       user_id: currentUser.id,
