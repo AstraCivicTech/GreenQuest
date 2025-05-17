@@ -147,7 +147,6 @@ export const CommunityChallenges = () => {
   return (
     <div className="community-challenges-container">
       <div className="create-challenge-section">
-        <h2>Create a New Challenge</h2>
         <CommunityChallengeForm refresh={refresh} />
       </div>
       <h1>Community Challenges</h1>

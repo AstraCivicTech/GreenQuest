@@ -5,6 +5,7 @@ import SignUpPage from "./pages/SignUp";
 import LoginPage from "./pages/Login";
 import SiteHeadingAndNav from "./components/SiteHeadingAndNav";
 import { CommunityChallenges } from "./pages/CommunityChallenges";
+import { LandingPage } from "./pages/LandingPage";
 import NotFoundPage from "./pages/NotFound";
 import UserContext from "./contexts/current-user-context";
 import { checkForLoggedInUser } from "./adapters/auth-adapter";
@@ -34,6 +35,7 @@ export default function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/sign-up" element={<SignUpPage />} />
           <Route path="/users/:id" element={<UserPage />} />
+          <Route path="/landing-page" element={<LandingPage />} />
           <Route path="*" element={<NotFoundPage />} />
           <Route
             path="/community-challenges"

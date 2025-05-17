@@ -5,7 +5,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg, #f0fff6, #ffffff);
+  /* background: linear-gradient(135deg, #f0fff6, #ffffff); */
+  background: linear-gradient(to bottom, #d4fbe9, #aee7ff);
   font-family: "Poppins", sans-serif;
   padding: 2rem;
 }

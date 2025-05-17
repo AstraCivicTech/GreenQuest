@@ -26,7 +26,6 @@ export const CommunityChallengeForm = ({ refresh }) => {
         body: JSON.stringify({
           description: challengeDescription,
           userId: currentUser.id,
-
           username: currentUser.username,
         }),
       });
@@ -51,6 +50,7 @@ export const CommunityChallengeForm = ({ refresh }) => {
 
   return (
     <div className="community-challenge-form">
+      <h2>Create a New Challenge</h2>
       {message && <div className="message">{message}</div>}
       <form onSubmit={handleSubmit}>
         <label htmlFor="challenge-description">Description:</label>

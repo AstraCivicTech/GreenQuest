@@ -26,6 +26,9 @@ export default function SiteHeadingAndNav() {
           <li>
             <NavLink to="/">Home</NavLink>
           </li>
+          <li>
+            <NavLink to="/landing-page">Landing Page</NavLink>
+          </li>
 
           {currentUser ? (
             <>

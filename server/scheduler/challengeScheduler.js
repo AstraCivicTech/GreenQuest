@@ -42,6 +42,7 @@ Example of desired format:
 // IMPORTANT: Change this back to '0 0 * * *' for daily execution at midnight after testing!
 cron.schedule(
   "0 0 * * *", // Runs every day
+  // "*/3 * * * *", // Runs every 3 minutes
   async () => {
     console.log(
       `[${new Date().toISOString()}] Running scheduled job: Fetching new daily challenges...`

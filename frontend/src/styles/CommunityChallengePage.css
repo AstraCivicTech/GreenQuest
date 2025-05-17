@@ -4,6 +4,7 @@
   align-items: center;
   max-width: 1200px;
   margin: 120px auto 0; /* Increased top margin */
+  background: linear-gradient(to bottom, #d4fbe9, #aee7ff);
   padding: 2rem;
   min-height: calc(100vh - 120px);
   position: relative; /* Add position relative */
