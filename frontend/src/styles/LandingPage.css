@@ -141,32 +141,6 @@
   font-weight: 600;
 }
 
-.community-engagement-info button {
-  display: block;
-  margin: 2rem auto;
-  padding: 1rem 2.5rem;
-  font-size: 1.1rem;
-  background: linear-gradient(to right, #d4fbe9, #aee7ff);
-  color: #1a5d1a;
-  font-weight: 600;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.community-engagement-info button:hover {
-  background: linear-gradient(to right, #aee7ff, #d4fbe9);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-.community-engagement-info button:active {
-  transform: translateY(0);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
 .dev-header {
   max-width: 800px;
   margin: 4rem auto;

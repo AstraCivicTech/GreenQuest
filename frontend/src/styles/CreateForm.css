@@ -195,6 +195,31 @@
   background-color: #28b276;
 }
 
+.community-challenge-form {
+  position: relative;
+}
+
+/* Position the notification at the top center */
+.community-challenge-form .notification {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  animation: slideIn 1.2s ease-in-out; /* Increased from 0.5s to 1.2s and changed to ease-in-out */
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(-50%) translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+  }
+}
+
 .message {
   margin-bottom: 1rem;
   padding: 0.5rem;

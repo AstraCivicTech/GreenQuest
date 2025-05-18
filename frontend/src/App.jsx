@@ -31,11 +31,11 @@ export default function App() {
       <SiteHeadingAndNav />
       <main>
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/sign-up" element={<SignUpPage />} />
           <Route path="/users/:id" element={<UserPage />} />
-          <Route path="/landing-page" element={<LandingPage />} />
+          <Route path="/scene" element={<HomePage />} />
           <Route path="*" element={<NotFoundPage />} />
           <Route
             path="/community-challenges"

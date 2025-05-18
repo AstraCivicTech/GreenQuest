@@ -39,7 +39,7 @@ Though the exact specificity behind it doesn't have to be the crazy. "Water 5 pl
 
 Challenge description: "${challenge.description}"
 
-Respond with only "yes" if the challenge is not malicious, or "no" if it should be rejected. Add a small explanation if you say no.
+Respond with only "yes" if the challenge is not malicious, or "no" if it should be rejected. Add a small explanation if you say no. It should be no more than two sentences maximum.
 `;
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" }); // Use correct method name & version
     const result = await model.generateContent(prompt);
@@ -51,9 +51,7 @@ Respond with only "yes" if the challenge is not malicious, or "no" if it should 
     if (!valid.includes("yes")) {
       return res.status(400).json({
         success: false,
-        message: `Malicious or invalid challenge description detected: ${valid.slice(
-          4
-        )} Please try again.`,
+        message: `${valid.slice(4)} Please try again.`,
       });
     }
 

@@ -6,7 +6,7 @@
   transform: translateX(-50%);
   width: 90%;
   padding: 1rem 2rem;
-  background: rgba(255, 255, 255, 0.95);
+  background: linear-gradient(to bottom, #d4fbe9, #aee7ff);
   border-radius: 20px;
   box-shadow: 0 6px 18px rgba(30, 160, 120, 0.08);
   border: 1px solid #e3f5eb;

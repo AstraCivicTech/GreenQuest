@@ -1,10 +1,16 @@
+#root {
+  background: linear-gradient(to bottom, #d4fbe9, #aee7ff);
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
 .community-challenges-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   max-width: 1200px;
   margin: 120px auto 0; /* Increased top margin */
-  background: linear-gradient(to bottom, #d4fbe9, #aee7ff);
   padding: 2rem;
   min-height: calc(100vh - 120px);
   position: relative; /* Add position relative */
@@ -17,6 +23,16 @@
   margin-bottom: 3rem;
   text-align: center;
   padding-top: 2rem; /* Add some padding at the top */
+}
+
+/* Add separate styling for the modal within this section */
+.create-challenge-section .modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1000;
 }
 
 .challenges-grid {

@@ -8,6 +8,7 @@ import {
 } from "../adapters/challenge-adapter";
 import { getUserLevelInfo } from "../adapters/user-adapter";
 import CurrentUserContext from "../contexts/current-user-context";
+import { HowToModal } from "../components/HowToModal";
 import "../styles/CommunityChallengePage.css";
 
 export const CommunityChallenges = () => {
@@ -15,6 +16,7 @@ export const CommunityChallenges = () => {
   const [completedCount, setCompletedCount] = useState(0);
   const [canComplete, setCanComplete] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
+  const [showModal, setShowModal] = useState(false);
   const [error, setError] = useState(null);
   const {
     currentUser,
@@ -106,9 +108,9 @@ export const CommunityChallenges = () => {
     const midnight = new Date(now);
 
     // comment out for 24 hr reset
-    // const threeMinutesFromNow = new Date(now);
-    // threeMinutesFromNow.setMinutes(now.getMinutes() + 3);
-    // return threeMinutesFromNow - now;
+    const threeMinutesFromNow = new Date(now);
+    threeMinutesFromNow.setMinutes(now.getMinutes() + 3);
+    return threeMinutesFromNow - now;
 
     midnight.setHours(24, 0, 0, 0);
     return midnight - now;
@@ -145,28 +147,31 @@ export const CommunityChallenges = () => {
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <div className="community-challenges-container">
-      <div className="create-challenge-section">
-        <CommunityChallengeForm refresh={refresh} />
-      </div>
-      <h1>Community Challenges</h1>
-      <p>
-        Community Challenges Completed Today: <span>{completedCount}</span>/5
-      </p>
+    <div className="community-challenges">
+      <div className="community-challenges-container">
+        <div className="create-challenge-section">
+          <CommunityChallengeForm refresh={refresh} />
+          <HowToModal setShowModal={setShowModal} showModal={showModal} />
+        </div>
+        <h1>Community Challenges</h1>
+        <p>
+          Community Challenges Completed Today: <span>{completedCount}</span>/5
+        </p>
 
-      <div className="challenges-grid">
-        {challenges.map((challenge) => (
-          <CommunityChallengeCard
-            key={challenge.id}
-            challenge={challenge}
-            levelInfo={levelInfo}
-            setLevelInfo={setLevelInfo}
-            completedChallenges={completedChallenges}
-            setCompletedCount={setCompletedCount}
-            completedCount={completedCount}
-            canComplete={canComplete}
-          />
-        ))}
+        <div className="challenges-grid">
+          {challenges.map((challenge) => (
+            <CommunityChallengeCard
+              key={challenge.id}
+              challenge={challenge}
+              levelInfo={levelInfo}
+              setLevelInfo={setLevelInfo}
+              completedChallenges={completedChallenges}
+              setCompletedCount={setCompletedCount}
+              completedCount={completedCount}
+              canComplete={canComplete}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );
