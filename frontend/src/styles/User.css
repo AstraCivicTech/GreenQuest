@@ -1,4 +1,3 @@
-/* General Layout */
 .greenquest-profile {
   display: flex;
   flex-direction: column;
@@ -8,7 +7,18 @@
   font-family: "Poppins", sans-serif;
   position: relative;
   padding-bottom: 6rem;
-  background: linear-gradient(to bottom right, #f4fff9, #e9fdf4);
+
+  /* 🌱 Prestige-inspired gradient background */
+  background: linear-gradient(
+    135deg,
+    #eafaf1 0%,
+    #d4f5e3 25%,
+    #b4edd2 50%,
+    #9ce6c1 75%,
+    #7ddbb5 100%
+  );
+  background-attachment: fixed;
+
   color: #222;
 }
 
