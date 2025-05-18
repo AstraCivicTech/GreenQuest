@@ -3,7 +3,7 @@ import { useContext, useEffect, useState, Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
 import { useParams } from "react-router-dom";
 import CurrentUserContext from "../contexts/current-user-context";
-import { getUser, getUserLevelInfo } from "../adapters/user-adapter";
+import { checkForLoggedInUser } from "../adapters/auth-adapter";
 import { DailyChallenges } from "../components/DailyChallenges";
 import LevelBar from "../components/LevelBar";
 import "../styles/User.css";
@@ -21,22 +21,18 @@ export default function UserPage() {
   const [showIntro, setShowIntro] = useState(false);
   // useParams is used to extract the user ID from the URL
   const { id } = useParams();
+
   // keeps track of current user profile
   const isCurrentUserProfile = currentUser && currentUser.id === Number(id);
 
-  // Every time a new user logs in re-render the component to fetch their profile data
+  // Load current user from session (cookie)
   useEffect(() => {
     const loadUser = async () => {
-      // sends a request to the backend using UserId to fetch user data
-      console.log("id", Number(id));
-      const [user, error] = await getUser(Number(id));
-      if (error) return setError(error);
-      setUserProfile(user);
+      const [user, error] = await checkForLoggedInUser();
+      if (!error) setUserProfile(user);
     };
-
     loadUser();
-    // re-render the component when the user ID changes
-  }, [id]);
+  }, [currentUser]);
 
   // Check for first login (temporary local check)
   useEffect(() => {

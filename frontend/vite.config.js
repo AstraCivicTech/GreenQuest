@@ -12,13 +12,6 @@ export default defineConfig({
         changeOrigin: true,
         secure: false,
         ws: true,
-        configure: (proxy, options) => {
-          proxy.on("proxyReq", (proxyReq, req, res) => {
-            // Log the request details
-            console.log(`Proxying request to: ${req.url}`);
-            proxyReq.setHeader("origin", "http://localhost:5173");
-          });
-        },
       },
     },
   },

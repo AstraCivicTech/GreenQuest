@@ -15,6 +15,7 @@ import "../styles/dailyChallenges.css";
 
 export const DailyChallenges = () => {
   const { id } = useParams();
+
   const {
     levelInfo,
     setLevelInfo,
@@ -26,6 +27,7 @@ export const DailyChallenges = () => {
   const [particles, setParticles] = useState([]);
 
   useEffect(() => {
+    if (!id || id === "undefined") return;
     const fetchAllData = async () => {
       const [levelData, levelError] = await getUserLevelInfo(id);
       if (!levelError) setLevelInfo(levelData);

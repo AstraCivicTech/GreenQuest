@@ -43,7 +43,7 @@ app.use(express.static(path.join(__dirname, "../frontend/dist"))); // Serve stat
 
 app.post("/api/auth/register", authControllers.registerUser);
 app.post("/api/auth/login", authControllers.loginUser);
-app.get("/api/auth/me", authControllers.showMe);
+app.get("/api/auth/me", checkAuthentication, authControllers.showMe);
 app.delete("/api/auth/logout", authControllers.logoutUser);
 
 ///////////////////////////////
@@ -65,12 +65,12 @@ app.patch("/api/users/:id", checkAuthentication, userControllers.updateUser);
 // routes for managing level info
 app.get(
   "/api/users/level/:id",
-
+  checkAuthentication,
   userControllers.getLevelInfo
 );
 app.patch(
   "/api/users/level/:id",
-
+  checkAuthentication,
   userControllers.updateLevelInfo
 );
 // routes for managing challenges
@@ -93,11 +93,19 @@ app.post("/api/challenges/create", challengesControllers.createChallenge);
 // app.use('/api/posts', postRoutes);
 
 // routes for managing posts.
-app.get("/api/posts", postControllers.getAllPosts); // Get all the posts.
-app.get("/api/post/:id", postControllers.getPostById); // Gets a post by the id.
-app.post("/api/post", postControllers.createPost); // Creates a new post.
-app.patch("/api/post/update/:id", postControllers.updatePost); // Updates an existing post.
-app.delete("/api/post/delete/:id", postControllers.deletePost); // Deletes a an existing posts.
+app.get("/api/posts", checkAuthentication, postControllers.getAllPosts); // Get all the posts.
+app.get("/api/post/:id", checkAuthentication, postControllers.getPostById); // Gets a post by the id.
+app.post("/api/post", checkAuthentication, postControllers.createPost); // Creates a new post.
+app.patch(
+  "/api/post/update/:id",
+  checkAuthentication,
+  postControllers.updatePost
+); // Updates an existing post.
+app.delete(
+  "/api/post/delete/:id",
+  checkAuthentication,
+  postControllers.deletePost
+); // Deletes a an existing posts.
 
 ///////////////////////////////////
 ///////////////////////////////
