@@ -7,12 +7,14 @@ export default function CurrentUserContextProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null);
   const [levelInfo, setLevelInfo] = useState(null);
   const [completedChallenges, setCompletedChallenges] = useState([]);
+  const [loading, setLoading] = useState(true); //  Wait for user to load
 
   // Load current user from session (cookie)
   useEffect(() => {
     const loadUser = async () => {
       const [user, error] = await checkForLoggedInUser();
       if (!error) setCurrentUser(user);
+      setLoading(false); //  Whether user is null or not, we're done loading
     };
     loadUser();
   }, []);
@@ -37,6 +39,8 @@ export default function CurrentUserContextProvider({ children }) {
     completedChallenges,
     setCompletedChallenges,
   };
+
+  if (loading) return null; //  Prevent rendering while checking session
 
   return (
     <CurrentUserContext.Provider value={context}>

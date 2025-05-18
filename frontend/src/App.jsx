@@ -22,7 +22,7 @@ export default function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/sign-up" element={<SignUpPage />} />
-          <Route path="/users" element={<UsersPage />} />
+          {/*<Route path="/users" element={<UsersPage />} />*/}
           <Route path="/users/:id" element={<UserPage />} />
           <Route path="/feed" element={<Feed />} />
           <Route path="*" element={<NotFoundPage />} />
