@@ -1,0 +1,97 @@
+/* TextPostContainer.css */
+
+.text-post-container {
+  background: #f0fff4; /* light mint green */
+  border: 2px solid #b5e7c3; /* soft green */
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin-top: 10rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 4px 12px rgba(34, 139, 34, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.text-post-container:hover {
+  transform: translateY(-3px);
+}
+
+.post-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.8rem;
+}
+
+.post-username {
+  font-weight: 600;
+  color: #146c43;
+  font-size: 1.1rem;
+}
+
+.post-timestamp {
+  font-size: 0.85rem;
+  color: #5c8a68;
+}
+
+.post-content {
+  font-size: 1rem;
+  color: #2d4d3a;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.post-image {
+  width: 100%;
+  max-height: 360px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-top: 1rem;
+  box-shadow: 0 2px 10px rgba(40, 167, 69, 0.15);
+}
+
+.post-actions {
+  margin-top: 1rem;
+  display: flex;
+  gap: 0.75rem;
+}
+
+.post-actions button {
+  background: #198754;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.post-actions button:hover {
+  background: #146c43;
+}
+
+.edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.edit-form textarea {
+  padding: 0.75rem;
+  border: 1px solid #a5d6ba;
+  border-radius: 8px;
+  font-size: 1rem;
+  resize: vertical;
+}
+
+.edit-form input[type="file"] {
+  margin-top: 0.5rem;
+}
+
+.edit-form .edit-buttons {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}

@@ -3,7 +3,7 @@ import { useContext, useEffect, useState, Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
 import { useParams } from "react-router-dom";
 import CurrentUserContext from "../contexts/current-user-context";
-import { getUser } from "../adapters/user-adapter";
+import { getUser, getUserLevelInfo } from "../adapters/user-adapter";
 import { DailyChallenges } from "../components/DailyChallenges";
 import LevelBar from "../components/LevelBar";
 import "../styles/User.css";
@@ -15,6 +15,7 @@ export default function UserPage() {
   const { currentUser, levelInfo } = useContext(CurrentUserContext);
   // here we keep track of the state of user profile
   const [userProfile, setUserProfile] = useState(null);
+  const [levelData, setLevelData] = useState(null);
   const [error, setError] = useState(null);
   // this is an intro scene to give players a sense of purpose when they first sign up and log in
   const [showIntro, setShowIntro] = useState(false);
@@ -27,10 +28,12 @@ export default function UserPage() {
   useEffect(() => {
     const loadUser = async () => {
       // sends a request to the backend using UserId to fetch user data
-      const [user, error] = await getUser(id);
+      console.log("id", Number(id));
+      const [user, error] = await getUser(Number(id));
       if (error) return setError(error);
       setUserProfile(user);
     };
+
     loadUser();
     // re-render the component when the user ID changes
   }, [id]);

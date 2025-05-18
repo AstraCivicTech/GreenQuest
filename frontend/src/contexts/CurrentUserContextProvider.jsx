@@ -6,7 +6,7 @@ export default function CurrentUserContextProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null);
   const [levelInfo, setLevelInfo] = useState(null);
   const [completedChallenges, setCompletedChallenges] = useState([]);
-  // re-renders the component when the user logs in or out
+
   useEffect(() => {
     const fetchLevelInfo = async () => {
       if (currentUser) {

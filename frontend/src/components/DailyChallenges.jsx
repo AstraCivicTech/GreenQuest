@@ -103,9 +103,11 @@ export const DailyChallenges = () => {
                 />
                 {challenge.description} ({challenge.experienceReward} XP)
               </label>
-
-              {/* ✅ Show CreatePostButton only if completed */}
-              {isCompleted && <CreatePostButton />}
+              {isCompleted && (
+                <div className="create-post-button-wrapper">
+                  <CreatePostButton />
+                </div>
+              )}
             </li>
           );
         })}

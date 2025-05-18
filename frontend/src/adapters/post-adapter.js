@@ -23,15 +23,15 @@ export const createPost = async (postData) => {
 };
 
 // Updates an existing post with the specified values.
-export const updatePost = async (postId, fieldsToUpdate) => {
+export const updatePost = async (post, fieldsToUpdate) => {
   return await fetchHandler(
-    `${postUrl}/update/${postId}`,
+    `${postUrl}/update/${post.id}`,
     updatePostOptions(fieldsToUpdate)
   );
 };
 
 // Deletes a post based on the post Id.
-export const deletePost = async (postId) => {
-  console.log(postId);
-  return await fetchHandler(`${postUrl}/delete/${postId}`, deleteOptions);
+export const deletePost = async (post) => {
+  console.log("Deleting post with ID:", post.id);
+  return await fetchHandler(`${postUrl}/delete/${post.id}`, deleteOptions);
 };

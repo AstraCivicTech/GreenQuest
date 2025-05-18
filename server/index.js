@@ -28,8 +28,8 @@ const app = express();
 // middleware
 app.use(
   cors({
-    origin: "http://localhost:5173", // ✅ must match your frontend origin
-    credentials: true, // ✅ allow cookies/auth headers
+    origin: "http://localhost:5173", // must match your frontend origin
+    credentials: true, // allow cookies/auth headers
   })
 );
 app.use(handleCookieSessions); // adds a session property to each request representing the cookie
@@ -64,13 +64,13 @@ app.get("/api/users/:id", checkAuthentication, userControllers.showUser);
 app.patch("/api/users/:id", checkAuthentication, userControllers.updateUser);
 // routes for managing level info
 app.get(
-  "/api/users/:id/level",
-  checkAuthentication,
+  "/api/users/level/:id",
+
   userControllers.getLevelInfo
 );
 app.patch(
-  "/api/users/:id/level",
-  checkAuthentication,
+  "/api/users/level/:id",
+
   userControllers.updateLevelInfo
 );
 // routes for managing challenges

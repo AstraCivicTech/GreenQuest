@@ -24,21 +24,3 @@
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 1.5rem;
 }
-
-.post-card {
-  background-color: #ffffff;
-  border: 2px solid #d3f7de;
-  border-radius: 16px;
-  padding: 1.2rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
-  transition: transform 0.2s ease;
-}
-
-.post-card:hover {
-  transform: translateY(-5px);
-}
-
-.post-content {
-  font-size: 1rem;
-  color: #2f5f3c;
-}

@@ -95,3 +95,9 @@
   font-style: italic;
   color: #7aa68f;
 }
+
+.create-post-button-wrapper {
+  margin-top: 0.5rem;
+
+  text-decoration: none !important;
+}

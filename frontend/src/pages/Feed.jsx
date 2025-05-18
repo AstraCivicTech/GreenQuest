@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { getAllPosts } from "../adapters/post-adapter";
-import ManagePostsButton from "../components/ManagePostsButton";
 import TextPostContainer from "../components/TextPostContainer";
 import "../styles/Feed.css";
 
@@ -8,36 +7,22 @@ export default function Feed() {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Fetch posts initially
   useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const [data, error] = await getAllPosts();
+        if (error) return console.error("Failed to load posts:", error);
+        setPosts(data);
+      } catch (err) {
+        console.error("Unexpected error:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     fetchPosts();
   }, []);
 
-  const fetchPosts = async () => {
-    try {
-      const response = await getAllPosts();
-      setPosts(response[0] || []);
-    } catch (error) {
-      console.error("Error fetching posts:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // Called after a post is deleted
-  const handleDelete = (deletedId) => {
-    setPosts((prev) => prev.filter((post) => post.postId !== deletedId));
-  };
-
-  // Called after a post is updated
-  const handleUpdate = (updatedContent) => {
-    setPosts((prev) =>
-      prev.map((post) =>
-        post.postId === updatedContent.postId ? updatedContent : post
-      )
-    );
-  };
-  console.log(`posts: ${posts}`);
   if (loading) return <div className="feed-loading">Loading...</div>;
 
   return (
@@ -47,9 +32,9 @@ export default function Feed() {
         {posts.map((post) => (
           <TextPostContainer
             key={post.postId}
-            content={post}
-            onDelete={handleDelete}
-            onUpdate={handleUpdate}
+            post={post}
+            posts={posts}
+            setPosts={setPosts}
           />
         ))}
       </div>
