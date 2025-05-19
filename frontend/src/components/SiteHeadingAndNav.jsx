@@ -20,14 +20,13 @@ export default function SiteHeadingAndNav() {
   return (
     <nav className="navbar">
       <div className="nav-container">
-        <img src="/logo/green-quest-logo1.png" className="logo" />
+        <NavLink to="/">
+          <img src="/logo/green-quest-logo1.png" className="logo" />
+        </NavLink>
 
         <ul className="nav-links">
           <li>
-            <NavLink to="/">Home</NavLink>
-          </li>
-          <li>
-            <NavLink to="/landing-page">Landing Page</NavLink>
+            <NavLink to="/scene">Scene</NavLink>
           </li>
 
           {currentUser ? (
@@ -50,9 +49,9 @@ export default function SiteHeadingAndNav() {
                 </div>
 
                 <div className={`dropdown-menu ${showDropdown ? "show" : ""}`}>
-                  <NavLink to="/settings" className="dropdown-item">
+                  {/* <NavLink to="/settings" className="dropdown-item">
                     Settings
-                  </NavLink>
+                  </NavLink> */}
                   <NavLink to="/">
                     <button
                       className="dropdown-item logout-button"

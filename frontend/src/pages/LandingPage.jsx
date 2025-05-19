@@ -1,8 +1,12 @@
+import { useState } from "react";
 import SiteHeadingAndNav from "../components/SiteHeadingAndNav";
 import { DeveloperCard } from "../components/DeveloperCard";
+import { HowToModal } from "../components/HowToModal";
 import "../styles/LandingPage.css";
 
 export const LandingPage = () => {
+  const [showModal, setShowModal] = useState(false);
+
   const developers = [
     [
       "Felipe Garcia",
@@ -65,8 +69,7 @@ export const LandingPage = () => {
           "GreenQuest Mission". Click the button to learn more about how to
           create your first challenge!
         </p>
-        {/* This is supposed to show a "How-Tos: Creating a Challenge!" Modal. */}
-        <button>Click Me!</button>
+        <HowToModal setShowModal={setShowModal} showModal={showModal} />
       </div>
       <div className="dev-header">
         <h2>The Developers</h2>
