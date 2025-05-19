@@ -8,7 +8,8 @@
   font-family: "Poppins", sans-serif;
   position: relative;
   padding-bottom: 6rem;
-  background: linear-gradient(to bottom right, #f4fff9, #e9fdf4);
+  background: linear-gradient(to bottom, #d4fbe9, #aee7ff);
+  /* background: linear-gradient(to bottom right, #f4fff9, #e9fdf4); */
   color: #222;
 }
 

@@ -23,9 +23,11 @@ exports.getChallengesByCategory = async (req, res) => {
 
 exports.completeChallenge = async (req, res) => {
   const { userId, challengeId } = req.body;
+  console.log("inside completeChallenge (controllers):", userId, challengeId);
 
   try {
     const result = await Challenge.completeChallenge(userId, challengeId);
+    console.log("result (complete, controllers):", result);
     if (!result.success) {
       return res.status(400).json({ message: result.message });
     }
@@ -37,7 +39,13 @@ exports.completeChallenge = async (req, res) => {
 };
 
 exports.getCompletedChallenges = async (req, res) => {
-  const { id } = req.params;
+  console.log("ReqBody:", req.body);
+  const { id } = req.body; // Destructure id from req.body
+
+  if (!id) {
+    return res.status(400).json({ message: "User ID is required" });
+  }
+
   try {
     const completed = await Challenge.getCompletedChallenges(id);
     res.status(200).json(completed);
@@ -45,6 +53,17 @@ exports.getCompletedChallenges = async (req, res) => {
     console.error("Error fetching completed challenges:", error);
     res.status(500).json({ message: "Failed to fetch completed challenges." });
   }
+};
+
+exports.getChallengeFromId = async (req, res) => {
+  const { challengeId } = req.body;
+  console.log("Challenge Id (getChallengeDetailsFromId):", challengeId);
+
+  const challengesResponse = await Challenge.getChallengeDetailsFromId(
+    challengeId
+  );
+  console.log("Controllers (getChallengeDetailsFromId):", challengesResponse);
+  res.status(200).json(challengesResponse);
 };
 
 exports.createChallenge = async (req, res) => {

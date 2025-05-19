@@ -16,6 +16,7 @@ body,
   justify-content: center;
   align-items: center;
   background-image: url("/images/leaf-pattern-bg.png"); /* Optional decorative bg */
+  background: linear-gradient(to bottom, #d4fbe9, #aee7ff);
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;

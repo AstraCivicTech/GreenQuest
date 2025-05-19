@@ -52,6 +52,54 @@ class Challenge {
     console.error('Error retrieving daily challenges:', err);
     throw new Error('Failed to retrieve daily challenges');
   }
+    }
+  }
+
+  static async addCommunityChallengeToDB(challengeInstance) {
+    try {
+      console.log("Inserting community challenge:", challengeInstance);
+      await knex("dailyAndCommunityChallenges").insert({
+        category: "community",
+        challengeType: "Eco-Habit",
+        description: challengeInstance.description,
+        experienceReward: Math.floor(Math.random() * (133 - 33 + 1) + 33),
+        userId: challengeInstance.userId,
+      });
+      return { success: true }; // Add this return statement
+    } catch (error) {
+      console.error("Error inserting community challenge:", error);
+      return {
+        success: false,
+        message: "Failed to insert community challenge.",
+      };
+    }
+  }
+
+  static async getChallengeDetailsFromId(challengeId) {
+    try {
+      return await knex("dailyAndCommunityChallenges")
+        .select(
+          "id",
+          "userId",
+          "description",
+          "challengeType",
+          "category",
+          "experienceReward",
+          "createdAt"
+        )
+        .where({ id: challengeId });
+      // return { success: true }
+    } catch (error) {
+      console.error("Error getting challenge based on id: ", error.message);
+      return { success: false }; // Add this return statement
+    }
+  }
+
+  // Get today's challenges from the dailyAndCommunityChallenges table
+  static async getChallenges(category) {
+    return await knex("dailyAndCommunityChallenges")
+      .select("id", "description", "experienceReward")
+      .where({ category });
   }
 
   // Check if a user already completed a challenge

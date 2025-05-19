@@ -5,6 +5,7 @@ const cors = require("cors");
 require("dotenv").config();
 const path = require("path");
 const express = require("express");
+const { Server } = require("socket.io");
 
 // middleware imports
 const handleCookieSessions = require("./middleware/handleCookieSessions");
@@ -21,10 +22,18 @@ const postControllers = require("./controllers/postControllers");
 const { findChallengeCreator } = require("./models/Challenge");
 // const postRoutes = require('./routes/postRoutes');
 
+//placeholder
+const validateAndProcessCommunityChallenges = require("./services/communityChallengeService");
+
 // Initialize and start the challenge scheduler
 require("./scheduler/challengeScheduler");
 
 const app = express();
+const server = require("http").createServer(app);
+
+// Initialize schedulers after setting up Socket.IO
+require("./scheduler/challengeScheduler");
+// require("./scheduler/challengeCounterScheduler");
 
 // middleware
 app.use(
@@ -51,8 +60,12 @@ app.delete("/api/auth/logout", authControllers.logoutUser);
 // AI Routes
 ///////////////////////////////
 
-app.get("/api/ai/generate", aiControllers.ai);
-app.post("/api/ai/validate", aiControllers.ai); // revisit
+app.get("/api/ai/generate", aiControllers.ai); // creates the 3 daily challenges
+// app.post("/api/ai/validate", aiControllers.ai); // revisit
+app.post(
+  "/api/challenges/create-community",
+  validateAndProcessCommunityChallenges
+); // changed name to add "-community" reference line 94 for conflicts example
 
 ///////////////////////////////
 // User Routes
@@ -86,10 +99,11 @@ app.get(
   challengesControllers.getCompletedChallenges
 );
 app.post(
-  "/api/challenges/complete",
-  checkAuthentication,
-  challengesControllers.completeChallenge
+  "/api/users/completed-challenges",
+  challengesControllers.getCompletedChallenges
 );
+app.post("/api/challenges/getById", challengesControllers.getChallengeFromId);
+app.post("/api/challenges/complete", challengesControllers.completeChallenge);
 app.post("/api/challenges/create", challengesControllers.createChallenge);
 app.get("/api/challenges/:challengeId/users", challengesControllers.findUsersAndPostByChallengeId);
 app.get('/api/challenge/:challengeId/user', challengesControllers.findChallengeCreatorByChallengeId)
@@ -129,6 +143,6 @@ app.use(logErrors);
 ///////////////////////////////
 
 const port = process.env.PORT || 3003;
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`Server running at http://localhost:${port}/`);
 });

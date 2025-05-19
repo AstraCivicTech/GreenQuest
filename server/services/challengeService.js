@@ -19,9 +19,17 @@ if (!API_KEY) {
   );
 }
 
-// A customized prompt that is sent to the LLM to generate the 3 daily challenges.
-const prompt = `Return ONLY valid JSON without any markdown formatting or code blocks.
-Generate 3 real-life daily challenges following these themes: Eco Habit, Nature Appreciation, and Community Engagement. Challenges should be short (1 sentence), engaging, and written in the tone of an energetic game master. Each challenge should have a unique name and a playful description that encourages real-world action.
+const genAI = new GoogleGenerativeAI(API_KEY);
+
+/**
+ * Fetches new daily challenges from the AI and processes them.
+ * This function should also handle storing these challenges (e.g., in a database or cache).
+ */
+async function fetchAndProcessDailyChallenges() {
+  console.log("Attempting to fetch new daily challenges...");
+  try {
+    const prompt = `Return ONLY valid JSON without any markdown formatting or code blocks.
+Always Generate exactly 3 real-life daily challenges following this theme: Eco Habit. Challenges should be short (1 sentence), engaging, and written in the tone of an energetic game master. Each challenge should have a unique name and a playful description that encourages real-world action.
 Format the response as a JSON array of objects with these fields:
 - "challengeType": Must be exactly one of this string: "Eco-Habit"
 - "category": should always be "Daily"
