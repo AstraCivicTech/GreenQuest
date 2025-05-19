@@ -1,5 +1,5 @@
 .feed-container {
-  padding: 2rem;
+  padding: 10rem;
   max-width: 1200px;
   margin: 0 auto;
   font-family: "Poppins", sans-serif;
@@ -19,8 +19,197 @@
   color: #444;
 }
 
-.post-grid {
+.challenge-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 1.5rem;
+}
+
+.challenge-card {
+  background-color: #ffffff;
+  border: 2px solid #d3f7de;
+  border-radius: 16px;
+  padding: 1.2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  transition: transform 0.2s ease;
+}
+
+.challenge-card:hover {
+  transform: translateY(-5px);
+}
+
+.challenge-content {
+  font-size: 1rem;
+  color: #2f5f3c;
+}
+
+/* --- SelectedChallengeDisplay Styles --- */
+
+.selected-challenge-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent overlay */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000; /* Ensure it's on top */
+  padding: 2rem;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+.selected-challenge-content-box {
+  background-color: #ffffff;
+  border: 2px solid #d3f7de;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 700px; /* Adjust as needed */
+  max-height: 90vh; /* Prevent it from being too tall */
+  overflow-y: auto; /* Allow scrolling for content */
+  position: relative; /* For positioning the close button */
+}
+
+.selected-challenge-close-button {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  color: #555;
+  cursor: pointer;
+  padding: 0.5rem;
+  line-height: 1;
+}
+
+.selected-challenge-close-button:hover {
+  color: #1b5e20;
+}
+
+.selected-challenge-content-box h2 {
+  font-size: 1.8rem;
+  color: #1b5e20;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.selected-challenge-content-box p {
+  font-size: 1rem;
+  color: #2f5f3c;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.related-posts-section {
+  margin-top: 2rem;
+  border-top: 1px solid #e0e0e0;
+  padding-top: 1.5rem;
+}
+
+.related-posts-section h4 {
+  font-size: 1.3rem;
+  color: #1b5e20;
+  margin-bottom: 1rem;
+}
+
+.posts-scroll-container {
+  max-height: 200px; /* Adjust as needed */
+  overflow-y: auto;
+  padding-right: 0.5rem; /* For scrollbar spacing */
+  border: 1px solid #eefbee;
+  border-radius: 8px;
+  padding: 1rem;
+  background-color: #f9fdf9;
+}
+
+.post-item {
+  background-color: #ffffff;
+  border: 1px solid #d3f7de;
+  border-radius: 8px;
+  padding: 0.8rem 1rem;
+  margin-bottom: 0.8rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.post-item p {
+  font-size: 0.95rem;
+  color: #2f5f3c;
+  margin-bottom: 0.3rem;
+}
+.post-item p strong {
+  color: #1b5e20;
+}
+
+.post-item small {
+  font-size: 0.8rem;
+  color: #777;
+}
+
+.add-post-form {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e0e0e0;
+}
+
+.add-post-form textarea {
+  width: 100%;
+  padding: 0.8rem;
+  border: 1px solid #c5e6cf;
+  border-radius: 8px;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.95rem;
+  color: #2f5f3c;
+  margin-bottom: 0.8rem;
+  box-sizing: border-box; /* Ensure padding doesn't increase width */
+  resize: vertical;
+}
+
+.add-post-form textarea:focus {
+  outline: none;
+  border-color: #2f5f3c;
+  box-shadow: 0 0 0 2px rgba(47, 95, 60, 0.2);
+}
+
+.add-post-form button {
+  background-color: #1b5e20;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.7rem 1.5rem;
+  font-family: "Poppins", sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  display: block; /* Make it block to allow margin auto or specific alignment */
+  margin-left: auto; /* Example: align to right */
+}
+
+.add-post-form button:hover {
+  background-color: #2f5f3c;
+}
+
+/* Responsive adjustments for smaller screens if needed */
+@media (max-width: 768px) {
+  .selected-challenge-content-box {
+    padding: 1.5rem;
+    margin: 1rem; /* Add some margin on smaller screens */
+    max-height: 85vh;
+  }
+
+  .selected-challenge-content-box h2 {
+    font-size: 1.6rem;
+  }
+
+  .selected-challenge-close-button {
+    font-size: 1.6rem;
+    top: 0.8rem;
+    right: 0.8rem;
+  }
 }

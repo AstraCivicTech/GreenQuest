@@ -1,15 +1,16 @@
 const knex = require("../db/knex");
 
 class Post {
-  constructor({ postId, userId, content, createdAt, updated_at }) {
+  constructor({ postId, userId, content, createdAt, updated_at, challengeId}) {
     this.postId = postId;
     this.userId = userId;
     this.content = content;
     this.createdAt = createdAt;
     this.updatedAt = updated_at;
+    this.challengeId = challengeId;
   }
 
-  static async create(content, user_id) {
+  static async create(content, user_id, challengeId) {
     try {
       const [post] = await knex("posts")
         .insert({
@@ -17,6 +18,7 @@ class Post {
           userId: user_id,
           createdAt: new Date(),
           updated_at: new Date(),
+          challengeId
         })
         .returning("*");
       return new Post(post);
@@ -29,7 +31,6 @@ class Post {
   static async findAll() {
     try {
       const posts = await knex("posts").select("*");
-      console.log(posts);
       return posts.map((post) => new Post(post));
     } catch (err) {
       console.error("Error retrieving posts:", err);
@@ -52,7 +53,7 @@ class Post {
 
     try {
       const [updatedPost] = await knex("posts")
-        .where({ postId: id })
+        .where({ postId: id})
         .update({ content, updated_at: new Date() })
         .returning("*");
       return updatedPost ? new Post(updatedPost) : null;
@@ -81,6 +82,8 @@ class Post {
       throw new Error("Failed to retrieve posts for user");
     }
   }
+
 }
+
 
 module.exports = Post;

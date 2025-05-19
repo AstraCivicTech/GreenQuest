@@ -7,11 +7,9 @@
   font-family: "Poppins", sans-serif;
   position: relative;
   padding-bottom: 6rem;
-
   /*  gradient background */
   background: linear-gradient(to bottom, #d4fbe9, #aee7ff);
   background-attachment: fixed;
-
   color: #222;
 }
 

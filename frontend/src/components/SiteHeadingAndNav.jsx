@@ -20,22 +20,25 @@ export default function SiteHeadingAndNav() {
   return (
     <nav className="navbar">
       <div className="nav-container">
-        <img src="/logo/green-quest-logo1.png" className="logo" />
+        <NavLink to="/">
+          <img src="/logo/green-quest-logo1.png" className="logo" />
+        </NavLink>
 
         <ul className="nav-links">
           <li>
-            <NavLink to="/">Home</NavLink>
-          </li>
-          <li>
-            <NavLink to="/feed">Feed</NavLink>
+            <NavLink to="/scene">Scene</NavLink>
           </li>
 
           {currentUser ? (
             <>
-              {/* <li>
-                <NavLink to="/users">Users</NavLink>
-              </li> */}
-
+              <li>
+                <NavLink to="/community-challenges">
+                  Community Challenges
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/feed">Feed</NavLink>
+              </li>
               <li className="nav-user-menu">
                 <div className="nav-username" onClick={toggleDropdown}>
                   <NavLink to={`/users/${currentUser.id}`}>
@@ -49,9 +52,9 @@ export default function SiteHeadingAndNav() {
                 </div>
 
                 <div className={`dropdown-menu ${showDropdown ? "show" : ""}`}>
-                  <NavLink to="/settings" className="dropdown-item">
+                  {/* <NavLink to="/settings" className="dropdown-item">
                     Settings
-                  </NavLink>
+                  </NavLink> */}
                   <NavLink to="/">
                     <button
                       className="dropdown-item logout-button"

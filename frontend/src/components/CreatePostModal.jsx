@@ -8,7 +8,6 @@ export default function CreatePostModal({ onClose }) {
   const [content, setContent] = useState("");
 
   const handleChange = (event) => {
-    console.log(event.target.value);
     setContent(event.target.value);
   };
   const handlePostSubmit = async (event) => {
@@ -38,7 +37,6 @@ export default function CreatePostModal({ onClose }) {
           placeholder="Write your post here..."
         />
         <div className="modal-actions">
-          <label>submit</label>
           <input type="submit" value="submit" className="submit-button" />
         </div>
       </form>
