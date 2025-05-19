@@ -67,7 +67,7 @@ export default function UserPage() {
 
         {/* Daily Challenges + Optional Character */}
         <div className="challenges-and-scientist">
-          <DailyChallenges userIdFromParams = {id}/>
+          <DailyChallenges/>
 
           {showIntro && (
             <div className="character-widget">
