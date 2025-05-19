@@ -2,8 +2,9 @@
   width: 157px;
   height: 157px;
   border-radius: 50%;
-  background: conic-gradient(#3ddc91 calc(var(--progress) * 1%), #1c1c1c 0%);
+
   display: flex;
+  background: conic-gradient(#c084fc calc(var(--progress) * 1%), #2e1065 0%);
   align-items: center;
   justify-content: center;
   position: absolute;

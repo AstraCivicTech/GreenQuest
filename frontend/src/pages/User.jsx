@@ -85,10 +85,10 @@ export default function UserPage() {
         </div>
       </div>
 
-      <div className="user-posts">
+      {/* <div className="user-posts">
         <h2 className="activity">Activity</h2>
         <p>This user hasn't posted anything yet.</p>
-      </div>
+      </div>*/}
     </div>
   );
 }
