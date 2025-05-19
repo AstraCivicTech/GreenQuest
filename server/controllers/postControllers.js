@@ -1,43 +1,38 @@
-const knex = require('../db/knex');
+const knex = require("../db/knex");
+const Post = require("../models/Post");
 
 // Create a new post
 exports.createPost = async (req, res) => {
-  const { content, likes, user_id } = req.body;
-
+  const { content, likes, userId, challengeId} = req.body;
   // Validate input
-  if (!content || likes === undefined || !user_id) {
+  if (
+    (typeof content !== "string" && likes === undefined) ||
+    userId === undefined || challengeId === undefined
+  ) {
     return res
       .status(400)
-      .json({ message: 'Content, likes, and user_id are required.' });
+      .json({ message: "Content, likes,userId and challengeId are required." });
   }
 
   try {
-    const [newPost] = await knex('post')
-      .insert({
-        content,
-        likes,
-        user_id,
-      })
-      .returning('*'); // Return all columns of the new post
+    const newPost = await Post.create(content, userId, challengeId); // Return all columns of the new post
     res.status(201).json(newPost);
   } catch (error) {
-    console.error('Error creating post:', error);
-    res
-      .status(500)
-      .json({ message: 'Error creating post', error: error.message });
+    console.error("Error creating post:", error);
+    res.status(500).json({ message: "Error creating post", error: error.message });
   }
 };
 
 // Get all posts
 exports.getAllPosts = async (req, res) => {
   try {
-    const posts = await knex('post').select('*');
+    const posts = await Post.findAll();
+    console.log(posts);
+    console.log(posts);
     res.status(200).json(posts);
   } catch (error) {
-    console.error('Error fetching posts:', error);
-    res
-      .status(500)
-      .json({ message: 'Error fetching posts', error: error.message });
+    console.error("Error fetching posts:", error);
+    res.status(500).json({ message: "Error fetching posts", error: error.message });
   }
 };
 
@@ -45,16 +40,15 @@ exports.getAllPosts = async (req, res) => {
 exports.getPostById = async (req, res) => {
   const { id } = req.params;
   try {
-    const post = await knex('post').where({ id }).first();
+    const post = await Post.findById(id);
     if (!post) {
-      return res.status(404).json({ message: 'Post not found' });
+      return res.status(404).json({ message: "Post not found" })
     }
     res.status(200).json(post);
   } catch (error) {
-    console.error('Error fetching post:', error);
-    res
-      .status(500)
-      .json({ message: 'Error fetching post', error: error.message });
+    console.error("Error fetching post:", error);
+    res.status(500).json({ message: "Error fetching post", error: error.message });
+      
   }
 };
 
@@ -65,9 +59,7 @@ exports.updatePost = async (req, res) => {
 
   // Validate input
   if (!content && likes === undefined) {
-    return res
-      .status(400)
-      .json({ message: 'Content or likes must be provided to update.' });
+    return res.status(400).json({ message: "Content or likes must be provided to update." });
   }
 
   const fieldsToUpdate = {};
@@ -80,36 +72,31 @@ exports.updatePost = async (req, res) => {
   fieldsToUpdate.updated_at = knex.fn.now(); // Update the timestamp
 
   try {
-    const [updatedPost] = await knex('post')
-      .where({ id })
-      .update(fieldsToUpdate)
-      .returning('*');
-
+    const updatedPost = await Post.update(id, fieldsToUpdate);
     if (!updatedPost) {
-      return res.status(404).json({ message: 'Post not found' });
+      return res.status(404).json({ message: "Post not found" });
     }
     res.status(200).json(updatedPost);
   } catch (error) {
-    console.error('Error updating post:', error);
-    res
-      .status(500)
-      .json({ message: 'Error updating post', error: error.message });
+    console.error("Error updating post:", error);
+    res.status(500).json({ message: "Error updating post", error: error.message });
   }
 };
 
 // Delete a post
 exports.deletePost = async (req, res) => {
-  const { id } = req.params;
+  const postId = parseInt(req.params.id);
+  if (isNaN(postId)) return res.status(400).json({ error: "Invalid post ID" });
+
   try {
-    const deletedCount = await knex('post').where({ id }).del();
-    if (deletedCount === 0) {
-      return res.status(404).json({ message: 'Post not found' });
+    const success = await Post.delete(postId);
+    if (success) {
+      res.sendStatus(204); // No Content
+    } else {
+      res.status(404).json({ error: "Post not found" });
     }
-    res.status(200).json({ message: 'Post deleted successfully' }); // Or res.status(204).send(); for no content
-  } catch (error) {
-    console.error('Error deleting post:', error);
-    res
-      .status(500)
-      .json({ message: 'Error deleting post', error: error.message });
+  } catch (err) {
+    console.error("Error deleting post:", err);
+    res.status(500).json({ error: "Failed to delete post" });
   }
 };

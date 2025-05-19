@@ -18,6 +18,9 @@ const authControllers = require("./controllers/authControllers");
 const userControllers = require("./controllers/userControllers");
 const aiControllers = require("./controllers/aiControllers");
 const challengesControllers = require("./controllers/challengesControllers");
+const postControllers = require("./controllers/postControllers");
+const { findChallengeCreator } = require("./models/Challenge");
+// const postRoutes = require('./routes/postRoutes');
 
 //placeholder
 const validateAndProcessCommunityChallenges = require("./services/communityChallengeService");
@@ -35,8 +38,8 @@ require("./scheduler/challengeScheduler");
 // middleware
 app.use(
   cors({
-    origin: "http://localhost:5173", // ✅ must match your frontend origin
-    credentials: true, // ✅ allow cookies/auth headers
+    origin: "http://localhost:5173", // must match your frontend origin
+    credentials: true, // allow cookies/auth headers
   })
 );
 app.use(handleCookieSessions); // adds a session property to each request representing the cookie
@@ -50,7 +53,7 @@ app.use(express.static(path.join(__dirname, "../frontend/dist"))); // Serve stat
 
 app.post("/api/auth/register", authControllers.registerUser);
 app.post("/api/auth/login", authControllers.loginUser);
-app.get("/api/auth/me", authControllers.showMe);
+app.get("/api/auth/me", checkAuthentication, authControllers.showMe);
 app.delete("/api/auth/logout", authControllers.logoutUser);
 
 ///////////////////////////////
@@ -75,12 +78,12 @@ app.get("/api/users/:id", checkAuthentication, userControllers.showUser);
 app.patch("/api/users/:id", checkAuthentication, userControllers.updateUser);
 // routes for managing level info
 app.get(
-  "/api/users/:id/level",
+  "/api/users/level/:id",
   checkAuthentication,
   userControllers.getLevelInfo
 );
 app.patch(
-  "/api/users/:id/level",
+  "/api/users/level/:id",
   checkAuthentication,
   userControllers.updateLevelInfo
 );
@@ -88,7 +91,7 @@ app.patch(
 app.get(
   "/api/challenges",
   checkAuthentication,
-  challengesControllers.getChallenges
+  challengesControllers.getChallengesByCategory
 );
 app.get(
   "/api/users/:id/completed-challenges",
@@ -102,6 +105,26 @@ app.post(
 app.post("/api/challenges/getById", challengesControllers.getChallengeFromId);
 app.post("/api/challenges/complete", challengesControllers.completeChallenge);
 app.post("/api/challenges/create", challengesControllers.createChallenge);
+app.get("/api/challenges/:challengeId/users", challengesControllers.findUsersAndPostByChallengeId);
+app.get('/api/challenge/:challengeId/user', challengesControllers.findChallengeCreatorByChallengeId)
+// app.use('/api/posts', postRoutes);
+
+// routes for managing posts.
+app.get("/api/posts", checkAuthentication, postControllers.getAllPosts); // Get all the posts.
+app.get("/api/post/:id", checkAuthentication, postControllers.getPostById); // Gets a post by the id.
+app.post("/api/post", checkAuthentication, postControllers.createPost); // Creates a new post.
+app.patch(
+  "/api/post/update/:id",
+  checkAuthentication,
+  postControllers.updatePost
+); // Updates an existing post.
+app.delete(
+  "/api/post/delete/:id",
+  checkAuthentication,
+  postControllers.deletePost
+); // Deletes a an existing posts.
+
+///////////////////////////////////
 ///////////////////////////////
 // Fallback Routes
 ///////////////////////////////

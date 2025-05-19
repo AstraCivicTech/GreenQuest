@@ -2,15 +2,13 @@
 // with the provided body and the remaining options
 import {
   fetchHandler,
-  getPatchOptions,
   getPostOptions,
 } from "../utils/fetchingUtils";
 
-const baseUrl = "/api/challenges";
-
-export const getChallenges = async (category) => {
-  if (!category) throw new Error("Category is required to fetch challenges.");
-  return await fetchHandler(`${baseUrl}?category=${category}`);
+const challengesUrl = "/api/challenges"
+const challengeUrl = "/api/challenge";
+export const getChallengesByCategory = async (category) => {
+  return await fetchHandler(`${challengesUrl}?category=${category}`);
 };
 
 // used for verification
@@ -48,10 +46,21 @@ export const completeChallenge = async (userId, challengeId) => {
   }
   const body = { userId, challengeId };
   console.log("body (challenge adapter, complete challenge):", body);
-  return await fetchHandler(`${baseUrl}/complete`, getPostOptions(body));
+  return await fetchHandler(`${challengesUrl}/complete`, getPostOptions(body));
 };
 
-// Add a new challenge to the DB (uses a default backend-defined challenge)
-export const addChallengeToDB = async (challengeData) => {
-  return await fetchHandler(`${baseUrl}/create`, getPostOptions(challengeData));
-};
+// Fetches all the users post for a particular challenge. 
+export const getUserPostsForChallenge = async (challengeId) => {
+  if(!challengeId){
+    throw new Error("Challenge ID is required to fetch user posts.");
+  }
+  return await fetchHandler(`${challengesUrl}/${challengeId}/users`);
+}
+
+// Fetches the user information of the specified challenge(challengeId).
+export const getChallengeCreator = async(challengeId) => {
+  if(!challengeId) {
+    throw new Error('Challenge ID is required to fetch user information')
+  }
+  return await fetchHandler(`${challengeUrl}/${challengeId}/user`);
+} 

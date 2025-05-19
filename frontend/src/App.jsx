@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import HomePage from "./pages/Home";
 import SignUpPage from "./pages/SignUp";
@@ -10,22 +10,11 @@ import NotFoundPage from "./pages/NotFound";
 import UserContext from "./contexts/current-user-context";
 import { checkForLoggedInUser } from "./adapters/auth-adapter";
 import UserPage from "./pages/User";
+import Feed from "./pages/Feed";
+import NotFoundPage from "./pages/NotFound";
+import SiteHeadingAndNav from "./components/SiteHeadingAndNav";
 
 export default function App() {
-  const { setCurrentUser } = useContext(UserContext);
-  useEffect(() => {
-    const loadCurrentUser = async () => {
-      const [user, error] = await checkForLoggedInUser();
-      if (error) {
-        console.log("No user currently logged in");
-        return;
-      }
-      console.log("Current user:", user);
-      // setCurrentUser(user); // Add this line
-    };
-    loadCurrentUser();
-  }, [setCurrentUser]);
-
   return (
     <>
       <SiteHeadingAndNav />
@@ -34,6 +23,7 @@ export default function App() {
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/sign-up" element={<SignUpPage />} />
+          <Route path="/feed" element={<Feed />} />
           <Route path="/users/:id" element={<UserPage />} />
           <Route path="/scene" element={<HomePage />} />
           <Route path="*" element={<NotFoundPage />} />

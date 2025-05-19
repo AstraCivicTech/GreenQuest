@@ -2,8 +2,8 @@
 // with the provided body and the remaining options
 import {
   fetchHandler,
-  getPatchOptions,
   getPostOptions,
+  basicFetchOptions,
 } from "../utils/fetchingUtils";
 
 const baseUrl = "/api/users";
@@ -13,19 +13,20 @@ export const createUser = async ({ username, password }) => {
 };
 
 export const getAllUsers = async () => {
-  return await fetchHandler(baseUrl);
+  return await fetchHandler(baseUrl, basicFetchOptions);
 };
 
 export const getUser = async (id) => {
-  return fetchHandler(`${baseUrl}/${id}`);
+  return fetchHandler(`${baseUrl}/${id}`, basicFetchOptions);
 };
 
 export const getUserLevelInfo = async (id) => {
-  return await fetchHandler(`${baseUrl}/${id}/level`);
+  return await fetchHandler(`${baseUrl}/level/${id}`, basicFetchOptions);
 };
 
 export const updateUserLevelInfo = async (id, currentExp) => {
-  return await fetchHandler(`/api/users/${id}/level`, {
+  return await fetchHandler(`/api/users/level/${id}`, {
+    credentials: "include",
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ currentExp }),

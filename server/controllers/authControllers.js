@@ -67,6 +67,7 @@ exports.showMe = async (req, res) => {
 
   // cookie with an id => here's your user info!
   const user = await User.find(req.session.userId);
+  if (!user) throw new Error("User not found.");
   res.send(user);
 };
 

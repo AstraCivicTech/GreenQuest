@@ -1,20 +1,20 @@
 import { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import {
   getUserLevelInfo,
   updateUserLevelInfo,
 } from "../adapters/user-adapter";
 import {
-  getChallenges,
+  getChallengesByCategory,
   getCompletedChallenges,
   completeChallenge,
 } from "../adapters/challenge-adapter";
+
 import CurrentUserContext from "../contexts/current-user-context";
 import "../styles/dailyChallenges.css";
 
 export const DailyChallenges = () => {
-  const { id } = useParams();
   const {
+    currentUser,
     levelInfo,
     setLevelInfo,
     completedChallenges,
@@ -25,21 +25,25 @@ export const DailyChallenges = () => {
   const [particles, setParticles] = useState([]);
 
   useEffect(() => {
+    if (!currentUser?.id) return;
+
     const fetchAllData = async () => {
-      const [levelData, levelError] = await getUserLevelInfo(id);
+      const [levelData, levelError] = await getUserLevelInfo(currentUser.id);
       if (!levelError) setLevelInfo(levelData);
 
-      const [challengeData, challengeError] = await getChallenges("Daily");
+      const [challengeData, challengeError] = await getChallengesByCategory("Daily");
       if (!challengeError) setChallenges(challengeData);
 
-      const [completed, completedError] = await getCompletedChallenges(id);
+      const [completed, completedError] = await getCompletedChallenges(
+        currentUser.id
+      );
       if (!completedError) {
         setCompletedChallenges(completed.map(Number));
       }
     };
 
     fetchAllData();
-  }, [id, setLevelInfo]);
+  }, [currentUser?.id, setLevelInfo]);
 
   const triggerParticles = (x, y, count = 8) => {
     const newParticles = Array.from({ length: count }).map((_, i) => ({
@@ -60,13 +64,16 @@ export const DailyChallenges = () => {
   };
 
   const handleChallengeComplete = async (challenge, e) => {
-    if (!id || !challenge?.id) return;
+    if (!currentUser?.id || !challenge?.id) return;
 
-    const [_, error] = await completeChallenge(id, challenge.id);
+    const [_, error] = await completeChallenge(currentUser.id, challenge.id);
     if (error) return;
 
     const newExp = levelInfo.exp + challenge.experienceReward;
-    const [updatedInfo, levelError] = await updateUserLevelInfo(id, newExp);
+    const [updatedInfo, levelError] = await updateUserLevelInfo(
+      currentUser.id,
+      newExp
+    );
 
     if (!levelError) {
       setLevelInfo(updatedInfo);
@@ -76,7 +83,7 @@ export const DailyChallenges = () => {
       triggerParticles(rect.left + 10, rect.top + 10);
     }
   };
-  console.log(particles);
+
   if (!levelInfo || challenges.length === 0) return <p>Loading...</p>;
 
   return (
@@ -109,8 +116,10 @@ export const DailyChallenges = () => {
           );
         })}
       </ul>
+
       {particles.map((p) => (
         <div
+          key={p.id}
           className="sparkle-particle"
           style={{
             top: "200px",

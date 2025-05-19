@@ -7,41 +7,37 @@ import "../styles/SignUp.css";
 export default function SignUpPage() {
   const navigate = useNavigate();
   const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
+
   const [errorText, setErrorText] = useState("");
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [email, setEmail] = useState("");
-  const [zipcode, setZipcode] = useState("");
+  const [formData, setFormData] = useState({
+    email: "",
+    username: "",
+    password: "",
+    confirmPassword: "",
+    zipcode: "",
+  });
 
   if (currentUser) return <Navigate to={`/users/${currentUser.id}`} />;
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     setErrorText("");
-    if (!username || !password || !confirmPassword || !email || !zipcode)
-      return setErrorText("Missing field");
 
-    const [user, error] = await registerUser({
-      username,
-      password,
-      email,
-      zipcode,
-      confirmPassword,
-    });
+    const { username, password, confirmPassword, email, zipcode } = formData;
+    if (!username || !password || !confirmPassword || !email || !zipcode) {
+      return setErrorText("Missing field");
+    }
+
+    const [user, error] = await registerUser(formData);
     if (error) return setErrorText(error.message);
 
     setCurrentUser(user);
     navigate(`/users/${user.id}`);
-  };
-
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    if (name === "email") setEmail(value);
-    if (name === "username") setUsername(value);
-    if (name === "password") setPassword(value);
-    if (name === "confirmPassword") setConfirmPassword(value);
-    if (name === "zipcode") setZipcode(value);
   };
 
   return (
@@ -49,35 +45,60 @@ export default function SignUpPage() {
       <form
         className="signup-form"
         onSubmit={handleSubmit}
-        onChange={handleChange}
         aria-labelledby="create-heading"
       >
         <h1>Sign Up</h1>
         <h2 id="create-heading">Create New Account</h2>
 
         <label htmlFor="email">Email</label>
-        <input type="text" id="email" name="email" value={email} />
+        <input
+          type="text"
+          id="email"
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+        />
 
         <label htmlFor="username">Username</label>
-        <input type="text" id="username" name="username" value={username} />
+        <input
+          type="text"
+          id="username"
+          name="username"
+          value={formData.username}
+          onChange={handleChange}
+        />
 
         <label htmlFor="password">Password</label>
-        <input type="password" id="password" name="password" value={password} />
+        <input
+          type="password"
+          id="password"
+          name="password"
+          value={formData.password}
+          onChange={handleChange}
+        />
 
         <label htmlFor="confirmPassword">Confirm Password</label>
         <input
           type="password"
           id="confirmPassword"
           name="confirmPassword"
-          value={confirmPassword}
+          value={formData.confirmPassword}
+          onChange={handleChange}
         />
 
         <label htmlFor="zipcode">ZIP Code</label>
-        <input type="text" id="zipcode" name="zipcode" value={zipcode} />
+        <input
+          type="text"
+          id="zipcode"
+          name="zipcode"
+          value={formData.zipcode}
+          onChange={handleChange}
+        />
 
         <button type="submit">Sign Up Now!</button>
 
         {!!errorText && <p className="error-text">{errorText}</p>}
+
         <p>
           Already have an account? <Link to="/login">Log in!</Link>
         </p>

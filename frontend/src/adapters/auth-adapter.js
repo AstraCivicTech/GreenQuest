@@ -35,5 +35,5 @@ export const logUserOut = async () => {
 };
 
 export const checkForLoggedInUser = async () => {
-  return await fetchHandler(`${baseUrl}/me`);
+  return await fetchHandler(`${baseUrl}/me`, basicFetchOptions);
 };

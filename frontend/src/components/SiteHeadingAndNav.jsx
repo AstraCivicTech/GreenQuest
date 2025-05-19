@@ -28,6 +28,9 @@ export default function SiteHeadingAndNav() {
           <li>
             <NavLink to="/scene">Scene</NavLink>
           </li>
+          <li>
+            <NavLink to="/feed">Feed</NavLink>
+          </li>
 
           {currentUser ? (
             <>
