@@ -28,7 +28,7 @@ export default function CreatePostModal({ onClose }) {
         <button className="modal-close" onClick={onClose}>
           &times;
         </button>
-        <label className="modal-title">Create a Post</label>
+        <label className="modal-title">Post</label>
         <input
           name="content"
           type="text"

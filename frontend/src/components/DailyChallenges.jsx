@@ -8,7 +8,7 @@ import {
   getCompletedChallenges,
   completeChallenge,
 } from "../adapters/challenge-adapter";
-
+import CreatePostButton from "./CreatePostButton";
 import CurrentUserContext from "../contexts/current-user-context";
 import "../styles/dailyChallenges.css";
 
@@ -109,6 +109,7 @@ export const DailyChallenges = () => {
                   />
                   {challenge.description} ({challenge.experienceReward} XP)
                 </label>
+                <CreatePostButton />
               </li>
             );
           })}
@@ -130,7 +131,11 @@ export const DailyChallenges = () => {
         ))}
       </div>
       <div className="cover">
-        <p className="hover-text">Challenges Journal</p>
+        <img
+          src="/journalCover/journalcover.png"
+          alt="Cover"
+          className="journal"
+        />
       </div>
     </div>
   );
