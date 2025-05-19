@@ -51,9 +51,7 @@ Respond with only "yes" if the challenge is not malicious, or "no" if it should 
     if (!valid.includes("yes")) {
       return res.status(400).json({
         success: false,
-        message: `Malicious or invalid challenge description detected: ${valid.slice(
-          4
-        )} Please try again.`,
+        message: `${valid.slice(4)} Please try again.`,
       });
     }
 

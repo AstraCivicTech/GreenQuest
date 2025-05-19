@@ -37,12 +37,12 @@ export const CommunityChallengeCard = ({
   };
 
   const handleChallengeComplete = async (e) => {
-    if (!canComplete || completedCount >= 5) {
-      alert(
-        "You've reached your daily limit of 5 community challenges. Come back tomorrow!"
-      );
-      return;
-    }
+    // if (!canComplete || completedCount >= 5) {
+    //   alert(
+    //     "You've reached your daily limit of 5 community challenges. Come back tomorrow!"
+    //   );
+    //   return;
+    // }
 
     console.log("Challenge card clicked and handleComplete started");
     console.log("Check challenge:", challenge);
@@ -59,9 +59,9 @@ export const CommunityChallengeCard = ({
 
     const completed = await fetchCompleted();
 
-    if (completed) {
-      setCompletedChallenges(completed);
-    }
+    // if (completed) {
+    //   setCompletedChallenges(completed);
+    // }
 
     console.log(
       `Level Exp: ${levelInfo.exp} | Challenge Exp: ${challenge.experienceReward}`
@@ -76,7 +76,7 @@ export const CommunityChallengeCard = ({
 
     console.log("inside handleComplete (completedChallenges):", completed);
     console.log("bool check:", completed.includes(Number(challenge.id)));
-    setCompletedCount(completedCount + 1);
+    // setCompletedCount(completedCount + 1);
     console.log("onClick event finished");
     // }
   };

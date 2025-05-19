@@ -35,7 +35,7 @@ export const CommunityChallengeForm = ({ refresh }) => {
       const data = await response.json();
 
       if (!response.ok) {
-        setMessage("Failed to submit challenge: " + data.message);
+        setMessage(data.message);
         return;
       }
       console.log("Challenge submitted successfully:", data);
