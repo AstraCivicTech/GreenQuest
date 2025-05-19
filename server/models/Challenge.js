@@ -10,7 +10,13 @@ class Challenge {
     userId,
   }) {
     // userId will be null for daily challenges
-    if (!category || !challengeType || !description || !experienceReward || !id) {
+    if (
+      !category ||
+      !challengeType ||
+      !description ||
+      !experienceReward ||
+      !id
+    ) {
       throw new Error("All fields are required to create a challenge.");
     }
     this.id = id;
@@ -40,18 +46,17 @@ class Challenge {
     }
   }
 
- // Method to retrieve the challenge by a specified category. 
- static async findChallengesByCategory(category) {
-  try {
-    const dailyChallenges = await knex('dailyAndCommunityChallenges')
-    .where({category}) // Filters by the daily column.
-    .select("*") // Selects all the columns.
-    .orderBy('createdAt','desc'); // orders creation date or description.
-    return dailyChallenges.map(challenge => new Challenge(challenge));
-  } catch(err) {
-    console.error('Error retrieving daily challenges:', err);
-    throw new Error('Failed to retrieve daily challenges');
-  }
+  // Method to retrieve the challenge by a specified category.
+  static async findChallengesByCategory(category) {
+    try {
+      const dailyChallenges = await knex("dailyAndCommunityChallenges")
+        .where({ category }) // Filters by the daily column.
+        .select("*") // Selects all the columns.
+        .orderBy("createdAt", "desc"); // orders creation date or description.
+      return dailyChallenges.map((challenge) => new Challenge(challenge));
+    } catch (err) {
+      console.error("Error retrieving daily challenges:", err);
+      throw new Error("Failed to retrieve daily challenges");
     }
   }
 
@@ -128,8 +133,8 @@ class Challenge {
     }
   }
 
-// Reset daily challenges at midnight
-static async resetDailyChallenges() {
+  // Reset daily challenges at midnight
+  static async resetDailyChallenges() {
     // deletes all rows from dailyAndCommunityChallenges table (must delete rows not drop table in order to avoid reseting the ids)
     await knex("dailyAndCommunityChallenges")
       .where({ category: "Daily" })
@@ -138,22 +143,24 @@ static async resetDailyChallenges() {
     // make the call here to record the new daily and community challenges into the database
   }
 
-// Finds the user information of the user that posted the challenge itself.
-static async findChallengeCreator(challengeId) {
-  try {
-    const creator = await knex('users')
-    .select('users.id', 'users.username','users.level', 'users.exp')
-    .join("dailyAndCommunityChallenges", "users.id", "=", "dailyAndCommunityChallenges.userId").
-    where('dailyAndCommunityChallenges.id', challengeId)
-    .first();
-    return creator;
-  } catch(error) {
-    console.error('Error finding challenge creator', error);
+  // Finds the user information of the user that posted the challenge itself.
+  static async findChallengeCreator(challengeId) {
+    try {
+      const creator = await knex("users")
+        .select("users.id", "users.username", "users.level", "users.exp")
+        .join(
+          "dailyAndCommunityChallenges",
+          "users.id",
+          "=",
+          "dailyAndCommunityChallenges.userId"
+        )
+        .where("dailyAndCommunityChallenges.id", challengeId)
+        .first();
+      return creator;
+    } catch (error) {
+      console.error("Error finding challenge creator", error);
+    }
   }
 }
-
-}
-
-
 
 module.exports = Challenge;

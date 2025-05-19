@@ -3,7 +3,7 @@ import { CommunityChallengeForm } from "../components/CommunityChallengeForm";
 import { CommunityChallengeCard } from "../components/CommunityChallengeCards";
 import { HowToModal } from "../components/HowToModal";
 import {
-  getChallenges,
+  getChallengesByCategory,
   getCompletedChallenges2,
   checkCategory,
 } from "../adapters/challenge-adapter";
@@ -28,7 +28,7 @@ export const CommunityChallenges = () => {
 
   const fetchChallenges = async () => {
     try {
-      const [data, error] = await getChallenges("community");
+      const [data, error] = await getChallengesByCategory("community");
 
       if (error) {
         throw error;

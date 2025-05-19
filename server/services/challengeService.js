@@ -25,9 +25,6 @@ const genAI = new GoogleGenerativeAI(API_KEY);
  * Fetches new daily challenges from the AI and processes them.
  * This function should also handle storing these challenges (e.g., in a database or cache).
  */
-async function fetchAndProcessDailyChallenges() {
-  console.log("Attempting to fetch new daily challenges...");
-  try {
     const prompt = `Return ONLY valid JSON without any markdown formatting or code blocks.
 Always Generate exactly 3 real-life daily challenges following this theme: Eco Habit. Challenges should be short (1 sentence), engaging, and written in the tone of an energetic game master. Each challenge should have a unique name and a playful description that encourages real-world action.
 Format the response as a JSON array of objects with these fields:
@@ -46,7 +43,6 @@ Example of desired format:
     "experienceReward": 78
   }
 ]`;
-
 // A custom parser to remove the content inside the think tags and return the JSON array of objects.
 const parseThinkTagsAndReturnJSON = (response) => {
   // RegEx to match everything inside the think tags.

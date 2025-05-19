@@ -7,12 +7,8 @@ import SiteHeadingAndNav from "./components/SiteHeadingAndNav";
 import { CommunityChallenges } from "./pages/CommunityChallenges";
 import { LandingPage } from "./pages/LandingPage";
 import NotFoundPage from "./pages/NotFound";
-import UserContext from "./contexts/current-user-context";
-import { checkForLoggedInUser } from "./adapters/auth-adapter";
 import UserPage from "./pages/User";
 import Feed from "./pages/Feed";
-import NotFoundPage from "./pages/NotFound";
-import SiteHeadingAndNav from "./components/SiteHeadingAndNav";
 
 export default function App() {
   return (

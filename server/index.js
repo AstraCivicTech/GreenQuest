@@ -105,8 +105,14 @@ app.post(
 app.post("/api/challenges/getById", challengesControllers.getChallengeFromId);
 app.post("/api/challenges/complete", challengesControllers.completeChallenge);
 app.post("/api/challenges/create", challengesControllers.createChallenge);
-app.get("/api/challenges/:challengeId/users", challengesControllers.findUsersAndPostByChallengeId);
-app.get('/api/challenge/:challengeId/user', challengesControllers.findChallengeCreatorByChallengeId)
+app.get(
+  "/api/challenges/:challengeId/users",
+  challengesControllers.findUsersAndPostByChallengeId
+);
+app.get(
+  "/api/challenge/:challengeId/user",
+  challengesControllers.findChallengeCreatorByChallengeId
+);
 // app.use('/api/posts', postRoutes);
 
 // routes for managing posts.
@@ -142,7 +148,7 @@ app.use(logErrors);
 // Start Listening
 ///////////////////////////////
 
-const port = process.env.PORT || 3003;
+const port = process.env.PORT || 3000;
 server.listen(port, () => {
   console.log(`Server running at http://localhost:${port}/`);
 });
