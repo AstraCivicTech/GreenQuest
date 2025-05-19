@@ -9,15 +9,29 @@ export default function LoginPage() {
   const [errorText, setErrorText] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
 
+  // If user is already logged in, redirect to their profile page
   if (currentUser) return <Navigate to={`/users/${currentUser.id}`} />;
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    if (isSubmitting) return;
+
     setErrorText("");
+    setIsSubmitting(true);
+
+    if (!username || !password) {
+      setErrorText("Please fill in both fields.");
+      setIsSubmitting(false);
+      return;
+    }
 
     const [user, error] = await logUserIn({ username, password });
+
+    setIsSubmitting(false);
+
     if (error) return setErrorText(error.message);
 
     setCurrentUser(user);
@@ -56,7 +70,9 @@ export default function LoginPage() {
           />
         </div>
 
-        <button className="login-button">Log in!</button>
+        <button className="login-button" disabled={isSubmitting}>
+          {isSubmitting ? "Logging in..." : "Log in!"}
+        </button>
 
         {!!errorText && <p className="error-text">{errorText}</p>}
       </form>

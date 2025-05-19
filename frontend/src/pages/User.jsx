@@ -1,9 +1,6 @@
-// src/pages/UserPage.jsx
 import { useContext, useEffect, useState, Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
-import { useParams } from "react-router-dom";
 import CurrentUserContext from "../contexts/current-user-context";
-import { getUser } from "../adapters/user-adapter";
 import { DailyChallenges } from "../components/DailyChallenges";
 import LevelBar from "../components/LevelBar";
 import "../styles/User.css";
@@ -11,49 +8,21 @@ import ScientistCharacter from "../components3D/ScientistCharacter";
 import SpeechBubble from "../components/SpeechBubble";
 
 export default function UserPage() {
-  // On this first line we access our user context to get the current user and level information
   const { currentUser, levelInfo } = useContext(CurrentUserContext);
-  // here we keep track of the state of user profile
-  const [userProfile, setUserProfile] = useState(null);
-  const [error, setError] = useState(null);
-  // this is an intro scene to give players a sense of purpose when they first sign up and log in
   const [showIntro, setShowIntro] = useState(false);
-  // useParams is used to extract the user ID from the URL
-  const { id } = useParams();
-  // keeps track of current user profile
-  const isCurrentUserProfile = currentUser && currentUser.id === Number(id);
 
-  // Every time a new user logs in re-render the component to fetch their profile data
+  // Show intro animation if it's the user's first time
   useEffect(() => {
-    const loadUser = async () => {
-      // sends a request to the backend using UserId to fetch user data
-      const [user, error] = await getUser(id);
-      if (error) return setError(error);
-      setUserProfile(user);
-    };
-    loadUser();
-    // re-render the component when the user ID changes
-  }, [id]);
-
-  // Check for first login (temporary local check)
-  useEffect(() => {
-    if (currentUser && currentUser.id) {
+    if (currentUser?.id) {
       const key = `seenIntro-${currentUser.id}`;
-      // check if the user has already seen the intro
       if (!localStorage.getItem(key)) {
-        // if not show intro scene
-        setShowIntro(true); // This is temporary, we will replace it with a backend solution to ensure data persists
+        setShowIntro(true);
         localStorage.setItem(key, "true");
       }
     }
   }, [currentUser]);
 
-  if (error) return <p>Sorry, could not load user.</p>;
-  if (!userProfile) return null;
-
-  const profileUsername = isCurrentUserProfile
-    ? currentUser.username
-    : userProfile.username;
+  if (!currentUser) return <p>Loading user...</p>;
 
   return (
     <div className="greenquest-profile">
@@ -85,7 +54,7 @@ export default function UserPage() {
             </div>
           )}
 
-          <h2 className="username">@{profileUsername}</h2>
+          <h2 className="username">@{currentUser.username}</h2>
           <p className="bio">
             Nature enthusiast changing the world one challenge at a time
           </p>
@@ -110,7 +79,7 @@ export default function UserPage() {
                   </Suspense>
                 </Canvas>
               </div>
-              <SpeechBubble username={profileUsername} />
+              <SpeechBubble username={currentUser.username} />
             </div>
           )}
         </div>

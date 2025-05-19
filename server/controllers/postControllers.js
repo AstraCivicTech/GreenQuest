@@ -1,5 +1,7 @@
 const knex = require("../db/knex");
 const Post = require("../models/Post");
+const knex = require("../db/knex");
+const Post = require("../models/Post");
 
 // Create a new post
 exports.createPost = async (req, res) => {
@@ -19,8 +21,10 @@ exports.createPost = async (req, res) => {
     res.status(201).json(newPost);
   } catch (error) {
     console.error("Error creating post:", error);
+    console.error("Error creating post:", error);
     res
       .status(500)
+      .json({ message: "Error creating post", error: error.message });
       .json({ message: "Error creating post", error: error.message });
   }
 };
@@ -30,11 +34,14 @@ exports.getAllPosts = async (req, res) => {
   try {
     const posts = await Post.findAll();
     console.log(posts);
+    console.log(posts);
     res.status(200).json(posts);
   } catch (error) {
     console.error("Error fetching posts:", error);
+    console.error("Error fetching posts:", error);
     res
       .status(500)
+      .json({ message: "Error fetching posts", error: error.message });
       .json({ message: "Error fetching posts", error: error.message });
   }
 };
@@ -46,12 +53,15 @@ exports.getPostById = async (req, res) => {
     const post = await Post.findById(id);
     if (!post) {
       return res.status(404).json({ message: "Post not found" });
+      return res.status(404).json({ message: "Post not found" });
     }
     res.status(200).json(post);
   } catch (error) {
     console.error("Error fetching post:", error);
+    console.error("Error fetching post:", error);
     res
       .status(500)
+      .json({ message: "Error fetching post", error: error.message });
       .json({ message: "Error fetching post", error: error.message });
   }
 };
@@ -66,6 +76,7 @@ exports.updatePost = async (req, res) => {
     return res
       .status(400)
       .json({ message: "Content or likes must be provided to update." });
+      .json({ message: "Content or likes must be provided to update." });
   }
 
   const fieldsToUpdate = {};
@@ -79,15 +90,19 @@ exports.updatePost = async (req, res) => {
 
   try {
     const updatedPost = await Post.update(id, fieldsToUpdate);
+    const updatedPost = await Post.update(id, fieldsToUpdate);
 
     if (!updatedPost) {
+      return res.status(404).json({ message: "Post not found" });
       return res.status(404).json({ message: "Post not found" });
     }
     res.status(200).json(updatedPost);
   } catch (error) {
     console.error("Error updating post:", error);
+    console.error("Error updating post:", error);
     res
       .status(500)
+      .json({ message: "Error updating post", error: error.message });
       .json({ message: "Error updating post", error: error.message });
   }
 };
@@ -97,7 +112,19 @@ exports.deletePost = async (req, res) => {
   const postId = parseInt(req.params.id);
   if (isNaN(postId)) return res.status(400).json({ error: "Invalid post ID" });
 
+  const postId = parseInt(req.params.id);
+  if (isNaN(postId)) return res.status(400).json({ error: "Invalid post ID" });
+
   try {
+    const success = await Post.delete(postId);
+    if (success) {
+      res.sendStatus(204); // No Content
+    } else {
+      res.status(404).json({ error: "Post not found" });
+    }
+  } catch (err) {
+    console.error("Error deleting post:", err);
+    res.status(500).json({ error: "Failed to delete post" });
     const success = await Post.delete(postId);
     if (success) {
       res.sendStatus(204); // No Content

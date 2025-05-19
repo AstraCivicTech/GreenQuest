@@ -20,6 +20,7 @@
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.0",
+    "connect-pg-simple": "^10.0.0",
     "connect-session-knex": "^3.0.1",
     "cookie-parser": "^1.4.6",
     "cookie-session": "^2.0.0",
@@ -27,7 +28,7 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "express-session": "^1.17.3",
-    "pg": "^8.15.6"
+    "pg": "^8.16.0"
   },
   "devDependencies": {
     "eslint": "^8.39.0",

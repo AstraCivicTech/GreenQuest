@@ -23,6 +23,7 @@ exports.seed = async function (knex) {
     },
     {
       userId: null,
+      category: "Daily",
       challengeType: "savewater",
       category: "Daily",
       description: "Take a 5-minute shower",
