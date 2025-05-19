@@ -8,15 +8,8 @@
   position: relative;
   padding-bottom: 6rem;
 
-  /* 🌱 Prestige-inspired gradient background */
-  background: linear-gradient(
-    135deg,
-    #eafaf1 0%,
-    #d4f5e3 25%,
-    #b4edd2 50%,
-    #9ce6c1 75%,
-    #7ddbb5 100%
-  );
+  /*  gradient background */
+  background: linear-gradient(to bottom, #d4fbe9, #aee7ff);
   background-attachment: fixed;
 
   color: #222;
