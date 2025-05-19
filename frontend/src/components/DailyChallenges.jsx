@@ -87,47 +87,51 @@ export const DailyChallenges = () => {
   if (!levelInfo || challenges.length === 0) return <p>Loading...</p>;
 
   return (
-    <div className="daily-challenges-container">
-      <h3>Today's Challenges</h3>
-      <ul>
-        {challenges.map((challenge) => {
-          const isCompleted = completedChallenges.includes(
-            Number(challenge.id)
-          );
+    <div className="book">
+      <div className="daily-challenges-container">
+        <h3>Today's Challenges</h3>
+        <ul>
+          {challenges.map((challenge) => {
+            const isCompleted = completedChallenges.includes(
+              Number(challenge.id)
+            );
+            return (
+              <li
+                key={challenge.id}
+                className={`challenge-item ${isCompleted ? "completed" : ""}`}
+              >
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={isCompleted}
+                    disabled={isCompleted}
+                    onChange={(e) => handleChallengeComplete(challenge, e)}
+                  />
+                  {challenge.description} ({challenge.experienceReward} XP)
+                </label>
+              </li>
+            );
+          })}
+        </ul>
 
-          return (
-            <li
-              key={challenge.id}
-              className={`challenge-item ${isCompleted ? "completed" : ""}`}
-            >
-              <label>
-                <input
-                  type="checkbox"
-                  checked={isCompleted}
-                  disabled={isCompleted}
-                  onChange={(e) => handleChallengeComplete(challenge, e)}
-                />
-                {challenge.description} ({challenge.experienceReward} XP)
-              </label>
-            </li>
-          );
-        })}
-      </ul>
-
-      {particles.map((p) => (
-        <div
-          key={p.id}
-          className="sparkle-particle"
-          style={{
-            top: "200px",
-            left: "400px",
-            position: "fixed",
-            transform: "translate(0, -100px) scale(0.3)",
-            animation:
-              "fadeOut 1.3s ease-out forwards, sparkleTwinkle 1.3s ease-in-out",
-          }}
-        />
-      ))}
+        {particles.map((p) => (
+          <div
+            key={p.id}
+            className="sparkle-particle"
+            style={{
+              top: "200px",
+              left: "400px",
+              position: "fixed",
+              transform: "translate(0, -100px) scale(0.3)",
+              animation:
+                "fadeOut 1.3s ease-out forwards, sparkleTwinkle 1.3s ease-in-out",
+            }}
+          />
+        ))}
+      </div>
+      <div className="cover">
+        <p className="hover-text">Challenges Journal</p>
+      </div>
     </div>
   );
 };
