@@ -18,6 +18,7 @@ const userControllers = require("./controllers/userControllers");
 const aiControllers = require("./controllers/aiControllers");
 const challengesControllers = require("./controllers/challengesControllers");
 const postControllers = require("./controllers/postControllers");
+const { findChallengeCreator } = require("./models/Challenge");
 // const postRoutes = require('./routes/postRoutes');
 
 // Initialize and start the challenge scheduler
@@ -77,7 +78,7 @@ app.patch(
 app.get(
   "/api/challenges",
   checkAuthentication,
-  challengesControllers.getChallenges
+  challengesControllers.getChallengesByCategory
 );
 app.get(
   "/api/users/:id/completed-challenges",
@@ -90,6 +91,8 @@ app.post(
   challengesControllers.completeChallenge
 );
 app.post("/api/challenges/create", challengesControllers.createChallenge);
+app.get("/api/challenges/:challengeId/users", challengesControllers.findUsersAndPostByChallengeId);
+app.get('/api/challenge/:challengeId/user', challengesControllers.findChallengeCreatorByChallengeId)
 // app.use('/api/posts', postRoutes);
 
 // routes for managing posts.

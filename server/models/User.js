@@ -141,7 +141,6 @@ class User {
     const query = `SELECT username, level, exp FROM users WHERE id = ?;`;
     const result = await knex.raw(query, [id]);
     const rawUserData = result.rows[0];
-    console.log(rawUserData);
     return rawUserData ? new User(rawUserData) : null;
   }
 
@@ -171,5 +170,7 @@ class User {
     return knex("users").del();
   }
 }
+
+
 
 module.exports = User;

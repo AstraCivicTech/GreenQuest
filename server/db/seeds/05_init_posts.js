@@ -13,9 +13,10 @@ exports.seed = async function(knex) {
  await knex.raw('ALTER SEQUENCE "posts_postId_seq" RESTART WITH 1');
 
   try {
-
    const inserted = await knex('posts').insert([
-      {userId: 1, content: 'Type something here...', createdAt:now, updated_at:now},
+      {userId: 1, content: 'Type something here...',imageUrl:null, createdAt:now, updated_at:now, challengeId: 4},
+      {userId: 2, content: 'Type something here...',imageUrl:null, createdAt:now, updated_at:now, challengeId: 4}, 
+      {userId: 1, content: 'Type something here...',imageUrl:null, createdAt:now, updated_at:now, challengeId: 6}
     ]).returning('*');
     console.log('Seeding Successful', inserted);
   } catch(error){

@@ -5,7 +5,7 @@ import {
   updateUserLevelInfo,
 } from "../adapters/user-adapter";
 import {
-  getChallenges,
+  getChallengesByCategory,
   getCompletedChallenges,
   completeChallenge,
 } from "../adapters/challenge-adapter";
@@ -30,7 +30,7 @@ export const DailyChallenges = () => {
       const [levelData, levelError] = await getUserLevelInfo(id);
       if (!levelError) setLevelInfo(levelData);
 
-      const [challengeData, challengeError] = await getChallenges("Daily");
+      const [challengeData, challengeError] = await getChallengesByCategory("Daily");
       if (!challengeError) setChallenges(challengeData);
 
       const [completed, completedError] = await getCompletedChallenges(id);

@@ -11,7 +11,7 @@ console.log("Challenge scheduler initialized. Waiting for the scheduled time.");
 // Cron expression format: 'minute hour day-of-month month day-of-week'
 // IMPORTANT: Change this back to '0 0 * * *' for daily execution at midnight after testing!
 cron.schedule(
-  "*/1 * * * *", // Runs every minute
+  "0 0 * * * *", // Runs every minute
   async () => {
     console.log(
       `[${new Date().toISOString()}] Running scheduled job: Fetching new daily challenges...`

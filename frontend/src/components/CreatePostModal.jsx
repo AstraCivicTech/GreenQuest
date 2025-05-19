@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import CurrentUserContext from "../contexts/current-user-context";
-import { addPostToDB } from "../adapters/post-adapter";
+import { createPost } from "../adapters/post-adapter";
 import "../styles/CreatePostModal.css";
 
 export default function CreatePostModal({ onClose }) {
@@ -8,14 +8,13 @@ export default function CreatePostModal({ onClose }) {
   const [content, setContent] = useState("");
 
   const handleChange = (event) => {
-    console.log(event.target.value);
     setContent(event.target.value);
   };
   const handlePostSubmit = async (event) => {
     event.preventDefault();
     // Handle post submission logic here
     console.log(event);
-    const post = await addPostToDB({
+    const post = await createPost({
       content: content,
       likes: 0,
       user_id: currentUser.id,
@@ -38,7 +37,6 @@ export default function CreatePostModal({ onClose }) {
           placeholder="Write your post here..."
         />
         <div className="modal-actions">
-          <label>submit</label>
           <input type="submit" value="submit" className="submit-button" />
         </div>
       </form>
