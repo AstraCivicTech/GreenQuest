@@ -23,25 +23,6 @@ export default function Feed() {
 
   const { currentUser } = useContext(CurrentUserContext); // If using context for user
 
-  // Fetch all the community challenges
-  useEffect(() => {
-    const fetchCommunityChallenges = async () => {
-      setIsLoadingChallenges(true);
-      try {
-        // Replace with actual adapter or API call
-        const [challenges, error] = await getChallengesByCategory("community");
-        console.log("Response:", challenges);
-
-        setCommunityChallenges(challenges);
-      } catch (error) {
-        console.error(error.message || "Failed to load challenges.");
-      } finally {
-        setIsLoadingChallenges(false);
-      }
-    };
-    fetchCommunityChallenges();
-  }, []);
-
   // Fetch user posts and user details of the selected challenge.
   useEffect(() => {
     if (!selectedChallengeId) {
