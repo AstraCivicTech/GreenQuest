@@ -50,10 +50,10 @@ export const CommunityChallenges = () => {
     }
   };
 
-  const fetchLevelInfo = async () => {
-    const [levelData, levelError] = await getUserLevelInfo(id);
-    if (!levelError) setLevelInfo(levelData);
-  };
+  // const fetchLevelInfo = async () => {
+  //   const [levelData, levelError] = await getUserLevelInfo(id);
+  //   if (!levelError) setLevelInfo(levelData);
+  // };
 
   // Should be called on every challenge in the completed challenges array
   const checkCompletionProgress = async (challengeId) => {
@@ -160,7 +160,7 @@ export const CommunityChallenges = () => {
   // }, []);
 
   useEffect(() => {
-    fetchLevelInfo();
+    // fetchLevelInfo();
     fetchCompleted();
     fetchChallenges();
   }, []);
