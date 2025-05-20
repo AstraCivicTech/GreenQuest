@@ -66,7 +66,7 @@ export default function Feed() {
       }
     };
     fetchUserPosts();
-  }, [selectedChallengeId, communityChallenges]); // Reruns if selected challengeId or the main community challenges changes.
+  }, [selectedChallengeId, communityChallenges,userPosts]); // Reruns if selected challengeId or the main community challenges changes.
 
   const handleSelectChallenge = useCallback((challengeId) => {
     setSelectedChallengeId(challengeId);
@@ -77,21 +77,21 @@ export default function Feed() {
   };
 
   const handleAddPost = async (challengeId, content, userId) => {
-    // if (!currentUser || !challengeId) {
-    //   return;
-    // }
-    //    // Format the Data in an Object;
-    //    const newPost = {
-    //     content,
-    //     likes: 0,
-    //     userId,
-    //     challengeId
-    //   }
-    //   try {
-    //     const createdPost = await createdPost(newPost);
-    //   } catch(error) {
-    //     console.error('Failed to create a Post', error);
-    //   }
+    if (!currentUser || !challengeId) {
+      return;
+    }
+       // Format the Data in an Object;
+       const newPost = {
+        content,
+        likes: 0,
+        userId,
+        challengeId
+      }
+      try {
+        const createPos2 = await createPost(newPost);
+      } catch(error) {
+        console.error('Failed to create a Post', error);
+      }
   };
 
   if (isLoadingChallenges)

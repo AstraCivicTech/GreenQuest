@@ -5,6 +5,8 @@ const CommunityChallengeCard = ({
   onSelectChallenge
 }) => {
 
+  
+
   return (
     <div className="challenge-card" onClick={() =>onSelectChallenge(challenge.id)}>
       <div className="challenge-card-content">
