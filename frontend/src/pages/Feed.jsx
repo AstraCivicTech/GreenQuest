@@ -7,6 +7,7 @@ import { createPost } from "../adapters/post-adapter.js";
 import "../styles/Feed.css"; // Make sure this path matches your project
 import CurrentUserContext from "../contexts/current-user-context";
 import FeedChallengeCard from "../components/FeedChallengeCard";
+import FeedDailyChallengeCard from "../components/FeedDailyChallengeCard.jsx";
 import SelectedChallengeDisplay from "../components/SelectedChallengeDisplay.jsx";
 
 // --- Main Feed Component --- //
@@ -28,7 +29,7 @@ export default function Feed() {
       setIsLoadingChallenges(true);
       try {
         // Replace with actual adapter or API call
-        const [challenges, error] = await getChallengesByCategory("Community");
+        const [challenges, error] = await getChallengesByCategory("community");
         console.log("Response:", challenges);
 
         setCommunityChallenges(challenges);

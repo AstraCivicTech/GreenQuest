@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import CurrentUserContext from "../contexts/current-user-context";
 import { updateUserLevelInfo } from "../adapters/user-adapter";
+import CreatePostButton from "./CreatePostButton";
 import {
   getCompletedChallenges,
   completeChallenge,
@@ -98,6 +99,7 @@ export const CommunityChallengeCard = ({
           <span className="exp-points">EXP: {challenge.experienceReward}</span>
         </div>
       </div>
+      {isCompleted && <CreatePostButton />}
     </div>
   );
 };

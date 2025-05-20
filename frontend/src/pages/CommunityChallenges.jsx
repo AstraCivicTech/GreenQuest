@@ -51,7 +51,7 @@ export const CommunityChallenges = () => {
   };
 
   const fetchLevelInfo = async () => {
-    const [levelData, levelError] = await getUserLevelInfo(id);
+    const [levelData, levelError] = await getUserLevelInfo(currentUser.id);
     if (!levelError) setLevelInfo(levelData);
   };
 
