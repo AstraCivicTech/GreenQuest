@@ -12,7 +12,12 @@ export const getChallengesByCategory = async (category) => {
 export const getCompletedChallenges = async (userId) => {
   if (!userId)
     throw new Error("User ID is required to fetch completed challenges.");
-  return await fetchHandler(`/api/users/${userId}/completed-challenges`);
+  return await fetchHandler(`/api/users/completed-challenges`, {
+    method: "POST",
+    credentials: "include",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ id: Number(userId) })
+  });
 };
 
 export const getCompletedChallenges2 = async (id) => {
