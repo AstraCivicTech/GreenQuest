@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState, Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
 import CurrentUserContext from "../contexts/current-user-context";
-import { DailyChallenges } from "../components/DailyChallenges";
+import { DailyChallengesContainer } from "../components/DailyChallenges";
 import LevelBar from "../components/LevelBar";
 import "../styles/User.css";
 import ScientistCharacter from "../components3D/ScientistCharacter";
@@ -85,7 +85,8 @@ export default function UserPage() {
 
         {/* Daily Challenges + Optional Character */}
         <div className="challenges-and-scientist">
-          <DailyChallenges />
+          <DailyChallengesContainer />
+//           <DailyChallenges />
 
           {showIntro && (
             <div className="character-widget">

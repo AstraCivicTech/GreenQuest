@@ -8,11 +8,11 @@ import {
   getCompletedChallenges,
   completeChallenge,
 } from "../adapters/challenge-adapter";
-import CreatePostButton from "./CreatePostButton";
+import DailyChallengeCard from "./DailyChallengeCard";
 import CurrentUserContext from "../contexts/current-user-context";
 import "../styles/dailyChallenges.css";
 
-export const DailyChallenges = () => {
+export const DailyChallengesContainer = () => {
   const {
     currentUser,
     levelInfo,
@@ -31,7 +31,9 @@ export const DailyChallenges = () => {
       const [levelData, levelError] = await getUserLevelInfo(currentUser.id);
       if (!levelError) setLevelInfo(levelData);
 
-      const [challengeData, challengeError] = await getChallengesByCategory("Daily");
+      const [challengeData, challengeError] = await getChallengesByCategory(
+        "Daily"
+      );
       if (!challengeError) setChallenges(challengeData);
 
       const [completed, completedError] = await getCompletedChallenges(
@@ -58,7 +60,7 @@ export const DailyChallenges = () => {
 
     setTimeout(() => {
       setParticles((prev) =>
-        prev.filter((p) => !newParticles.find((np) => np.id === p.id))
+        prev.filter((p) => !newParticles.some((np) => np.id === p.id))
       );
     }, 4500);
   };
@@ -90,46 +92,38 @@ export const DailyChallenges = () => {
     <div className="book">
       <div className="daily-challenges-container">
         <h3>Today's Challenges</h3>
-        <ul>
+        <div className="challenge-cards-wrapper">
           {challenges.map((challenge) => {
             const isCompleted = completedChallenges.includes(
               Number(challenge.id)
             );
             return (
-              <li
+              <DailyChallengeCard
                 key={challenge.id}
-                className={`challenge-item ${isCompleted ? "completed" : ""}`}
-              >
-                <label>
-                  <input
-                    type="checkbox"
-                    checked={isCompleted}
-                    disabled={isCompleted}
-                    onChange={(e) => handleChallengeComplete(challenge, e)}
-                  />
-                  {challenge.description} ({challenge.experienceReward} XP)
-                </label>
-                <CreatePostButton />
-              </li>
+                challenge={challenge}
+                isCompleted={isCompleted}
+                onComplete={handleChallengeComplete}
+              />
             );
           })}
-        </ul>
+        </div>
 
         {particles.map((p) => (
           <div
             key={p.id}
             className="sparkle-particle"
             style={{
-              top: "200px",
-              left: "400px",
+              top: `${p.y}px`,
+              left: `${p.x}px`,
               position: "fixed",
-              transform: "translate(0, -100px) scale(0.3)",
+              transform: `translate(${p.offsetX}px, ${p.offsetY}px) scale(0.3)`,
               animation:
                 "fadeOut 1.3s ease-out forwards, sparkleTwinkle 1.3s ease-in-out",
             }}
           />
         ))}
       </div>
+
       <div className="cover">
         <img
           src="/journalCover/journalcover.png"

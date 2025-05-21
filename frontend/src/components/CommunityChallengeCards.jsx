@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import CurrentUserContext from "../contexts/current-user-context";
 import { updateUserLevelInfo } from "../adapters/user-adapter";
+import CreatePostButton from "./CreatePostButton";
 import { getUser } from "../adapters/user-adapter";
 import {
   getCompletedChallenges,
@@ -112,6 +113,7 @@ export const CommunityChallengeCard = ({
           <p>Creator: {username}</p>
         </div>
       </div>
+      {isCompleted && <CreatePostButton />}
     </div>
   );
 };
