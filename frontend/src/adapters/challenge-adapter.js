@@ -8,7 +8,7 @@ export const getChallengesByCategory = async (category) => {
   return await fetchHandler(`${challengesUrl}?category=${category}`);
 };
 
-// used for verification
+// used for daily challenges
 export const getCompletedChallenges = async (userId) => {
   if (!userId)
     throw new Error("User ID is required to fetch completed challenges.");

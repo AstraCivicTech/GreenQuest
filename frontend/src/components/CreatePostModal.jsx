@@ -19,6 +19,10 @@ export default function CreatePostModal({ onClose }) {
       likes: 0,
       user_id: currentUser.id,
     });
+    if (post) {
+      setContent("");
+      onClose(); // Close only on success
+    }
     onClose(); // Close the modal after submission
   };
   return (
