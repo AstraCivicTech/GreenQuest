@@ -9,9 +9,7 @@ exports.createPost = async (req, res) => {
     (typeof content !== "string" && likes === undefined) ||
     userId === undefined || challengeId === undefined
   ) {
-    return res
-      .status(400)
-      .json({ message: "Content, likes,userId and challengeId are required." });
+    return res.status(400).json({ message: "Content, likes,userId and challengeId are required." });
   }
 
   try {

@@ -64,7 +64,7 @@ class Challenge {
     try {
       console.log("Inserting community challenge:", challengeInstance);
       await knex("dailyAndCommunityChallenges").insert({
-        category: "community",
+        category: "Community",
         challengeType: "Eco-Habit",
         description: challengeInstance.description,
         experienceReward: Math.floor(Math.random() * (133 - 33 + 1) + 33),
