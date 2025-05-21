@@ -3,10 +3,11 @@ import {
   getChallengesByCategory,
   getUserPostsForChallenge,
 } from "../adapters/challenge-adapter.js";
-import { createPost } from "../adapters/post-adapter.js";
+import { createPost, updatePost, deletePost } from "../adapters/post-adapter.js";
 import "../styles/Feed.css"; // Make sure this path matches your project
 import CurrentUserContext from "../contexts/current-user-context";
 import FeedChallengeCard from "../components/FeedChallengeCard";
+import FeedDailyChallengeCard from "../components/FeedDailyChallengeCard.jsx";
 import SelectedChallengeDisplay from "../components/SelectedChallengeDisplay.jsx";
 
 // --- Main Feed Component --- //
@@ -22,51 +23,45 @@ export default function Feed() {
 
   const { currentUser } = useContext(CurrentUserContext); // If using context for user
 
-  // Fetch all the community challenges
-  useEffect(() => {
-    const fetchCommunityChallenges = async () => {
-      setIsLoadingChallenges(true);
-      try {
-        // Replace with actual adapter or API call
-        const [challenges, error] = await getChallengesByCategory("Community");
-        console.log("Response:", challenges);
+  const fetchChallenges = async () => {
+    setIsLoadingChallenges(true);
+    try {
+      const [data, error] = await getChallengesByCategory("community");
+      if (error) throw error;
+      setCommunityChallenges(data.filter(challenge => challenge.category === "community"));
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setIsLoadingChallenges(false);
+    }
+  };
 
-        setCommunityChallenges(challenges);
-      } catch (error) {
-        console.error(error.message || "Failed to load challenges.");
-      } finally {
-        setIsLoadingChallenges(false);
-      }
-    };
-    fetchCommunityChallenges();
+  const refreshUserPosts = async (challengeId) => {
+    if (!challengeId) return;
+    setIsLoadingUserPosts(true);
+    try {
+      const [selectedUserPostsData, error] = await getUserPostsForChallenge(challengeId);
+      if (error) throw error;
+      setUserPosts(selectedUserPostsData);
+    } catch (error) {
+      setError(error.message || "Failed to load user posts.");
+    } finally {
+      setIsLoadingUserPosts(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchChallenges();
   }, []);
 
-  // Fetch user posts and user details of the selected challenge.
   useEffect(() => {
     if (!selectedChallengeId) {
       setSelectedChallengeDetails(null);
       setUserPosts([]);
       return;
     }
-    const fetchUserPosts = async () => {
-      setIsLoadingUserPosts(true);
-      setError(null);
-      try {
-        // Fetch selected challenges details by challengeId.
-        const [selectedUserPostsData, error] = await getUserPostsForChallenge(
-          selectedChallengeId
-        );
-        console.log("Related User Posts Response", selectedUserPostsData);
-        setUserPosts(selectedUserPostsData);
-      } catch (error) {
-        setError(error.message || "Failed ot load user posts.");
-        console.error(error);
-      } finally {
-        setIsLoadingUserPosts(false);
-      }
-    };
-    fetchUserPosts();
-  }, [selectedChallengeId, communityChallenges,userPosts]); // Reruns if selected challengeId or the main community challenges changes.
+    refreshUserPosts(selectedChallengeId);
+  }, [selectedChallengeId]);
 
   const handleSelectChallenge = useCallback((challengeId) => {
     setSelectedChallengeId(challengeId);
@@ -77,21 +72,43 @@ export default function Feed() {
   };
 
   const handleAddPost = async (challengeId, content, userId) => {
-    if (!currentUser || !challengeId) {
-      return;
+    if (!currentUser || !challengeId) return;
+    
+    const newPost = {
+      content,
+      likes: 0,
+      userId,
+      challengeId
+    };
+    try {
+      await createPost(newPost);
+      await refreshUserPosts(challengeId);
+    } catch(error) {
+      console.error('Failed to create a Post', error);
     }
-       // Format the Data in an Object;
-       const newPost = {
-        content,
-        likes: 0,
-        userId,
-        challengeId
-      }
-      try {
-        const createPos2 = await createPost(newPost);
-      } catch(error) {
-        console.error('Failed to create a Post', error);
-      }
+  };
+
+  const handleUpdatePost = async (postId, updatedContent) => {
+    if (!selectedChallengeId) return;
+    
+    try {
+      const [result, error] = await updatePost({ id: postId }, { content: updatedContent });
+      if (error) throw error;
+      await refreshUserPosts(selectedChallengeId);
+    } catch (error) {
+      console.error('Failed to update post:', error);
+    }
+  };
+
+  const handleDeletePost = async (postId) => {
+    if (!selectedChallengeId) return;
+    
+    try {
+      await deletePost({ id: postId });
+      await refreshUserPosts(selectedChallengeId);
+    } catch (error) {
+      console.error('Failed to delete post:', error);
+    }
   };
 
   if (isLoadingChallenges)
@@ -117,6 +134,8 @@ export default function Feed() {
           }
           relatedUserPosts={userPosts}
           onAddPost={handleAddPost}
+          onUpdatePost={handleUpdatePost}
+          onDeletePost={handleDeletePost}
           currentUser={currentUser}
           onClose={handleCloseSelectedChallenge}
         />
