@@ -28,7 +28,7 @@ export const CommunityChallenges = () => {
 
   const fetchChallenges = async () => {
     try {
-      const [data, error] = await getChallengesByCategory("community");
+      const [data, error] = await getChallengesByCategory("Community");
 
       if (error) {
         throw error;
@@ -37,7 +37,7 @@ export const CommunityChallenges = () => {
       console.log("Fetched data:", data); // Debug log
 
       const communityChallenges = data.filter(
-        (challenge) => challenge.category === "community"
+        (challenge) => challenge.category === "Community"
       );
       console.log("Filtered challenges:", communityChallenges); // Debug log
 

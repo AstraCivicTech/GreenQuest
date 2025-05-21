@@ -31,7 +31,9 @@ export const DailyChallenges = () => {
       const [levelData, levelError] = await getUserLevelInfo(currentUser.id);
       if (!levelError) setLevelInfo(levelData);
 
-      const [challengeData, challengeError] = await getChallengesByCategory("Daily");
+      const [challengeData, challengeError] = await getChallengesByCategory(
+        "Daily"
+      );
       if (!challengeError) setChallenges(challengeData);
 
       const [completed, completedError] = await getCompletedChallenges(
@@ -109,7 +111,7 @@ export const DailyChallenges = () => {
                   />
                   {challenge.description} ({challenge.experienceReward} XP)
                 </label>
-                <CreatePostButton />
+                {/* <CreatePostButton /> */}
               </li>
             );
           })}
