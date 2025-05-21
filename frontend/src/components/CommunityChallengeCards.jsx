@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import CurrentUserContext from "../contexts/current-user-context";
 import { updateUserLevelInfo } from "../adapters/user-adapter";
 import CreatePostButton from "./CreatePostButton";
+import { getUser } from "../adapters/user-adapter";
 import {
   getCompletedChallenges,
   completeChallenge,
@@ -21,6 +22,7 @@ export const CommunityChallengeCard = ({
   canComplete,
 }) => {
   const [isCompleted, setIsCompleted] = useState(false);
+  const [username, setUsername] = useState("");
   const { currentUser, updateUserExp, setCompletedChallenges } =
     useContext(CurrentUserContext);
   const id = currentUser.id;
@@ -82,6 +84,15 @@ export const CommunityChallengeCard = ({
     // }
   };
 
+  const convertIdToUsername = async (userId) => {
+    const userInfo = await getUser(userId);
+    console.log("userInfo:", userInfo);
+    const username = userInfo[0].username;
+    console.log("username:", username);
+    setUsername(username);
+  };
+  convertIdToUsername(challenge.userId);
+
   useEffect(() => {
     setIsCompleted(completedChallenges.includes(Number(challenge.id)));
   }, [completedChallenges, challenge.id]);
@@ -97,6 +108,9 @@ export const CommunityChallengeCard = ({
         <p className="challenge-description">{challenge.description}</p>
         <div className="challenge-exp">
           <span className="exp-points">EXP: {challenge.experienceReward}</span>
+        </div>
+        <div className="creator-username">
+          <p>Creator: {username}</p>
         </div>
       </div>
       {isCompleted && <CreatePostButton />}

@@ -6,10 +6,12 @@ import LevelBar from "../components/LevelBar";
 import "../styles/User.css";
 import ScientistCharacter from "../components3D/ScientistCharacter";
 import SpeechBubble from "../components/SpeechBubble";
+import { getCompletedChallenges2 } from "../adapters/challenge-adapter";
 
 export default function UserPage() {
   const { currentUser, levelInfo } = useContext(CurrentUserContext);
   const [showIntro, setShowIntro] = useState(false);
+  const [totalCompleted, setTotalCompleted] = useState(0);
 
   // Show intro animation if it's the user's first time
   useEffect(() => {
@@ -21,6 +23,19 @@ export default function UserPage() {
       }
     }
   }, [currentUser]);
+
+  useEffect(() => {
+    const fetchCompletedChallenges = async () => {
+      const [data, error] = await getCompletedChallenges2(currentUser.id);
+      if (error) {
+        console.error("Error fetching completed challenges:", error);
+        return;
+      }
+      setTotalCompleted(data.length);
+    };
+
+    fetchCompletedChallenges();
+  }, []);
 
   if (!currentUser) return <p>Loading user...</p>;
 
@@ -58,6 +73,9 @@ export default function UserPage() {
           <p className="bio">
             Nature enthusiast changing the world one challenge at a time
           </p>
+          <p style={{ color: "#4F8268" }}>
+            Completed Challenges: {totalCompleted}
+          </p>
 
           <div className="eco-tags">
             <button className="tag-button">♻️ Zero Waste</button>
@@ -68,6 +86,7 @@ export default function UserPage() {
         {/* Daily Challenges + Optional Character */}
         <div className="challenges-and-scientist">
           <DailyChallengesContainer />
+//           <DailyChallenges />
 
           {showIntro && (
             <div className="character-widget">
