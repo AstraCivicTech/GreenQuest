@@ -9,7 +9,7 @@ exports.getChallengesByCategory = async (req, res) => {
     if (!category) {
       return res.status(400).json({ message: "Category is required." });
     }
-   const challenges = await Challenge.findChallengesByCategory(category);
+    const challenges = await Challenge.findChallengesByCategory(category);
 
     res.status(200).json(challenges);
   } catch (error) {
@@ -92,35 +92,37 @@ exports.createChallenge = async (req, res) => {
   }
 };
 
-exports.findUsersAndPostByChallengeId = async(req, res) => {
+exports.findUsersAndPostByChallengeId = async (req, res) => {
   try {
-    const {challengeId} = req.params;
-    const usersWithPosts = await UserPosts.findUsersAndPostByChallengeId(challengeId);
+    const { challengeId } = req.params;
+    const usersWithPosts = await UserPosts.findUsersAndPostByChallengeId(
+      challengeId
+    );
 
     // // Organize the data using the model methods.
-    const organizedResponse = usersWithPosts.map(userpost => ({
-      id: userpost.user.id, 
+    const organizedResponse = usersWithPosts.map((userpost) => ({
+      id: userpost.user.id,
       username: userpost.user.username,
-      posts: userpost.posts.map(post => ({
-       postId: post.postId, 
-       content: post.content, 
-       createdAt: post.createdAt
-      }))
-    }))
-    res.status(201).json(organizedResponse)
-  } catch(error) {
+      posts: userpost.posts.map((post) => ({
+        postId: post.postId,
+        content: post.content,
+        createdAt: post.createdAt,
+      })),
+    }));
+    res.status(201).json(organizedResponse);
+  } catch (error) {
     console.error("Error finding Users Posts", error);
-    res.status(500).json({message:"Failed to fetch user posts."})
+    res.status(500).json({ message: "Failed to fetch user posts." });
   }
-}
+};
 
 exports.findChallengeCreatorByChallengeId = async (req, res) => {
   try {
-    const {challengeId} = req.params; 
+    const { challengeId } = req.params;
     const challengecreator = await Challenge.findChallengeCreator(challengeId);
-    res.status(201).json(challengecreator)
-  } catch(error) {
-    console.error('Error finding challenge owner', error);
-    res.status(500).json({message:"Failed to fetch creator."})
+    res.status(201).json(challengecreator);
+  } catch (error) {
+    console.error("Error finding challenge owner", error);
+    res.status(500).json({ message: "Failed to fetch creator." });
   }
-}
+};
