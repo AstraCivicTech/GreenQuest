@@ -8,7 +8,7 @@ export default function LevelBar() {
   // Always call hooks
   const [prevLevel, setPrevLevel] = useState(null);
   const [shouldPulse, setShouldPulse] = useState(false);
-
+  console.log(levelInfo);
   const percent = levelInfo
     ? Math.min((levelInfo.exp / levelInfo.nextLevelExp) * 100, 100).toFixed(1)
     : 0;

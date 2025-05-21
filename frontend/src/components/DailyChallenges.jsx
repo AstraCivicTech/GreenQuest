@@ -112,7 +112,7 @@ export const DailyChallengesContainer = () => {
                   {challenge.description} ({challenge.experienceReward} XP)
                 </label>
                 {/* <CreatePostButton /> */}
-              </li>
+              </label>
             );
           })}
         </div>
