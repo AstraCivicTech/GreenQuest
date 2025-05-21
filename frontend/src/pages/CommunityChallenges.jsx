@@ -160,7 +160,6 @@ export const CommunityChallenges = () => {
   // }, []);
 
   useEffect(() => {
-    // fetchLevelInfo();
     fetchCompleted();
     fetchChallenges();
   }, []);

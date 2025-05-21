@@ -36,9 +36,9 @@ export default function SiteHeadingAndNav() {
                   Community Challenges
                 </NavLink>
               </li>
-              {/* <li>
+               <li>
                 <NavLink to="/feed">Feed</NavLink>
-              </li> */}
+              </li> 
               <li className="nav-user-menu">
                 <div className="nav-username" onClick={toggleDropdown}>
                   <NavLink to={`/users/${currentUser.id}`}>
