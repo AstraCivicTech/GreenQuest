@@ -28,7 +28,7 @@ export const CommunityChallenges = () => {
 
   const fetchChallenges = async () => {
     try {
-      const [data, error] = await getChallengesByCategory("community");
+      const [data, error] = await getChallengesByCategory("Community");
 
       if (error) {
         throw error;
@@ -37,7 +37,7 @@ export const CommunityChallenges = () => {
       console.log("Fetched data:", data); // Debug log
 
       const communityChallenges = data.filter(
-        (challenge) => challenge.category === "community"
+        (challenge) => challenge.category === "Community"
       );
       console.log("Filtered challenges:", communityChallenges); // Debug log
 
@@ -50,10 +50,10 @@ export const CommunityChallenges = () => {
     }
   };
 
-  const fetchLevelInfo = async () => {
-    const [levelData, levelError] = await getUserLevelInfo(id);
-    if (!levelError) setLevelInfo(levelData);
-  };
+  // const fetchLevelInfo = async () => {
+  //   const [levelData, levelError] = await getUserLevelInfo(id);
+  //   if (!levelError) setLevelInfo(levelData);
+  // };
 
   // Should be called on every challenge in the completed challenges array
   const checkCompletionProgress = async (challengeId) => {
@@ -61,7 +61,7 @@ export const CommunityChallenges = () => {
       const response = await checkCategory(challengeId);
       const category = response[0][0].category;
 
-      if (category === "community") {
+      if (category === "community" || category === "Community") {
         // Use callback form of setState to ensure accurate count
         setCompletedCount((prevCount) => {
           const newCount = prevCount + 1;
@@ -160,7 +160,7 @@ export const CommunityChallenges = () => {
   // }, []);
 
   useEffect(() => {
-    fetchLevelInfo();
+    // fetchLevelInfo();
     fetchCompleted();
     fetchChallenges();
   }, []);
