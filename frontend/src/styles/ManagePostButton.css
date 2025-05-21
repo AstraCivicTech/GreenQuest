@@ -1,0 +1,56 @@
+.manage-post-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.menu-button {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.manage-post-dropdown {
+  position: absolute;
+  top: 30px;
+  right: 0;
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 10px;
+  z-index: 9999;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  width: 200px;
+}
+
+.dropdown-button {
+  display: block;
+  width: 100%;
+  padding: 6px;
+  margin-bottom: 6px;
+  background-color: #f3f3f3;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.dropdown-button.delete {
+  background-color: #ffcccc;
+}
+
+.edit-textarea {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 8px;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+}
+
+.confirm-button {
+  background-color: #d1f2c8;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}

@@ -1,0 +1,123 @@
+/* Modal styles */
+.how-to-modal button {
+  display: block;
+  margin: 2rem auto;
+  padding: 1rem 2.5rem;
+  font-size: 1.1rem;
+  background: #3ddc91;
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.how-to-modal button:hover {
+  background: #fff;
+  color: #3ddc91;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.how-to-modal button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.how-to-modal h2 {
+  color: #1a5d1a;
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.how-to-modal p {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #333;
+  text-align: justify;
+  margin-bottom: 1rem;
+}
+
+.how-to-modal .highlight {
+  color: #2d862d;
+  font-weight: 600;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  padding: 3rem;
+  border-radius: 16px;
+  max-width: 800px; /* Increased from 600px */
+  width: 95%;
+  max-height: 95vh;
+  overflow-y: auto;
+  position: relative;
+  background: linear-gradient(to bottom right, #d4fbe9, #aee7ff);
+}
+
+.modal-content h2 {
+  color: #1a5d1a;
+  margin-bottom: 2rem;
+  text-align: center;
+  font-size: 2.5rem; /* Increased font size */
+}
+
+.modal-body {
+  margin: 2rem 0;
+  font-size: 1.2rem; /* Increased base font size */
+  line-height: 1.8;
+}
+
+.modal-body h3 {
+  color: #2d862d;
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem; /* Increased font size */
+}
+
+.modal-body ol {
+  padding-left: 2rem;
+}
+
+.modal-body li {
+  margin-bottom: 1rem; /* Increased spacing between list items */
+}
+
+.modal-body ul {
+  margin: 1rem 0;
+  padding-left: 2rem;
+}
+
+.modal-content button {
+  display: block;
+  margin: 2.5rem auto 0;
+  padding: 1rem 2.5rem;
+  background: white;
+  color: #3ddc91;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1.2rem; /* Increased font size */
+  transition: all 0.3s ease;
+}
+
+.modal-content button:hover {
+  background: #f0f0f0;
+  transform: translateY(-2px);
+}

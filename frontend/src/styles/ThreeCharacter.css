@@ -1,0 +1,10 @@
+.scientist-character-container {
+  position: fixed;
+  bottom: 90px;
+
+  right: 100px;
+  width: 90px;
+  height: 120px;
+  z-index: 999;
+  pointer-events: none; /* Keeps it non-interactive */
+}

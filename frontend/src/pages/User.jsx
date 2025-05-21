@@ -1,52 +1,113 @@
-import { useContext, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useContext, useEffect, useState, Suspense } from "react";
+import { Canvas } from "@react-three/fiber";
 import CurrentUserContext from "../contexts/current-user-context";
-import { getUser } from "../adapters/user-adapter";
-import { logUserOut } from "../adapters/auth-adapter";
-import UpdateUsernameForm from "../components/UpdateUsernameForm";
+import { DailyChallengesContainer } from "../components/DailyChallenges";
+import LevelBar from "../components/LevelBar";
+import "../styles/User.css";
+import ScientistCharacter from "../components3D/ScientistCharacter";
+import SpeechBubble from "../components/SpeechBubble";
+import { getCompletedChallenges2 } from "../adapters/challenge-adapter";
 
 export default function UserPage() {
-  const navigate = useNavigate();
-  const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
-  const [userProfile, setUserProfile] = useState(null);
-  const [error, setError] = useState(null);
-  const { id } = useParams();
-  const isCurrentUserProfile = currentUser && currentUser.id === Number(id);
+  const { currentUser, levelInfo } = useContext(CurrentUserContext);
+  const [showIntro, setShowIntro] = useState(false);
+  const [totalCompleted, setTotalCompleted] = useState(0);
+
+  // Show intro animation if it's the user's first time
+  useEffect(() => {
+    if (currentUser?.id) {
+      const key = `seenIntro-${currentUser.id}`;
+      if (!localStorage.getItem(key)) {
+        setShowIntro(true);
+        localStorage.setItem(key, "true");
+      }
+    }
+  }, [currentUser]);
 
   useEffect(() => {
-    const loadUser = async () => {
-      const [user, error] = await getUser(id);
-      if (error) return setError(error);
-      setUserProfile(user);
+    const fetchCompletedChallenges = async () => {
+      const [data, error] = await getCompletedChallenges2(currentUser.id);
+      if (error) {
+        console.error("Error fetching completed challenges:", error);
+        return;
+      }
+      setTotalCompleted(data.length);
     };
 
-    loadUser();
-  }, [id]);
+    fetchCompletedChallenges();
+  }, []);
 
-  const handleLogout = async () => {
-    logUserOut();
-    setCurrentUser(null);
-    navigate('/');
-  };
+  if (!currentUser) return <p>Loading user...</p>;
 
-  if (error) return <p>Sorry, there was a problem loading user. Please try again later.</p>;
+  return (
+    <div className="greenquest-profile">
+      <div className="profile-banner" />
 
-  if (!userProfile) return null;
+      <div className="profile-main">
+        {/* Profile Card */}
+        <div className="profile-card">
+          <div className="profile-picture-ring-wrapper">
+            <LevelBar />
+            <div className="profile-picture-overlay">
+              <img
+                src="https://thumbs.wbm.im/pw/small/c8f447e28f84f8ac64100cdb60e71d77.jpg"
+                alt="User Avatar"
+                className="profile-image"
+              />
+            </div>
+          </div>
 
-  // When we update the username, the userProfile state won't change but the currentUser state will.
-  const profileUsername = isCurrentUserProfile ? currentUser.username : userProfile.username;
+          {levelInfo && (
+            <div className="level-info-text">
+              <p className="level-title">
+                Level {levelInfo.level}:{" "}
+                <span className="title-text">{levelInfo.levelTitle}</span>
+              </p>
+              <p className="xp-progress">
+                {levelInfo.exp} / {levelInfo.nextLevelExp} XP
+              </p>
+            </div>
+          )}
 
-  return <>
-    <h1>{profileUsername}</h1>
-    <p>If the user had any data, here it would be</p>
-    <p>Fake Bio or something</p>
-    {
-      isCurrentUserProfile ? (
-        <>
-          <UpdateUsernameForm currentUser={currentUser} setCurrentUser={setCurrentUser} />
-          <button onClick={handleLogout}>Log Out</button>
-        </>
-      ) : ''
-    }
-  </>;
+          <h2 className="username">@{currentUser.username}</h2>
+          <p className="bio">
+            Nature enthusiast changing the world one challenge at a time
+          </p>
+          <p style={{ color: "#4F8268" }}>
+            Completed Challenges: {totalCompleted}
+          </p>
+
+          <div className="eco-tags">
+            <button className="tag-button">♻️ Zero Waste</button>
+            <button className="tag-button">🌿 Urban Gardener</button>
+          </div>
+        </div>
+
+        {/* Daily Challenges + Optional Character */}
+        <div className="challenges-and-scientist">
+          <DailyChallengesContainer />
+          {/*<DailyChallenges />*/}
+
+          {showIntro && (
+            <div className="character-widget">
+              <div className="character-canvas-wrapper">
+                <Canvas camera={{ position: [0, 1.5, 3], fov: 80 }}>
+                  <ambientLight />
+                  <Suspense fallback={null}>
+                    <ScientistCharacter />
+                  </Suspense>
+                </Canvas>
+              </div>
+              <SpeechBubble username={currentUser.username} />
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* <div className="user-posts">
+        <h2 className="activity">Activity</h2>
+        <p>This user hasn't posted anything yet.</p>
+      </div>*/}
+    </div>
+  );
 }

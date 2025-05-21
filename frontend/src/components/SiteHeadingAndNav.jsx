@@ -1,28 +1,83 @@
 import { NavLink } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import CurrentUserContext from "../contexts/current-user-context";
+import { logUserOut } from "../adapters/auth-adapter";
+import "../styles/Navbar.css";
 
 export default function SiteHeadingAndNav() {
-  const { currentUser } = useContext(CurrentUserContext);
+  const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
+  const [showDropdown, setShowDropdown] = useState(false);
 
-  return <header>
-    <a id='logo' href='/'>React/Express Auth</a>
-    <nav>
-      <ul>
-        <li><NavLink to='/'>Home</NavLink></li>
+  const handleLogout = async () => {
+    await logUserOut();
+    setCurrentUser(null);
+  };
 
-        {
-          currentUser
-            ? <>
-              <li><NavLink to='/users' end={true}>Users</NavLink></li>
-              <li><NavLink to={`/users/${currentUser.id}`}>{currentUser.username}</NavLink></li>
+  const toggleDropdown = () => {
+    setShowDropdown((prev) => !prev);
+  };
+
+  return (
+    <nav className="navbar">
+      <div className="nav-container">
+        <NavLink to="/">
+          <img src="/logo/green-quest-logo1.png" className="logo" />
+        </NavLink>
+
+        <ul className="nav-links">
+          <li>
+            <NavLink to="/scene">Scene</NavLink>
+          </li>
+
+          {currentUser ? (
+            <>
+              <li>
+                <NavLink to="/community-challenges">
+                  Community Challenges
+                </NavLink>
+              </li>
+               <li>
+                <NavLink to="/feed">Feed</NavLink>
+              </li> 
+              <li className="nav-user-menu">
+                <div className="nav-username" onClick={toggleDropdown}>
+                  <NavLink to={`/users/${currentUser.id}`}>
+                    {currentUser.username}
+                  </NavLink>
+                  <span
+                    className={`dropdown-arrow ${showDropdown ? "open" : ""}`}
+                  >
+                    ▼
+                  </span>
+                </div>
+
+                <div className={`dropdown-menu ${showDropdown ? "show" : ""}`}>
+                  {/* <NavLink to="/settings" className="dropdown-item">
+                    Settings
+                  </NavLink> */}
+                  <NavLink to="/">
+                    <button
+                      className="dropdown-item logout-button"
+                      onClick={handleLogout}
+                    >
+                      Log Out
+                    </button>
+                  </NavLink>
+                </div>
+              </li>
             </>
-            : <>
-              <li><NavLink to='/login'>Login</NavLink></li>
-              <li><NavLink to='/sign-up'>Sign Up</NavLink></li>
+          ) : (
+            <>
+              <li>
+                <NavLink to="/login">Login</NavLink>
+              </li>
+              <li>
+                <NavLink to="/sign-up">Sign Up</NavLink>
+              </li>
             </>
-        }
-      </ul>
+          )}
+        </ul>
+      </div>
     </nav>
-  </header>;
+  );
 }

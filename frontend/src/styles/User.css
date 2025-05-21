@@ -1,0 +1,229 @@
+.greenquest-profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+
+  font-family: "Poppins", sans-serif;
+  position: relative;
+  padding-bottom: 6rem;
+  /*  gradient background */
+  background: linear-gradient(to bottom, #d4fbe9, #aee7ff);
+  background-attachment: fixed;
+  color: #222;
+}
+
+/* Profile Card */
+.profile-card {
+  background: rgb(255, 255, 255);
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
+    rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+
+  border-radius: 24px;
+  padding: 2rem;
+  width: 90%;
+  max-width: 400px;
+
+  text-align: center;
+}
+
+/* Profile Picture */
+.profile-picture-ring-wrapper {
+  position: relative;
+  width: 160px;
+  height: 160px;
+  margin-left: 35%;
+  display: center;
+  align-items: center;
+  justify-content: center;
+}
+
+/* LevelBar SVG should take up the full wrapper */
+.level-ring-overlay {
+  width: 140px;
+  height: 140px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+/* Avatar sits inside */
+.profile-picture-overlay {
+  width: 137px;
+  height: 136.5px;
+  border-radius: 50%;
+  overflow: hidden;
+  position: relative;
+  z-index: 2;
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(70, 180, 120, 0.2);
+}
+
+.profile-image {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  display: center;
+  object-fit: cover;
+}
+
+/* Text Info */
+.username {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #0f5132;
+  margin-top: 1rem;
+}
+.bio {
+  font-size: 1rem;
+  color: #2f6d4f;
+  margin-top: 0.3rem;
+}
+
+/* Eco Tags */
+.eco-tags {
+  margin: 1rem 0;
+}
+.tag-button {
+  background: #ebfef4;
+  border: 2px solid #b0f0cd;
+  border-radius: 20px;
+  padding: 0.4rem 1rem;
+  margin: 0.3rem;
+  font-size: 0.9rem;
+  color: #198754;
+  cursor: default;
+  box-shadow: 0 2px 4px rgba(30, 160, 120, 0.12);
+  font-weight: 500;
+}
+
+/* Badge Section */
+.section h3 {
+  font-size: 1.1rem;
+  color: #1f845a;
+  margin-bottom: 0.6rem;
+}
+.badges {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+}
+.badges img {
+  height: 44px;
+  width: 44px;
+  border-radius: 12px;
+  background: #fff;
+  padding: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+/* Level Info */
+.level-info-text {
+  text-align: center;
+  margin-top: 0.75rem;
+}
+
+.level-title {
+  font-weight: 600;
+  font-size: 1rem;
+  color: #2e604c;
+}
+
+.title-text {
+  color: #35a86b;
+}
+
+.xp-progress {
+  font-size: 0.9rem;
+  color: #629f83;
+}
+
+/* Container for profile + challenges layout */
+.profile-main {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 2rem;
+  flex-wrap: wrap;
+  margin-top: 15%;
+  width: 100%;
+  max-width: 1100px;
+  padding: 0 2rem;
+}
+
+/* Responsive stacking on smaller screens */
+@media (max-width: 768px) {
+  .profile-main {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .modal-content {
+    margin: 0 auto;
+  }
+}
+
+/* Activity Section */
+.user-posts {
+  width: 90%;
+  max-width: 900px;
+  background: #ffffff;
+  border: 2px solid #d8f5e4;
+  border-radius: 20px;
+  padding: 1.5rem 2rem;
+  margin-top: 2rem;
+  box-shadow: 0 6px 20px rgba(40, 180, 130, 0.1);
+  text-align: left;
+}
+
+.user-posts .activity {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #145e46;
+  margin-bottom: 1rem;
+}
+
+.user-posts p {
+  font-size: 1rem;
+  color: #396957;
+  line-height: 1.5;
+}
+
+.challenges-and-scientist {
+  display: flex;
+  flex-direction: row;
+
+  align-items: flex-start;
+}
+
+.challenges-and-scientist {
+  position: relative; /* Needed for absolute positioning to work inside */
+}
+
+.character-widget {
+  position: absolute;
+  right: -60px; /* adjust as needed */
+  top: 0;
+  margin-top: 13%;
+  z-index: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: none; /* ensures it's non-blocking */
+}
+
+.character-canvas-wrapper {
+  width: 260px;
+  height: 380px;
+  margin-right: -180px;
+  pointer-events: none;
+}
+
+/* Responsive layout stacking */
+@media (max-width: 900px) {
+  .challenges-and-scientist {
+    flex-direction: column;
+    align-items: center;
+  }
+}

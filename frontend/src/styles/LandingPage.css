@@ -1,0 +1,184 @@
+/* Main landing page container */
+.landing-page {
+  padding-top: 140px; /* Accounts for navbar height (95px) + top margin (20px) + padding */
+  background: linear-gradient(to bottom, #d4fbe9, #aee7ff);
+  min-height: 100vh;
+}
+
+.developer-card-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  padding: 2rem;
+  margin: 2rem auto;
+  max-width: 1200px;
+}
+
+/* Adjust the margin on the developer cards */
+.developer-card-div .e-card {
+  margin: 20px;
+}
+
+/* Welcome section styles */
+.intro {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto 4rem;
+  padding: 2rem;
+  max-width: 800px;
+  margin: 4rem auto;
+  padding: 2rem;
+  /* background: rgba(255, 255, 255, 0.9); */
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.intro h1 {
+  font-size: 3rem;
+  color: #1a5d1a;
+  margin-bottom: 1.5rem;
+}
+
+.welcome-content {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.tagline {
+  font-size: 1.5rem;
+  color: #2d862d;
+  margin-bottom: 2rem;
+}
+
+.app-description {
+  text-align: left;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.highlight {
+  color: #1a5d1a;
+  font-weight: 600;
+}
+
+.features-list {
+  list-style: none;
+  padding: 0;
+  margin: 1.5rem 0;
+}
+
+.features-list li {
+  margin: 1rem 0;
+  padding-left: 1rem;
+  position: relative;
+}
+
+.features-list li::before {
+  content: "→";
+  position: absolute;
+  left: -1rem;
+  color: #2d862d;
+}
+
+.why {
+  max-width: 800px;
+  margin: 4rem auto;
+  padding: 2rem;
+  /* background: rgba(255, 255, 255, 0.9); */
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.why h2 {
+  color: #1a5d1a;
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.why p {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #333;
+  text-align: justify;
+  margin-bottom: 1rem;
+}
+
+.why .highlight {
+  color: #2d862d;
+  font-weight: 600;
+}
+
+.community-engagement-info {
+  max-width: 800px;
+  margin: 4rem auto;
+  padding: 2rem;
+  /* background: rgba(255, 255, 255, 0.9); */
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.community-engagement-info h2 {
+  color: #1a5d1a;
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.community-engagement-info p {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #333;
+  text-align: justify;
+  margin-bottom: 1rem;
+}
+
+.community-engagement-info .highlight {
+  color: #2d862d;
+  font-weight: 600;
+}
+
+.community-engagement-info button {
+  display: block;
+  margin: 2rem auto;
+  padding: 1rem 2.5rem;
+  font-size: 1.1rem;
+  background: linear-gradient(to right, #d4fbe9, #aee7ff);
+  color: #1a5d1a;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.community-engagement-info button:hover {
+  background: linear-gradient(to right, #aee7ff, #d4fbe9);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.community-engagement-info button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.dev-header {
+  max-width: 800px;
+  margin: 4rem auto;
+  padding: 2rem;
+  /* background: rgba(255, 255, 255, 0.9); */
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.dev-header h2 {
+  color: #1a5d1a;
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
