@@ -16,7 +16,7 @@ export default function DailyChallengeCard({
         />
         {challenge.description} ({challenge.experienceReward} XP)
       </label>
-      {isCompleted && <CreatePostButton />}
+      {/* {isCompleted && <CreatePostButton />} */}
     </div>
   );
 }
