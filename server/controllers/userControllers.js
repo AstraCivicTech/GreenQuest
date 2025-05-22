@@ -68,12 +68,23 @@ exports.getLevelInfo = async (req, res) => {
       .where({ levelId: user.level + 1 })
       .first();
 
+    const previousLevel = await knex("levels")
+      .where({
+        levelId: user.level - 1,
+      })
+      .first();
+
+    if (!currentLevel) {
+      return res.status(404).json({ message: "Current level not found." });
+    }
+
     res.json({
       level: user.level,
       exp: user.exp,
       levelTitle: currentLevel ? currentLevel.title : "Unranked",
       currentLevelExp: currentLevel ? currentLevel.experienceNeeded : 0,
       nextLevelExp: nextLevel ? nextLevel.experienceNeeded : user.exp, // fallback to prevent division by 0
+      previousLevelExp: previousLevel ? previousLevel.experienceNeeded : 0,
     });
   } catch (error) {
     console.error("Error fetching level info:", error);

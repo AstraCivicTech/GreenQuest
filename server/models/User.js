@@ -83,6 +83,7 @@ class User {
     return result.rows[0] || null;
   }
 
+
   // helper to find the next level’s required exp
   static async getNextLevelExp(currentLevelId) {
     const result = await knex("levels")
@@ -91,6 +92,15 @@ class User {
       .limit(1);
 
     return result[0] ? result[0].experienceNeeded : null; // null if max level
+  }
+
+  static async getPreviousLevelExp(currentLevelId) {
+    const result = await knex("levels")
+      .where("levelId", "<", currentLevelId)
+      .orderBy("levelId", "desc")
+      .limit(1);
+
+    return result[0] ? result[0].experienceNeeded : null; // null if min level
   }
 
   static async updateLevelInfo(id, currentExp) {

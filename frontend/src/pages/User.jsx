@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState, Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
 import CurrentUserContext from "../contexts/current-user-context";
-import { DailyChallengesContainer } from "../components/DailyChallenges";
+import { DailyChallengesContainer } from "../components/DailyChallengesContainer";
 import LevelBar from "../components/LevelBar";
 import "../styles/User.css";
 import ScientistCharacter from "../components3D/ScientistCharacter";
@@ -64,7 +64,12 @@ export default function UserPage() {
                 <span className="title-text">{levelInfo.levelTitle}</span>
               </p>
               <p className="xp-progress">
-                {levelInfo.exp} / {levelInfo.nextLevelExp} XP
+                {levelInfo.exp - levelInfo.currentLevelExp} /{" "}
+                {levelInfo.nextLevelExp - levelInfo.currentLevelExp} XP
+              </p>
+              <p className="xp-progress">
+                {"All Time Experience: "}
+                {levelInfo.exp} XP
               </p>
             </div>
           )}

@@ -4,13 +4,21 @@ import "../styles/LevelBar.css";
 
 export default function LevelBar() {
   const { levelInfo } = useContext(CurrentUserContext);
-
+  console.log(`levelInfo: ${levelInfo.previousLevelExp}`);
   // Always call hooks
   const [prevLevel, setPrevLevel] = useState(null);
   const [shouldPulse, setShouldPulse] = useState(false);
   console.log(levelInfo);
+  const previousLevelExp = levelInfo.currentLevelExp || 0;
+  const currentLevelExp = levelInfo.exp - previousLevelExp || 0;
+  const nextLevelExp = levelInfo.nextLevelExp - levelInfo.currentLevelExp; // We need to subtract previousLevelExp
+
+  console.log(`previousLevelExp: ${previousLevelExp}`);
+  console.log(`currentLevelExp: ${currentLevelExp}`);
+  console.log(`nextLevelExp: ${nextLevelExp}`);
+
   const percent = levelInfo
-    ? Math.min((levelInfo.exp / levelInfo.nextLevelExp) * 100, 100).toFixed(1)
+    ? Math.min((currentLevelExp / nextLevelExp) * 100, 100).toFixed(1)
     : 0;
 
   useEffect(() => {

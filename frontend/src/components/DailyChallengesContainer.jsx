@@ -100,19 +100,10 @@ export const DailyChallengesContainer = () => {
             return (
               <DailyChallengeCard
                 key={challenge.id}
-                className={`challenge-item ${isCompleted ? "completed" : ""}`}
-              >
-                <label>
-                  <input
-                    type="checkbox"
-                    checked={isCompleted}
-                    disabled={isCompleted}
-                    onChange={(e) => handleChallengeComplete(challenge, e)}
-                  />
-                  {challenge.description} ({challenge.experienceReward} XP)
-                </label>
-                {/* <CreatePostButton /> */}
-              </label>
+                challenge={challenge}
+                isCompleted={isCompleted}
+                onComplete={handleChallengeComplete}
+              />
             );
           })}
         </div>
