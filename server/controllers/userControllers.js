@@ -56,14 +56,16 @@ exports.getLevelInfo = async (req, res) => {
 
   try {
     const user = await knex("users").where({ id }).first();
+
     if (!user) {
       return res.status(404).json({ message: "User not found." });
     }
+    console.log(user);
 
     const currentLevel = await knex("levels")
       .where({ levelId: user.level })
       .first();
-    console.log(currentLevel);
+    console.log("current:", currentLevel);
     const nextLevel = await knex("levels")
       .where({ levelId: user.level + 1 })
       .first();

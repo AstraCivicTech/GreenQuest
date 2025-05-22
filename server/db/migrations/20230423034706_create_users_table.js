@@ -10,7 +10,7 @@ exports.up = (knex) => {
     table.string("password_hash").notNullable();
     table.string("zipcode").notNullable();
     table.integer("exp").nullable().defaultTo(0);
-    table.integer("level").nullable().defaultTo(0);
+    table.integer("level").nullable().defaultTo(1);
     table.integer("streak").nullable().defaultTo(0);
     table.timestamp("lastChallengeCompletedAt").nullable().defaultTo(null);
   });

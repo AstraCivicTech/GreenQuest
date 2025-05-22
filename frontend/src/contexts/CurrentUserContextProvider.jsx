@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import CurrentUserContext from "./current-user-context";
 import { getUserLevelInfo } from "../adapters/user-adapter";
-import { checkForLoggedInUser } from "../adapters/auth-adapter";
+import { checkForLoggedInUser, logUserOut } from "../adapters/auth-adapter";
 
 export default function CurrentUserContextProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null);
