@@ -1,8 +1,10 @@
 .feed-container {
   padding: 2rem;
+  padding-top: 120px; /* Add space for fixed navbar */
   max-width: 1400px;
   margin: 0 auto;
   font-family: "Poppins", sans-serif;
+  min-height: 100vh;
 }
 
 .feed-title {
@@ -151,6 +153,71 @@
   color: #777;
 }
 
+/* Post action buttons styling */
+.post-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.post-actions button {
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: "Poppins", sans-serif;
+}
+
+/* Edit button */
+.post-actions button:first-child {
+  background-color: #1a5d1a;
+  color: white;
+  border: none;
+}
+
+.post-actions button:first-child:hover {
+  background-color: #2d862d;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(45, 134, 45, 0.2);
+}
+
+/* Delete button */
+.post-actions button:last-child {
+  background-color: white;
+  color: #1a5d1a;
+  border: 2px solid #1a5d1a;
+}
+
+.post-actions button:last-child:hover {
+  background-color: #ffefef;
+  color: #dc3545;
+  border-color: #dc3545;
+  transform: translateY(-2px);
+}
+
+/* Edit textarea */
+.edit-textarea {
+  width: 100%;
+  padding: 0.8rem;
+  border: 2px solid #1a5d1a;
+  border-radius: 8px;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.95rem;
+  color: #2f5f3c;
+  margin: 0.5rem 0;
+  min-height: 80px;
+  resize: vertical;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.edit-textarea:focus {
+  outline: none;
+  border-color: #2d862d;
+  box-shadow: 0 0 0 3px rgba(45, 134, 45, 0.1);
+}
+
 .add-post-form {
   margin-top: 1.5rem;
   padding-top: 1.5rem;
@@ -197,8 +264,27 @@
 
 /* Responsive adjustments for smaller screens if needed */
 @media (max-width: 768px) {
+  .feed-container {
+    padding: 1rem;
+    padding-top: 100px; /* Slightly less padding on mobile */
+  }
+
+  .feed-title {
+    font-size: 1.5rem;
+  }
+
+  .challenge-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .selected-challenge-modal {
+    padding: 1rem;
+  }
+
   .selected-challenge-content-box {
-    padding: 1.5rem;
+    width: 95%;
+    padding: 1rem;
     margin: 1rem; /* Add some margin on smaller screens */
     max-height: 85vh;
   }
@@ -211,5 +297,23 @@
     font-size: 1.6rem;
     top: 0.8rem;
     right: 0.8rem;
+  }
+
+  .posts-scroll-container {
+    max-height: 300px;
+  }
+
+  .post-actions {
+    flex-direction: row;
+    gap: 0.5rem;
+  }
+
+  .post-actions button {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+  }
+
+  .add-post-form textarea {
+    min-height: 100px;
   }
 }

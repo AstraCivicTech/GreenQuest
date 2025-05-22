@@ -214,3 +214,19 @@
   color: #721c24;
   border: 1px solid #f5c6cb;
 }
+
+@media (max-width: 768px) {
+  .community-challenge-form {
+    width: 95%;
+    padding: 1.5rem;
+    margin: 1rem auto;
+  }
+
+  .form-group textarea {
+    min-height: 100px;
+  }
+
+  .submit-button {
+    padding: 0.6rem;
+  }
+}

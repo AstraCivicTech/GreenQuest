@@ -5,7 +5,7 @@ body,
   min-height: 100vh;
 }
 
-main {
+body {
   min-height: 100vh;
   width: 100%;
   background: linear-gradient(to bottom, #d4fbe9, #aee7ff);
@@ -14,4 +14,16 @@ main {
   position: relative;
   z-index: 0;
   overflow-x: hidden; /* Prevent horizontal scroll */
+}
+
+main {
+  min-height: 100vh;
+  width: 100%;
+  background: linear-gradient(to bottom, #d4fbe9, #aee7ff);
+  background-attachment: fixed;
+  font-family: "Poppins", sans-serif;
+  position: relative;
+  z-index: 0;
+  overflow-x: hidden;
+  padding-top: 64px; /* Height of navbar */
 }

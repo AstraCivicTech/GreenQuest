@@ -130,3 +130,23 @@
   text-align: center;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
 }
+
+@media (max-width: 768px) {
+  .challenge-card {
+    padding: 1rem;
+    margin: 0.5rem;
+  }
+
+  .challenge-card-content {
+    gap: 0.5rem;
+  }
+
+  .challenge-description {
+    font-size: 0.9rem;
+  }
+
+  .challenge-exp {
+    font-size: 0.8rem;
+    padding: 0.3rem 0.6rem;
+  }
+}

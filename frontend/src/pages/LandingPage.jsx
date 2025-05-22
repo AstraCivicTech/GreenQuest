@@ -69,7 +69,7 @@ export const LandingPage = () => {
           "GreenQuest Mission". Click the button to learn more about how to
           create your first challenge!
         </p>
-        <HowToModal setShowModal={setShowModal} showModal={showModal} />
+        {/*  */}
       </div>
       <div className="dev-header">
         <h2>The Developers</h2>

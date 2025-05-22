@@ -172,7 +172,7 @@ export const CommunityChallenges = () => {
     <div className="community-challenges-container">
       <div className="create-challenge-section">
         <CommunityChallengeForm refresh={refresh} />
-        <HowToModal showModal={showModal} setShowModal={setShowModal} />
+        {/* <HowToModal showModal={showModal} setShowModal={setShowModal} /> */}
       </div>
       <h1>Community Challenges</h1>
       {/* <p>
