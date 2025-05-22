@@ -30,10 +30,10 @@ export default function Feed() {
   const fetchChallenges = async () => {
     setIsLoadingChallenges(true);
     try {
-      const [data, error] = await getChallengesByCategory("community");
+      const [data, error] = await getChallengesByCategory("Community");
       if (error) throw error;
       setCommunityChallenges(
-        data.filter((challenge) => challenge.category === "community")
+        data.filter((challenge) => challenge.category === "Community")
       );
     } catch (err) {
       setError(err.message);
