@@ -26,6 +26,7 @@ export default function UserPage() {
 
   useEffect(() => {
     const fetchCompletedChallenges = async () => {
+      if (!currentUser?.id) return;
       const [data, error] = await getCompletedChallenges2(currentUser.id);
       if (error) {
         console.error("Error fetching completed challenges:", error);
@@ -35,9 +36,16 @@ export default function UserPage() {
     };
 
     fetchCompletedChallenges();
-  }, []);
+  }, [currentUser]);
 
   if (!currentUser) return <p>Loading user...</p>;
+
+  // Safely handle levelInfo and provide fallback values
+  const level = levelInfo?.level || 0;
+  const levelTitle = levelInfo?.levelTitle || "Unranked";
+  const currentLevelExp = levelInfo?.currentLevelExp || 0;
+  const nextLevelExp = levelInfo?.nextLevelExp || 1; // Avoid division by zero
+  const exp = levelInfo?.exp || 0;
 
   return (
     <div className="greenquest-profile">
@@ -60,16 +68,14 @@ export default function UserPage() {
           {levelInfo && (
             <div className="level-info-text">
               <p className="level-title">
-                Level {levelInfo.level}:{" "}
-                <span className="title-text">{levelInfo.levelTitle}</span>
+                Level {level}: <span className="title-text">{levelTitle}</span>
               </p>
               <p className="xp-progress">
-                {levelInfo.exp - levelInfo.currentLevelExp} /{" "}
-                {levelInfo.nextLevelExp - levelInfo.currentLevelExp} XP
+                {exp - currentLevelExp} / {nextLevelExp - currentLevelExp} XP
               </p>
               <p className="xp-progress">
                 {"All Time Experience: "}
-                {levelInfo.exp} XP
+                {exp} XP
               </p>
             </div>
           )}
@@ -108,11 +114,6 @@ export default function UserPage() {
           )}
         </div>
       </div>
-
-      {/* <div className="user-posts">
-        <h2 className="activity">Activity</h2>
-        <p>This user hasn't posted anything yet.</p>
-      </div>*/}
     </div>
   );
 }

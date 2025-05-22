@@ -7,14 +7,17 @@ export default function CurrentUserContextProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null);
   const [levelInfo, setLevelInfo] = useState(null);
   const [completedChallenges, setCompletedChallenges] = useState([]);
-  const [loading, setLoading] = useState(true); //  Wait for user to load
+  const [loading, setLoading] = useState(true); // Wait for user and level info to load
+  const [levelLoading, setLevelLoading] = useState(false); // Separate loading for level info
 
   // Load current user from session (cookie)
   useEffect(() => {
     const loadUser = async () => {
       const [user, error] = await checkForLoggedInUser();
-      if (!error) setCurrentUser(user);
-      setLoading(false); //  Whether user is null or not, we're done loading
+      if (!error) {
+        setCurrentUser(user);
+      }
+      setLoading(false); // Whether user is null or not, we're done loading
     };
     loadUser();
   }, []);
@@ -24,8 +27,13 @@ export default function CurrentUserContextProvider({ children }) {
     if (!currentUser?.id) return;
 
     const fetchLevelInfo = async () => {
+      setLevelLoading(true); // Start loading level info
       const [data, error] = await getUserLevelInfo(currentUser.id);
-      if (!error) setLevelInfo(data);
+      if (!error) {
+        console.log("Updated levelInfo in context:", data); // Debugging log
+        setLevelInfo(data);
+      }
+      setLevelLoading(false); // Done loading level info
     };
 
     fetchLevelInfo();
@@ -40,7 +48,8 @@ export default function CurrentUserContextProvider({ children }) {
     setCompletedChallenges,
   };
 
-  if (loading) return null; //  Prevent rendering while checking session
+  // Prevent rendering while checking session or fetching level info
+  if (loading || levelLoading) return null;
 
   return (
     <CurrentUserContext.Provider value={context}>

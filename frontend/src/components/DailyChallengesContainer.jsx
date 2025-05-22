@@ -68,19 +68,28 @@ export const DailyChallengesContainer = () => {
   const handleChallengeComplete = async (challenge, e) => {
     if (!currentUser?.id || !challenge?.id) return;
 
+    // Mark the challenge as completed
     const [_, error] = await completeChallenge(currentUser.id, challenge.id);
     if (error) return;
 
+    // Calculate the new experience points
     const newExp = levelInfo.exp + challenge.experienceReward;
+
+    // Update the user's level info
     const [updatedInfo, levelError] = await updateUserLevelInfo(
       currentUser.id,
       newExp
     );
 
     if (!levelError) {
+      console.log("Updated levelInfo after challenge:", updatedInfo); // Debugging log
+      // Update the context with the new level info
       setLevelInfo(updatedInfo);
+
+      // Add the challenge to the list of completed challenges
       setCompletedChallenges((prev) => [...prev, Number(challenge.id)]);
 
+      // Trigger particle animation
       const rect = e.target.getBoundingClientRect();
       triggerParticles(rect.left + 10, rect.top + 10);
     }

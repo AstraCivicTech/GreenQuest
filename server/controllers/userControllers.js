@@ -63,15 +63,9 @@ exports.getLevelInfo = async (req, res) => {
     const currentLevel = await knex("levels")
       .where({ levelId: user.level })
       .first();
-
+    console.log(currentLevel);
     const nextLevel = await knex("levels")
       .where({ levelId: user.level + 1 })
-      .first();
-
-    const previousLevel = await knex("levels")
-      .where({
-        levelId: user.level - 1,
-      })
       .first();
 
     if (!currentLevel) {
@@ -84,7 +78,6 @@ exports.getLevelInfo = async (req, res) => {
       levelTitle: currentLevel ? currentLevel.title : "Unranked",
       currentLevelExp: currentLevel ? currentLevel.experienceNeeded : 0,
       nextLevelExp: nextLevel ? nextLevel.experienceNeeded : user.exp, // fallback to prevent division by 0
-      previousLevelExp: previousLevel ? previousLevel.experienceNeeded : 0,
     });
   } catch (error) {
     console.error("Error fetching level info:", error);
@@ -96,7 +89,7 @@ exports.updateLevelInfo = async (req, res) => {
   const { id } = req.params;
   const { currentExp } = req.body;
 
-  console.log("EXP from frontend:", currentExp); //
+  console.log("EXP from frontend:", currentExp);
 
   const parsedExp = Number(currentExp);
   if (Number.isNaN(parsedExp)) {
@@ -106,13 +99,26 @@ exports.updateLevelInfo = async (req, res) => {
   }
 
   try {
+    // Update the user's experience in the database
     const updatedLevelInfo = await User.updateLevelInfo(id, currentExp);
+
+    // Fetch the user's current level from the database
+    const currentLevel = await knex("levels")
+      .where({ levelId: updatedLevelInfo.level })
+      .first();
+
+    if (!currentLevel) {
+      return res.status(404).json({ message: "Current level not found." });
+    }
+
+    // Add currentLevelExp to the response
+    updatedLevelInfo.currentLevelExp = currentLevel.experienceNeeded;
+
     res.status(200).json(updatedLevelInfo);
   } catch (error) {
     console.error("Level update failed:", error);
     res.status(500).json({
-      message: "An error occurred while updating user level.",
-      detail: error.message,
+      message: "Something went wrong while updating level info.",
     });
   }
 };
