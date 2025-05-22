@@ -2,6 +2,7 @@ import { useContext, useEffect, useState, Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
 import CurrentUserContext from "../contexts/current-user-context";
 import { DailyChallenges } from "../components/DailyChallenges";
+import { getCompletedChallenges2 } from "../adapters/challenge-adapter";
 import LevelBar from "../components/LevelBar";
 import "../styles/User.css";
 import ScientistCharacter from "../components3D/ScientistCharacter";
@@ -9,6 +10,7 @@ import SpeechBubble from "../components/SpeechBubble";
 
 export default function UserPage() {
   const { currentUser, levelInfo } = useContext(CurrentUserContext);
+  const [totalCompleted, setTotalCompleted] = useState(0);
   const [showIntro, setShowIntro] = useState(false);
 
   // Show intro animation if it's the user's first time
@@ -21,6 +23,19 @@ export default function UserPage() {
       }
     }
   }, [currentUser]);
+
+  useEffect(() => {
+    const fetchCompletedChallenges = async () => {
+      const [data, error] = await getCompletedChallenges2(currentUser.id);
+      if (error) {
+        console.error("Error fetching completed challenges:", error);
+        return;
+      }
+      setTotalCompleted(data.length);
+    };
+
+    fetchCompletedChallenges();
+  }, []);
 
   if (!currentUser) return <p>Loading user...</p>;
 
@@ -58,6 +73,7 @@ export default function UserPage() {
           <p className="bio">
             Nature enthusiast changing the world one challenge at a time
           </p>
+          <p>Completed Challenges: {totalCompleted}</p>
 
           <div className="eco-tags">
             <button className="tag-button">♻️ Zero Waste</button>
@@ -67,7 +83,7 @@ export default function UserPage() {
 
         {/* Daily Challenges + Optional Character */}
         <div className="challenges-and-scientist">
-          <DailyChallenges/>
+          <DailyChallenges />
 
           {showIntro && (
             <div className="character-widget">
