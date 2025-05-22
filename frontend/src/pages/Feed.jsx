@@ -66,7 +66,7 @@ export default function Feed() {
       }
     };
     fetchUserPosts();
-  }, [selectedChallengeId, communityChallenges,userPosts]); // Reruns if selected challengeId or the main community challenges changes.
+  }, [selectedChallengeId, communityChallenges, userPosts]); // Reruns if selected challengeId or the main community challenges changes.
 
   const handleSelectChallenge = useCallback((challengeId) => {
     setSelectedChallengeId(challengeId);
@@ -80,47 +80,54 @@ export default function Feed() {
     if (!currentUser || !challengeId) {
       return;
     }
-       // Format the Data in an Object;
-       const newPost = {
-        content,
-        likes: 0,
-        userId,
-        challengeId
-      }
-      try {
-        const createPos2 = await createPost(newPost);
-      } catch(error) {
-        console.error('Failed to create a Post', error);
-      }
+    // Format the Data in an Object;
+    const newPost = {
+      content,
+      likes: 0,
+      userId,
+      challengeId,
+    };
+    try {
+      const createPos2 = await createPost(newPost);
+    } catch (error) {
+      console.error("Failed to create a Post", error);
+    }
   };
 
   if (isLoadingChallenges)
-    return <div className="feed-loading">Loading...</div>;
+    return (
+      <main>
+        <div className="feed-loading">Loading...</div>
+      </main>
+    );
 
   return (
-    <div className="feed-container">
-      <h2 className="feed-title">Community Feed</h2>
-      <div className="post-grid">
-        {communityChallenges.map((challenge) => (
-          <div key={challenge.id}>
-            <FeedChallengeCard
-              challenge={challenge}
-              onSelectChallenge={handleSelectChallenge}
-            />
-          </div>
-        ))}
+    <main>
+      <div className="feed-container">
+        <h2 className="feed-title">Community Feed</h2>
+        <div className="post-grid">
+          {communityChallenges.map((challenge) => (
+            <div key={challenge.id}>
+              <FeedChallengeCard
+                challenge={challenge}
+                onSelectChallenge={handleSelectChallenge}
+              />
+            </div>
+          ))}
+        </div>
+        {selectedChallengeId && (
+          <SelectedChallengeDisplay
+            challenge={
+              communityChallenges.find((c) => c.id === selectedChallengeId) ||
+              {}
+            }
+            relatedUserPosts={userPosts}
+            onAddPost={handleAddPost}
+            currentUser={currentUser}
+            onClose={handleCloseSelectedChallenge}
+          />
+        )}
       </div>
-      {selectedChallengeId && (
-        <SelectedChallengeDisplay
-          challenge={
-            communityChallenges.find((c) => c.id === selectedChallengeId) || {}
-          }
-          relatedUserPosts={userPosts}
-          onAddPost={handleAddPost}
-          currentUser={currentUser}
-          onClose={handleCloseSelectedChallenge}
-        />
-      )}
-    </div>
+    </main>
   );
 }
