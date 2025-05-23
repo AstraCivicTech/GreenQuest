@@ -6,6 +6,8 @@ const path = require("path");
 
 const migrationsDirectory = path.join(__dirname, "db/migrations");
 const seedsDirectory = path.join(__dirname, "db/seeds");
+const POOL_MIN = parseInt(process.env.PG_POOL_MIN || '2');
+const POOL_MAX = parseInt(process.env.PG_POOL_MAX || '10');
 
 /*
 We'll use environment variables to set the Postgres username and password
@@ -26,6 +28,10 @@ module.exports = {
     },
     migrations: {
       directory: migrationsDirectory,
+    },
+    pool: {
+      min: POOL_MIN,
+      max: POOL_MAX,
     },
     seeds: {
       directory: seedsDirectory,
