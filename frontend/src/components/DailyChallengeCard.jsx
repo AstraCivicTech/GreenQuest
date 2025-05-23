@@ -1,4 +1,5 @@
 import CreatePostButton from "./CreatePostButton";
+import "../styles/DailyChallengeCard.css";
 
 export default function DailyChallengeCard({
   challenge,
@@ -14,7 +15,8 @@ export default function DailyChallengeCard({
           disabled={isCompleted}
           onChange={(e) => onComplete(challenge, e)}
         />
-        {challenge.description} ({challenge.experienceReward} XP)
+        <p> {challenge.description} </p>
+        <p className="xp-progress">{challenge.experienceReward} XP</p>
       </label>
       {/* {isCompleted && <CreatePostButton />} */}
     </div>

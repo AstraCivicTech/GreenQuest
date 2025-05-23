@@ -98,48 +98,38 @@ export const DailyChallengesContainer = () => {
   if (!levelInfo || challenges.length === 0) return <p>Loading...</p>;
 
   return (
-    <div className="book">
-      <div className="daily-challenges-container">
-        <h3>Today's Challenges</h3>
-        <div className="challenge-cards-wrapper">
-          {challenges.map((challenge) => {
-            const isCompleted = completedChallenges.includes(
-              Number(challenge.id)
-            );
-            return (
-              <DailyChallengeCard
-                key={challenge.id}
-                challenge={challenge}
-                isCompleted={isCompleted}
-                onComplete={handleChallengeComplete}
-              />
-            );
-          })}
-        </div>
-
-        {particles.map((p) => (
-          <div
-            key={p.id}
-            className="sparkle-particle"
-            style={{
-              top: `${p.y}px`,
-              left: `${p.x}px`,
-              position: "fixed",
-              transform: `translate(${p.offsetX}px, ${p.offsetY}px) scale(0.3)`,
-              animation:
-                "fadeOut 1.3s ease-out forwards, sparkleTwinkle 1.3s ease-in-out",
-            }}
-          />
-        ))}
+    <div className="daily-challenges-container">
+      <h3>Today's Challenges</h3>
+      <div className="challenge-cards-wrapper">
+        {challenges.map((challenge) => {
+          const isCompleted = completedChallenges.includes(
+            Number(challenge.id)
+          );
+          return (
+            <DailyChallengeCard
+              key={challenge.id}
+              challenge={challenge}
+              isCompleted={isCompleted}
+              onComplete={handleChallengeComplete}
+            />
+          );
+        })}
       </div>
 
-      <div className="cover">
-        <img
-          src="/journalCover/journalcover.png"
-          alt="Cover"
-          className="journal"
+      {particles.map((p) => (
+        <div
+          key={p.id}
+          className="sparkle-particle"
+          style={{
+            top: `${p.y}px`,
+            left: `${p.x}px`,
+            position: "fixed",
+            transform: `translate(${p.offsetX}px, ${p.offsetY}px) scale(0.3)`,
+            animation:
+              "fadeOut 1.3s ease-out forwards, sparkleTwinkle 1.3s ease-in-out",
+          }}
         />
-      </div>
+      ))}
     </div>
   );
 };

@@ -2,7 +2,7 @@
 
 .speech-bubble {
   position: fixed;
-  bottom: 590px; /* Adjust height above character */
+  bottom: 560px; /* Adjust height above character */
   right: 15%;
   transform: translateX(50%);
   background-color: white;

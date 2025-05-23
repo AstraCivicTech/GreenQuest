@@ -7,20 +7,30 @@ import "../styles/User.css";
 import ScientistCharacter from "../components3D/ScientistCharacter";
 import SpeechBubble from "../components/SpeechBubble";
 import { getCompletedChallenges2 } from "../adapters/challenge-adapter";
+import { getUserLevelInfo } from "../adapters/user-adapter";
 
 export default function UserPage() {
-  const { currentUser, levelInfo } = useContext(CurrentUserContext);
+  const { currentUser, levelInfo, setLevelInfo } =
+    useContext(CurrentUserContext);
   const [showIntro, setShowIntro] = useState(false);
   const [totalCompleted, setTotalCompleted] = useState(0);
 
   // Show intro animation if it's the user's first time
   useEffect(() => {
-    if (currentUser?.id) {
-      const key = `seenIntro-${currentUser.id}`;
-      if (!localStorage.getItem(key)) {
-        setShowIntro(true);
-        localStorage.setItem(key, "true");
+    const getLevel = async () => {
+      if (!currentUser?.id) return;
+      const [levelData, levelError] = await getUserLevelInfo(currentUser.id);
+      if (levelError) {
+        console.error("Error fetching level data:", levelError);
+        return;
       }
+      console.log("Level data:", levelData);
+      setLevelInfo(levelData);
+    };
+    getLevel();
+
+    if (levelInfo.exp < 300) {
+      setShowIntro(true);
     }
   }, [currentUser]);
 
@@ -38,7 +48,7 @@ export default function UserPage() {
     fetchCompletedChallenges();
   }, [currentUser]);
 
-  if (!currentUser) return <p>Loading user...</p>;
+  if (!currentUser || !levelInfo) return <p>Loading user...</p>;
 
   // Safely handle levelInfo and provide fallback values
   const level = levelInfo?.level || 0;
@@ -46,6 +56,8 @@ export default function UserPage() {
   const currentLevelExp = levelInfo?.currentLevelExp || 0;
   const nextLevelExp = levelInfo?.nextLevelExp || 1; // Avoid division by zero
   const exp = levelInfo?.exp || 0;
+
+  console.log("showIntro:", showIntro);
 
   return (
     <div className="greenquest-profile">
@@ -109,7 +121,7 @@ export default function UserPage() {
                   </Suspense>
                 </Canvas>
               </div>
-              <SpeechBubble username={currentUser.username} />
+              <SpeechBubble username={currentUser?.username || "Guest"} />
             </div>
           )}
         </div>

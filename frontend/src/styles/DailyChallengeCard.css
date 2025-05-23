@@ -2,17 +2,20 @@
   background: rgb(255, 255, 255);
   box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
     rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
-  border: 1px solid #d3f0de;
-  border-radius: 14px;
-  padding: 0.9rem 1.2rem;
+
+  border-radius: 24px;
+  padding: 2rem;
+
   margin-bottom: 0.75rem;
   height: 70px;
   display: flex;
   align-items: center;
-  transition: background 0.3s ease, transform 0.2s ease;
 }
 
 .challenge-card li:hover {
+  background: rgb(255, 255, 255);
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
+    rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
   background-color: #eafaf2;
   transform: translateY(-2px);
 }
@@ -27,6 +30,9 @@
 }
 
 .challenge-card {
+  background: rgb(255, 255, 255);
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
+    rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
   font-size: 1rem;
   color: #2d5742;
   display: flex;
@@ -34,14 +40,16 @@
 }
 
 .completed {
+  background: rgb(255, 255, 255);
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
+    rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
   opacity: 0.6;
   text-decoration: line-through;
   font-style: italic;
   color: #7aa68f;
 }
 
-.create-post-button-wrapper {
-  margin-top: 0.5rem;
-
-  text-decoration: none !important;
+.xp-progress {
+  font-size: 0.9rem;
+  color: #629f83;
 }

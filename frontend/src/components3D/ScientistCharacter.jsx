@@ -10,6 +10,9 @@ export default function ScientistCharacter(props) {
   // useAnimations is used to manage the animations of the model
   const { actions } = useAnimations(animations, ref);
 
+  console.log("Animations:", animations);
+  console.log("Actions:", actions);
+
   useEffect(() => {
     if (actions && Object.values(actions)[0]) {
       Object.values(actions)[0].play();
@@ -20,8 +23,8 @@ export default function ScientistCharacter(props) {
     <primitive
       object={scene}
       ref={ref}
-      position={[0.4, -1.2, 0.3]}
-      scale={props.scale || [1.8, 1.8, 1.8]}
+      position={[0.4, -1.8, 0.3]}
+      scale={props.scale || [2, 2, 2]}
       rotation={[0, -2.5, 0]} // Face camera
       {...props}
     />
