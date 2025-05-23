@@ -1,6 +1,9 @@
 .challenge-card {
-  background: linear-gradient(135deg, #ffffff 0%, #f5f7fa 100%);
-  border-radius: 15px;
+  background: rgb(255, 255, 255);
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
+    rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+
+  border-radius: 24px;
   padding: 1.5rem;
   margin: 1rem;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);

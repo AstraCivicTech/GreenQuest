@@ -1,0 +1,373 @@
+/* --- SelectedChallengeDisplay Styles --- */
+/* Modal Overlay */
+.selected-challenge-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #ffff; /* White with slight transparency */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000; /* Ensure it's on top */
+  padding: 2rem;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+/* Modal Content Box */
+.selected-challenge-content-box {
+  background: #ffffff; /* Pure white background */
+  border: 2px solid #d3f7de; /* Subtle green border */
+  border-radius: 16px; /* Rounded corners */
+  padding: 2rem;
+}
+
+.selected-challenge-close-button {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  color: #ffffff;
+  cursor: pointer;
+  padding: 0.5rem;
+  line-height: 1;
+}
+
+.selected-challenge-close-button:hover {
+  color: #1b5e20;
+}
+
+.selected-challenge-content-box h2 {
+  font-size: 1.8rem;
+  color: #1b5e20;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.selected-challenge-content-box p {
+  font-size: 1rem;
+  color: #2f5f3c;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.related-posts-section {
+  margin-top: 2rem;
+  border-top: 1px solid #e0e0e0;
+  padding-top: 1.5rem;
+}
+
+.related-posts-section h4 {
+  font-size: 1.3rem;
+  color: #1b5e20;
+  margin-bottom: 1rem;
+}
+
+.posts-scroll-container {
+  max-height: 200px; /* Adjust as needed */
+  overflow-y: auto;
+  padding-right: 0.5rem; /* For scrollbar spacing */
+  border: 1px solid #eefbee;
+  border-radius: 8px;
+  padding: 1rem;
+  background-color: #f9fdf9;
+}
+
+.post-item {
+  background-color: #ffffff;
+  border: 1px solid #d3f7de;
+  border-radius: 8px;
+  padding: 0.8rem 1rem;
+  margin-bottom: 0.8rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.post-item p {
+  font-size: 0.95rem;
+  color: #2f5f3c;
+  margin-bottom: 0.3rem;
+}
+.post-item p strong {
+  color: #1b5e20;
+}
+
+.post-item small {
+  font-size: 0.8rem;
+  color: #777;
+}
+
+.add-post-form {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e0e0e0;
+}
+
+.add-post-form textarea {
+  width: 100%;
+  padding: 0.8rem;
+  border: 1px solid #c5e6cf;
+  border-radius: 8px;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.95rem;
+  color: #2f5f3c;
+  margin-bottom: 0.8rem;
+  box-sizing: border-box; /* Ensure padding doesn't increase width */
+  resize: vertical;
+}
+
+.add-post-form textarea:focus {
+  outline: none;
+  border-color: #2f5f3c;
+  box-shadow: 0 0 0 2px rgba(47, 95, 60, 0.2);
+}
+
+.add-post-form button {
+  background-color: #1b5e20;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.7rem 1.5rem;
+  font-family: "Poppins", sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  display: block; /* Make it block to allow margin auto or specific alignment */
+  margin-left: auto; /* Example: align to right */
+}
+
+.add-post-form button:hover {
+  background-color: #2f5f3c;
+}
+
+/* Responsive adjustments for smaller screens if needed */
+@media (max-width: 768px) {
+  .selected-challenge-content-box {
+    padding: 1.5rem;
+    margin: 1rem; /* Add some margin on smaller screens */
+    max-height: 85vh;
+  }
+
+  .selected-challenge-content-box h2 {
+    font-size: 1.6rem;
+  }
+
+  .selected-challenge-close-button {
+    font-size: 1.6rem;
+    top: 0.8rem;
+    right: 0.8rem;
+  }
+}
+
+.selected-challenge-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(10, 30, 20, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  backdrop-filter: blur(6px);
+}
+
+.selected-challenge-content-box {
+  background: rgb(255, 255, 255);
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
+    rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+  backdrop-filter: blur(20px);
+  border-radius: 24px;
+  padding: 2.5rem;
+  width: 90%;
+  max-width: 720px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  position: relative;
+  color: #1f3b2c;
+  overflow-y: auto;
+  max-height: 90vh;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.selected-challenge-close-button {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: rgba(255, 255, 255, 0.3);
+  color: #155f4b;
+  border: none;
+  border-radius: 50%;
+  font-weight: bold;
+  width: 36px;
+  height: 36px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  transition: all 0.2s ease;
+}
+
+.selected-challenge-close-button:hover {
+  background: rgba(255, 255, 255, 0.5);
+  transform: scale(1.05);
+}
+
+.selected-challenge-content-box h2 {
+  font-size: 2rem;
+  color: #2e7d5f;
+  margin-bottom: 1rem;
+}
+
+.selected-challenge-content-box h4 {
+  font-size: 1.1rem;
+  color: #3b6d57;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.challenge-exp {
+  background: rgb(255, 255, 255);
+  border-radius: 12px;
+  padding: 0.5rem 1rem;
+  display: inline-block;
+  color: #1f3b2c;
+  font-weight: 600;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.related-posts-section h4 {
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+  color: #2d7158;
+}
+
+.post-scroll-container {
+  max-height: 240px;
+  overflow-y: auto;
+  margin-bottom: 1.5rem;
+  padding-right: 0.5rem;
+}
+
+/* Custom scrollbar */
+.post-scroll-container::-webkit-scrollbar {
+  width: 8px;
+}
+.post-scroll-container::-webkit-scrollbar-thumb {
+  background: #ccebd8;
+  border-radius: 4px;
+}
+
+.post-item {
+  background: rgb(255, 255, 255);
+  padding: 1rem;
+  border-radius: 16px;
+  margin-bottom: 1rem;
+  box-shadow: 0 4px 12px rgba(30, 100, 70, 0.1);
+  border: 1px solid rgb(255, 255, 255);
+  backdrop-filter: blur(10px);
+  color: #234132;
+}
+
+.post-item p {
+  margin-bottom: 0.5rem;
+}
+
+.post-item small {
+  display: block;
+  color: #607d6b;
+  font-size: 0.85rem;
+  margin-top: 0.3rem;
+}
+
+.post-actions {
+  margin-top: 0.5rem;
+}
+
+.post-actions button {
+  margin-right: 0.5rem;
+  padding: 0.4rem 0.8rem;
+  background: rgba(59, 201, 130, 0.2);
+  border: 1px solid #3bc982;
+  color: #1f3b2c;
+  border-radius: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.post-actions button:hover {
+  background: rgba(59, 201, 130, 0.4);
+}
+
+.edit-textarea {
+  width: 100%;
+  padding: 0.6rem;
+  border-radius: 10px;
+  border: 1px solid #b3e8d4;
+  background: #f9fdfb;
+  color: #234132;
+  resize: vertical;
+  margin-bottom: 0.5rem;
+}
+
+.add-post-form {
+  margin-top: 1rem;
+}
+
+.add-post-form textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 12px;
+  border: 1px solid #bcead5;
+  background: rgb(255, 255, 255);
+  font-size: 1rem;
+  color: #1f3b2c;
+  resize: vertical;
+  backdrop-filter: blur(8px);
+  box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.05);
+  transition: border 0.3s ease;
+}
+
+.add-post-form textarea:focus {
+  border-color: #34d399;
+  outline: none;
+  background: #ffffff;
+}
+
+.add-post-form button {
+  margin-top: 1rem;
+  background: linear-gradient(to right, #34d399, #2ea97d);
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+.add-post-form button:hover {
+  background: linear-gradient(to right, #2fc088, #239e70);
+  transform: translateY(-2px);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

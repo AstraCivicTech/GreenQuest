@@ -10,7 +10,7 @@ import {
   getCompletedChallenges2,
   checkCategory,
 } from "../adapters/challenge-adapter";
-import "../styles/ChallengeCards.css";
+import "../styles/DailyChallengeCard.css";
 
 export const CommunityChallengeCard = ({
   challenge,
@@ -106,14 +106,13 @@ export const CommunityChallengeCard = ({
     >
       <div className="challenge-card-content">
         <p className="challenge-description">{challenge.description}</p>
-        <div className="challenge-exp">
+        <div className="xp-progress">
           <span className="exp-points">EXP: {challenge.experienceReward}</span>
         </div>
         <div className="creator-username">
-          <p>Creator: {username}</p>
+          <p>User: {username}</p>
         </div>
       </div>
-      {isCompleted && <CreatePostButton />}
     </div>
   );
 };
