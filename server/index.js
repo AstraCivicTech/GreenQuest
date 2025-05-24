@@ -5,7 +5,6 @@ const cors = require("cors");
 require("dotenv").config();
 const path = require("path");
 const express = require("express");
-const { Server } = require("socket.io");
 
 // middleware imports
 const handleCookieSessions = require("./middleware/handleCookieSessions");
