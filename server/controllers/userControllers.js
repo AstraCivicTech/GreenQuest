@@ -1,5 +1,5 @@
 const User = require("../models/User");
-const knex = require("../db/knex");
+const knex = require("../db/db");
 
 /* 
 GET /api/users

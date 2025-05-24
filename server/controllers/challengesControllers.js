@@ -1,6 +1,5 @@
 const Challenge = require("../models/Challenge");
 const UserPosts = require("../models/UserPosts");
-const knex = require("../db/knex");
 
 exports.getChallengesByCategory = async (req, res) => {
   const { category } = req.query;

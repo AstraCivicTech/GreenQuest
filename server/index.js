@@ -59,7 +59,7 @@ app.delete("/api/auth/logout", authControllers.logoutUser);
 // AI Routes
 ///////////////////////////////
 
-app.get("/api/ai/generate", aiControllers.ai); // creates the 3 daily challenges
+// app.get("/api/ai/generate", aiControllers.ai); // creates the 3 daily challenges
 // app.post("/api/ai/validate", aiControllers.ai); // revisit
 app.post(
   "/api/challenges/create-community",

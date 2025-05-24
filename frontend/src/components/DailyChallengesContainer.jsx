@@ -34,6 +34,7 @@ export const DailyChallengesContainer = () => {
       const [challengeData, challengeError] = await getChallengesByCategory(
         "Daily"
       );
+      console.log("Challenge Data", challengeData);
       if (!challengeError) setChallenges(challengeData);
 
       const [completed, completedError] = await getCompletedChallenges(

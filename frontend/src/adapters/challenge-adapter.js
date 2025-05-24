@@ -4,6 +4,7 @@ import { fetchHandler, getPostOptions } from "../utils/fetchingUtils";
 
 const challengesUrl = "/api/challenges";
 const challengeUrl = "/api/challenge";
+
 export const getChallengesByCategory = async (category) => {
   return await fetchHandler(`${challengesUrl}?category=${category}`);
 };

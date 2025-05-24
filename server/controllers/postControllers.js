@@ -1,4 +1,4 @@
-const knex = require("../db/knex");
+const knex = require("../db/db");
 const Post = require("../models/Post");
 
 // Create a new post

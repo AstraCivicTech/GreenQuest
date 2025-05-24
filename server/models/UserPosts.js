@@ -1,4 +1,4 @@
-const knex = require("../db/knex"); 
+const knex = require("../db/db");
 const User = require("./User");
 const Post = require("./Post")
 

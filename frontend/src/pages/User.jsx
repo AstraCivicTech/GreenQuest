@@ -29,9 +29,9 @@ export default function UserPage() {
     };
     getLevel();
 
-    if (levelInfo.exp < 300) {
-      setShowIntro(true);
-    }
+    // if (levelInfo?.exp < 300) {
+    //   setShowIntro(true);
+    // }
   }, [currentUser]);
 
   useEffect(() => {
