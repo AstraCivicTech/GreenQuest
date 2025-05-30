@@ -3,15 +3,11 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-width: 1500px;
-  margin: 100px auto 0; /* Adjusted top margin for better spacing */
+  width: 100%;
   background: linear-gradient(to bottom, #d4fbe9, #aee7ff);
-  padding: 2rem 1rem; /* Added horizontal padding for smaller screens */
-  min-height: calc(100vh - 100px);
+  padding: 100px 2rem 2rem; /* Adjusted top padding to account for navbar */
+  min-height: 100vh;
   position: relative;
-  z-index: 1; /* Ensure content appears above navbar */
-  border-radius: 12px; /* Added subtle rounding for a polished look */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
 }
 
 /* Create Challenge Section */
@@ -37,14 +33,6 @@
   line-height: 1.6;
 }
 
-.challenges-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 2rem;
-  width: 100%;
-  padding: 1rem;
-}
-
 h1 {
   color: #2e7d5f;
   font-size: 2rem;
@@ -65,6 +53,8 @@ h2 {
   ); /* Adjusted for better responsiveness */
   gap: 2rem;
   width: 100%;
+  max-width: 1500px;
+  margin: 0 auto;
   padding: 1rem;
 }
 
@@ -162,8 +152,7 @@ h2 {
 
 @media (min-width: 1200px) {
   .community-challenges-container {
-    max-width: 1400px; /* Allow more space for larger screens */
-    padding: 3rem 2rem;
+    padding: 100px 3rem 3rem;
   }
 
   .challenges-grid {

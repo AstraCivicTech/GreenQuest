@@ -26,7 +26,7 @@ export default function App() {
           <Route
             path="/community-challenges"
             element={<CommunityChallenges />}
-          />
+            />
         </Routes>
       </main>
     </>

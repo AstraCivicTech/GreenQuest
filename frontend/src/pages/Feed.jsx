@@ -128,7 +128,7 @@ export default function Feed() {
   return (
     <div className="feed-container">
       <h2 className="feed-title">Community Feed</h2>
-      <div className="post-grid">
+      <div className="challenge-grid">
         {communityChallenges.map((challenge) => (
           <div key={challenge.id}>
             <FeedChallengeCard
