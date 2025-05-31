@@ -12,7 +12,7 @@
   border: 1px solid #e3f5eb;
   backdrop-filter: blur(12px);
   font-family: "Poppins", sans-serif;
-  z-index: 990;
+  z-index: 1000;
 }
 
 /* Layout */
@@ -71,13 +71,14 @@
   border-radius: 14px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
   width: 180px;
-  z-index: 1100;
+  z-index: 1001;
   display: flex;
   flex-direction: column;
   opacity: 0;
   visibility: hidden;
   transform: translateY(10px);
   transition: all 0.3s ease;
+  overflow: hidden;
 }
 
 /* Show dropdown when toggled via state */
@@ -125,6 +126,8 @@
   text-align: left;
   cursor: pointer;
   transition: background 0.2s ease;
+  display: block;
+  width: 100%;
 }
 
 .dropdown-item:hover {
@@ -135,6 +138,13 @@
 .logout-button {
   border-top: 1px solid #e0f1e7;
   margin-top: 4px;
+  border-bottom-left-radius: 14px;
+  border-bottom-right-radius: 14px;
+}
+
+.dropdown-menu a {
+  text-decoration: none;
+  display: block;
 }
 
 /* Responsive */

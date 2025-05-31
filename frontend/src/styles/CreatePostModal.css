@@ -1,15 +1,29 @@
+/* Modal overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1100;
+}
+
 /* Modal content box */
 .modal-content {
   background: #ffffff;
   border-radius: 16px;
-  display: center;
+  display: flex;
+  flex-direction: column;
   align-items: center;
   padding: 2rem;
   width: 90%;
-  left: -50%;
-  max-width: 1200px;
+  max-width: 600px;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
-  position: absolute;
+  position: relative;
   animation: fadeInModal 0.3s ease-in-out;
 }
 
@@ -23,4 +37,70 @@
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+/* Modal close button */
+.modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+  color: #666;
+  transition: color 0.2s ease;
+}
+
+.modal-close:hover {
+  color: #333;
+}
+
+/* Modal title */
+.modal-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #2d5742;
+  margin-bottom: 1.5rem;
+}
+
+/* Modal input */
+.modal-input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid #e3f5eb;
+  border-radius: 8px;
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+  transition: border-color 0.2s ease;
+}
+
+.modal-input:focus {
+  outline: none;
+  border-color: #3aa475;
+}
+
+/* Modal actions */
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  gap: 1rem;
+}
+
+/* Submit button */
+.submit-button {
+  background: #3aa475;
+  color: white;
+  border: none;
+  padding: 0.75rem 2rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.submit-button:hover {
+  background: #2d8a5f;
 }

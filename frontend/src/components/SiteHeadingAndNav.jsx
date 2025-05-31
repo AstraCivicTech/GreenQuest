@@ -55,13 +55,13 @@ export default function SiteHeadingAndNav() {
                   {/* <NavLink to="/settings" className="dropdown-item">
                     Settings
                   </NavLink> */}
-                  <NavLink to="/">
-                    <button
-                      className="dropdown-item logout-button"
-                      onClick={handleLogout}
-                    >
-                      Log Out
-                    </button>
+                  <NavLink to={'/'}>
+                  <button
+                        className="dropdown-item logout-button"
+                        onClick={handleLogout}
+                      >
+                        Log Out
+                      </button>
                   </NavLink>
                 </div>
               </li>
