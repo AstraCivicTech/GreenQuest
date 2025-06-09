@@ -1,4 +1,4 @@
-const knex = require("../knexfile");
+const knex = require("../db/db");
 
 class Post {
   constructor({ postId, userId, content, createdAt, updated_at, challengeId}) {
