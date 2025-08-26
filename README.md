@@ -1,57 +1,176 @@
-# Project Name
+# GreenQuest
 
-> Project Mission Statement
+> An environmental sustainability platform that gamifies eco-friendly actions through daily challenges, community engagement, and 3D visualizations.
 
-## Team
+## ⚠️ Important Disclaimer
 
-  - teamMember: **Scrum Master, Developer**
-  - teamMember: **Developer**
-  - teamMember: **Developer**
+**Note: The live servers for this project are currently offline due to hosting costs. The application is not publicly accessible without requesting access. However, you can run the project locally by following the setup instructions below.**
 
-## Table of Contents
+## 🎯 Project Overview
 
-1. [Usage](#Usage)
-1. [Requirements](#requirements)
-1. [Development](#development)
-    1. [Installing Dependencies](#installing-dependencies)
-    1. [Tasks](#tasks)
-1. [Team](#team)
-1. [Contributing](#contributing)
+GreenQuest is a full-stack web application designed to promote environmental consciousness through gamification. Users can participate in daily sustainability challenges, track their progress, earn achievements, and engage with a community of like-minded individuals. The platform features an immersive 3D environment built with Three.js to create an engaging user experience.
 
-## Usage
+### Key Features
 
-From within the root directory, run the following commands to install dependencies and run the project locally:
+- **Daily Challenges**: Personalized sustainability tasks that users can complete
+- **Community Challenges**: Collaborative environmental initiatives
+- **Progress Tracking**: Visual progress bars and achievement systems
+- **3D Environment**: Interactive 3D world with environmental themes
+- **Social Feed**: Share and view sustainability posts from the community
+- **User Authentication**: Secure login and registration system
 
-```sh
-# Build Command
-<COMMAND HERE>
+## 🛠️ Technologies Used
 
-# Start Command
-<COMMAND HERE>
+### Frontend
+
+- **React 18** - Modern UI framework with hooks and context
+- **Vite** - Fast build tool and development server
+- **Three.js** - 3D graphics library for immersive environments
+- **CSS3** - Custom styling with modern CSS features
+- **React Router** - Client-side routing
+
+### Backend
+
+- **Node.js** - JavaScript runtime environment
+- **Express.js** - Web application framework
+- **Knex.js** - SQL query builder and migration tool
+- **PostgreSQL** - Relational database
+- **Cookie Sessions** - User authentication and session management
+
+### Development Tools
+
+- **ESLint** - Code quality and consistency
+- **Git** - Version control
+- **npm** - Package management
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js (v16 or higher)
+- npm or yarn
+- PostgreSQL database
+- Git
+
+### Installation Steps
+
+1. **Clone the repository**
+
+   ```bash
+   git clone <repository-url>
+   cd GreenQuest
+   ```
+
+2. **Install backend dependencies**
+
+   ```bash
+   cd server
+   npm install
+   ```
+
+3. **Install frontend dependencies**
+
+   ```bash
+   cd ../frontend
+   npm install
+   ```
+
+4. **Set up the database**
+
+   ```bash
+   cd ../server
+   # Update knexfile.js with your database credentials
+   npm run migrate
+   npm run seed
+   ```
+
+5. **Configure environment variables**
+   Create a `.env` file in the server directory with:
+
+   ```env
+   DATABASE_URL=postgresql://username:password@localhost:5432/greenquest
+   SESSION_SECRET=your-secret-key-here
+   PORT=3001
+   ```
+
+6. **Start the backend server**
+
+   ```bash
+   cd server
+   npm start
+   ```
+
+7. **Start the frontend development server**
+
+   ```bash
+   cd frontend
+   npm run dev
+   ```
+
+8. **Access the application**
+   - Frontend: http://localhost:5173
+   - Backend API: http://localhost:3001
+
+## 📁 Project Structure
+
+```
+GreenQuest/
+├── frontend/                 # React frontend application
+│   ├── src/
+│   │   ├── components/      # Reusable UI components
+│   │   ├── components3D/    # Three.js 3D components
+│   │   ├── contexts/        # React context providers
+│   │   ├── pages/           # Application pages
+│   │   ├── styles/          # CSS stylesheets
+│   │   └── utils/           # Utility functions
+│   └── public/              # Static assets
+├── server/                   # Node.js backend application
+│   ├── controllers/         # API route handlers
+│   ├── models/              # Data models
+│   ├── middleware/          # Express middleware
+│   ├── services/            # Business logic
+│   └── db/                  # Database migrations and seeds
+└── documentation/            # Project documentation
 ```
 
-### Technologies Used
+## 🔧 Available Scripts
 
-- Node
-- Express
-- Postgresql
-- React
-- Knex
-- etc...
+### Backend (server/)
 
-## Project Proposal
+- `npm start` - Start the production server
+- `npm run dev` - Start the development server with nodemon
+- `npm run migrate` - Run database migrations
+- `npm run seed` - Seed the database with sample data
 
-See [PROPOSAL.md](PROPOSAL.md) for more details on the project proposal.
+### Frontend (frontend/)
 
-## Roadmap
+- `npm run dev` - Start the development server
+- `npm run build` - Build for production
+- `npm run preview` - Preview the production build
 
-View the project roadmap [here](LINK_TO_PROJECTS_TAB).
+## 🤝 Contributing
 
-## Contributing
+See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed contribution guidelines.
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
+## 📚 Documentation
 
+- [Project Architecture](documentation/project-architecture.md)
+- [Project Proposal](PROPOSAL.md)
+- [API Documentation](documentation/api-docs.md)
 
-## Style Guide
+## 📄 License
 
-This project adheres to the [Airbnb Style Guide](https://github.com/airbnb/javascript).
+This project is licensed under the MIT License.
+
+## 🆘 Support
+
+If you encounter any issues or have questions about setting up the project locally, please:
+
+1. Check the existing documentation
+2. Review the project structure and configuration files
+3. Ensure all dependencies are properly installed
+4. Verify your database connection and credentials
+
+---
+
+**Note**: This project was developed as a learning experience and demonstration of full-stack development capabilities. The 3D environment and gamification features showcase modern web technologies and creative approaches to environmental education.

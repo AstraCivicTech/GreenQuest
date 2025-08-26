@@ -25,6 +25,7 @@ module.exports = {
       user: process.env.PG_USER || "postgres",
       password: process.env.PG_PASS || "123",
       database: process.env.PG_DB || "GreenQuest",
+      ssl: process.env.PG_SSL === "true" ? { rejectUnauthorized: false } : false
     },
     migrations: {
       directory: migrationsDirectory,
