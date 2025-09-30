@@ -1,14 +1,13 @@
 # GreenQuest
 
 > An environmental sustainability platform that gamifies eco-friendly actions through daily challenges, community engagement, and 3D visualizations.
-
-## ⚠️ Important Disclaimer
-
-**Note: The live servers for this project are currently offline due to hosting costs. The application is not publicly accessible without requesting access. However, you can run the project locally by following the setup instructions below.**
-
+> 
 ## 🎯 Project Overview
 
 GreenQuest is a full-stack web application designed to promote environmental consciousness through gamification. Users can participate in daily sustainability challenges, track their progress, earn achievements, and engage with a community of like-minded individuals. The platform features an immersive 3D environment built with Three.js to create an engaging user experience.
+
+### Live Demo
+If you want to access a live demo of this application to try out Greenquest for yourself. Here is the link: https://greenquest-gxov.onrender.com/
 
 ### Key Features
 
